@@ -36,6 +36,68 @@ body.dark {
   color: #e2e8f0;
 }
 
+header.shrinkable-header {
+  transition: padding 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+header.shrinkable-header .container.mx-auto {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+  transition: padding 0.25s ease, gap 0.25s ease;
+}
+
+header.shrinkable-header .flex.flex-wrap {
+  transition: gap 0.25s ease;
+}
+
+header.shrinkable-header img {
+  transition: height 0.25s ease, transform 0.25s ease;
+}
+
+header.shrinkable-header nav {
+  transition: padding 0.25s ease;
+}
+
+header.shrinkable-header.header-compact {
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+}
+
+body.dark header.shrinkable-header.header-compact {
+  background-color: rgba(15, 23, 42, 0.9);
+  box-shadow: 0 6px 22px rgba(2, 6, 23, 0.4);
+}
+
+header.shrinkable-header.header-compact .container.mx-auto {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+header.shrinkable-header.header-compact .flex.flex-wrap {
+  gap: 0.75rem;
+}
+
+header.shrinkable-header.header-compact img.h-10 {
+  height: 2.25rem !important;
+}
+
+header.shrinkable-header.header-compact img.h-16 {
+  height: 2.75rem !important;
+}
+
+header.shrinkable-header.header-compact .text-lg {
+  font-size: 1rem;
+}
+
+header.shrinkable-header.header-compact .text-xs {
+  display: none;
+}
+
+header.shrinkable-header.header-compact nav {
+  padding-top: 0.35rem;
+  padding-bottom: 0.35rem;
+}
+
 main {
   scroll-margin-top: 7rem;
 }

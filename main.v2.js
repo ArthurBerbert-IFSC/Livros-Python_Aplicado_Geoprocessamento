@@ -298,6 +298,34 @@ function collapseLogoWrapperIfNeeded() {
   }
 }
 
+function setupShrinkableHeader() {
+  const header = document.querySelector('header');
+  if (!header) {
+    return;
+  }
+
+  header.classList.add('shrinkable-header');
+
+  const threshold = 80;
+  let ticking = false;
+
+  const updateState = () => {
+    const shouldCompact = window.scrollY > threshold;
+    header.classList.toggle('header-compact', shouldCompact);
+    ticking = false;
+  };
+
+  const onScroll = () => {
+    if (!ticking) {
+      window.requestAnimationFrame(updateState);
+      ticking = true;
+    }
+  };
+
+  updateState();
+  window.addEventListener('scroll', onScroll, { passive: true });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   setupFontControls();
   setupThemeToggle();
@@ -305,6 +333,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initializeReadingProgress();
   buildDynamicToc();
   collapseLogoWrapperIfNeeded();
+  setupShrinkableHeader();
 });
 
 if ('serviceWorker' in navigator) {
