@@ -67,11 +67,11 @@
             </div>
         </div>
         <nav class="container mx-auto px-6 py-3 flex justify-between items-center text-sm font-medium">
-            <a href="Página principal.html#capitulos" class="text-gray-600 hover:text-ifsc-green transition-colors dark:text-slate-300/80">&larr; Capítulos</a>
+            <a href="index.html#capitulos" class="text-gray-600 hover:text-ifsc-green transition-colors dark:text-slate-300/80">&larr; Capítulos</a>
             <div class="hidden md:flex items-center space-x-6">
-                <a href="Página principal.html" class="py-2 px-3 text-gray-700 hover:text-ifsc-green transition-colors dark:text-slate-200">Início</a>
-                <a href="Página principal.html#capitulos" class="py-2 px-3 text-gray-700 hover:text-ifsc-green transition-colors dark:text-slate-200">Capítulos</a>
-                <a href="Página principal.html#sobre" class="py-2 px-3 text-gray-700 hover:text-ifsc-green transition-colors dark:text-slate-200">Sobre</a>
+                <a href="index.html" class="py-2 px-3 text-gray-700 hover:text-ifsc-green transition-colors dark:text-slate-200">Início</a>
+                <a href="index.html#capitulos" class="py-2 px-3 text-gray-700 hover:text-ifsc-green transition-colors dark:text-slate-200">Capítulos</a>
+                <a href="index.html#sobre" class="py-2 px-3 text-gray-700 hover:text-ifsc-green transition-colors dark:text-slate-200">Sobre</a>
             </div>
         </nav>
     </header>
@@ -103,7 +103,7 @@
                 <div class="space-y-12 p-6 md:p-10">
                     <header class="space-y-6">
                         <nav class="flex flex-wrap items-center gap-3 text-sm font-medium text-ifsc-green transition-colors hover:text-ifsc-green/80 dark:text-emerald-300">
-                            <a href="Página principal.html#capitulos" class="inline-flex items-center gap-2">
+                            <a href="index.html#capitulos" class="inline-flex items-center gap-2">
                                 <span aria-hidden="true">&larr;</span>
                                 <span>Voltar aos capítulos</span>
                             </a>
@@ -140,16 +140,40 @@
                     <section id="introducao" data-toc="section" data-toc-title="Por que mapas interativos?" class="space-y-6">
                         <h2 class="text-2xl font-semibold text-ifsc-green dark:text-emerald-200">1. Por que mapas interativos?</h2>
                         <div class="space-y-4">
-                            <p class="leading-relaxed text-gray-700 dark:text-slate-300">Análises geoespaciais ganham impacto quando os dados podem ser vistos no lugar onde acontecem. Mapas interativos oferecem zoom, clique e camadas temáticas — tudo que precisamos para transformar planilhas em narrativas visuais convincentes.</p>
-                            <p class="leading-relaxed text-gray-700 dark:text-slate-300">O Folium funciona como uma ponte entre Python e a biblioteca JavaScript Leaflet, permitindo construir experiências web sem sair do ecossistema que você já domina. Vamos entender como instalar, configurar e expandir essa ferramenta.</p>
-                        </div>
-                        <div class="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/70">
-                            <h3 class="text-lg font-semibold text-ifsc-green dark:text-emerald-300">Instalação rápida</h3>
-                            <p class="text-sm text-gray-700 dark:text-slate-200">Certifique-se de ter o Folium disponível no ambiente virtual do projeto.</p>
-                            <div class="code-block mt-4">
-<pre><code class="language-bash">pip install folium</code></pre>
+                            <p class="leading-relaxed text-gray-700 dark:text-slate-300">
+                                Depois de coletar, limpar e analisar dados geográficos, falta um passo decisivo: comunicar os resultados. Planilhas ou gráficos contam parte da história,
+                                mas é o mapa que permite enxergar padrões espaciais, comparar regiões e responder rapidamente às perguntas de quem toma decisão. Mapas interativos
+                                vão além da imagem estática porque oferecem zoom, filtros e popups que aproximam o público dos dados com poucos cliques.
+                            </p>
+
+                            <p class="leading-relaxed text-gray-700 dark:text-slate-300">
+                                O <strong>Folium</strong> é a ponte entre o Python — onde os dados já estão organizados — e o <em>Leaflet</em>, biblioteca JavaScript que o navegador entende.
+                                Em vez de escrever código web manualmente, descrevemos o mapa em Python, adicionamos camadas, marcadores ou estilos, e exportamos um único arquivo HTML
+                                que roda offline, pode ser enviado por e-mail ou incorporado em relatórios interativos.
+                            </p>
+
+                            <p class="leading-relaxed text-gray-700 dark:text-slate-300">
+                                Use Folium quando precisar:
+                            </p>
+
+                            <ul class="list-disc list-inside leading-relaxed text-gray-700 space-y-2 dark:text-slate-200">
+                                <li><strong>Apresentar resultados de análises espaciais</strong> sem depender de softwares GIS proprietários.</li>
+                                <li><strong>Compartilhar mapas temáticos</strong> com equipes técnicas e público leigo mantendo interatividade.</li>
+                                <li><strong>Prototipar aplicações geográficas</strong> antes de investir em desenvolvimento web completo.</li>
+                                <li><strong>Integrar dados tabulares (CSV) com coordenadas</strong> gerando visualizações navegáveis em minutos.</li>
+                            </ul>
+
+                            <p class="leading-relaxed text-gray-700 dark:text-slate-300">
+                                Garanta que sua máquina tenha os pacotes necessários atualizados. No terminal do VS Code, execute:
+                            </p>
+
+                            <div class="rounded-2xl border border-slate-200 bg-white/80 p-4 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/70">
+                                <h3 class="text-lg font-semibold text-ifsc-green dark:text-emerald-300">Instalação rápida</h3>
+                                <div class="code-block mt-3">
+<pre><code class="language-bash">python -m pip install folium</code></pre>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-3 dark:text-slate-300/80">Verifique a versão disponível com <code>python -m pip show folium</code>.</p>
                             </div>
-                            <p class="text-xs text-gray-500 mt-3 dark:text-slate-300/80">Se trabalhar com dados tabulares, instale também o <code>pandas</code>: <code>pip install pandas</code>.</p>
                         </div>
                     </section>
 
@@ -162,36 +186,96 @@
                                     <path d="M3 12h18"></path>
                                     <path d="M3 17h18"></path>
                                 </svg>
-                                O que o Folium entrega?
+                                Blocos fundamentais do Folium
                             </h3>
                             <ul class="list-disc list-inside leading-relaxed text-gray-700 space-y-2 dark:text-slate-200">
-                                <li><strong>Simplicidade:</strong> com poucas linhas você gera um HTML interativo completo.</li>
-                                <li><strong>Flexibilidade:</strong> adicione marcadores, linhas, polígonos e mapas coropléticos.</li>
-                                <li><strong>Interatividade:</strong> suporte a zoom, popups, tooltips e alternância de camadas.</li>
-                                <li><strong>Portabilidade:</strong> exporte o resultado como um arquivo único compatível com qualquer navegador.</li>
+                                <li><strong><code>folium.Map</code></strong>: define centro, zoom, tiles e comportamento geral do mapa.</li>
+                                <li><strong>Elementos de overlay</strong>: marcadores, linhas, polígonos, GeoJSON ou choropleths que vão sobre o mapa base.</li>
+                                <li><strong>Camadas</strong>: <code>TileLayer</code>, <code>FeatureGroup</code> e <code>LayerControl</code> permitem alternar informações rapidamente.</li>
+                                <li><strong>Métodos de visualização</strong>: <code>.show_in_browser()</code> abre o mapa em um arquivo temporário; <code>.save()</code> gera uma versão definitiva; <code>.get_root().render()</code> retorna o HTML em string.</li>
                             </ul>
                         </div>
-                        <div class="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/70">
-                            <h3 class="text-lg font-semibold text-ifsc-green dark:text-emerald-300">Do código ao navegador</h3>
-                            <p class="text-sm text-gray-700 dark:text-slate-200">O fluxo básico envolve criar um objeto <code>folium.Map</code>, adicionar camadas ou marcadores e salvar o resultado.</p>
+                        <section id="folium-map" data-toc="section" data-toc-title="2.1 folium.Map" class="space-y-4 rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/70">
+                            <h3 class="text-lg font-semibold text-ifsc-green dark:text-emerald-300">2.1 <code>folium.Map</code></h3>
+                            <p class="text-sm text-gray-700 dark:text-slate-200">O objeto <code>folium.Map</code> concentra a configuração inicial: centro, zoom, tiles, escala e limites. A partir dele adicionamos marcadores e camadas.</p>
                             <div class="code-block mt-4">
 <pre><code class="language-python">import folium
 
-# Coordenadas do IFSC - Campus Florianópolis
-coordenadas_ifsc = [-27.59397, -48.54235]
+# Centro aproximado do IFSC - Câmpus Florianópolis
+centro = [-27.59397, -48.54235]
 
-mapa = folium.Map(location=coordenadas_ifsc)
+mapa = folium.Map(
+    location=centro,
+    zoom_start=14,
+    tiles='OpenStreetMap',
+    control_scale=True
+)
 
-# Opção A: gerar arquivo definitivo
-mapa.save('meu_primeiro_mapa.html')
-print("Mapa salvo com sucesso! Abra 'meu_primeiro_mapa.html'.")
+folium.CircleMarker(
+    location=centro,
+    radius=8,
+    color='#1B5E20',
+    fill=True,
+    fill_color='#2E7D32',
+    popup='IFSC - Campus Florianópolis',
+    tooltip='Passe o mouse para ver o nome'
+).add_to(mapa)
 
-# Opção B: abrir em um arquivo temporário
-# mapa.show_in_browser()
-# print("Mapa aberto no navegador!")</code></pre>
+mapa.show_in_browser()</code></pre>
                             </div>
-                            <p class="text-xs text-gray-500 mt-3 dark:text-slate-300/80">O arquivo HTML gerado é autossuficiente. Para garantir tiles offline, utilize provedores que ofereçam cache ou tiles locais.</p>
-                        </div>
+                            <p class="text-xs text-gray-500 mt-3 dark:text-slate-300/80">O método <code>show_in_browser()</code> cria um arquivo temporário e abre o mapa no navegador padrão, ideal para verificações rápidas.</p>
+                        </section>
+
+                        <section id="folium-camadas" data-toc="section" data-toc-title="2.2 Camadas" class="space-y-4 rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/70">
+                            <h3 class="text-lg font-semibold text-ifsc-green dark:text-emerald-300">2.2 Camadas</h3>
+                            <p class="text-sm text-gray-700 dark:text-slate-200">Combine diferentes fontes de tiles e sobreposições temáticas para permitir que o usuário alterne a visualização rapidamente.</p>
+                            <div class="code-block mt-4">
+<pre><code class="language-python">import folium
+
+mapa = folium.Map(location=[-27.59, -48.54], zoom_start=13)
+
+# Camadas de fundo
+folium.TileLayer('OpenStreetMap', name='Ruas').add_to(mapa)
+folium.TileLayer(
+    tiles='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    attr='Esri',
+    name='Satélite'
+).add_to(mapa)
+folium.TileLayer('Stamen Terrain', name='Relevo').add_to(mapa)
+
+# Sobreposição opcional
+folium.Circle(
+    location=[-27.593, -48.558],
+    radius=800,
+    color='#1B5E20',
+    fill=True,
+    fill_opacity=0.1,
+    tooltip='Raio de influência'
+).add_to(mapa)
+
+folium.LayerControl(collapsed=False).add_to(mapa)
+mapa.show_in_browser()</code></pre>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-3 dark:text-slate-300/80">Ative <code>LayerControl</code> para que a pessoa usuária escolha quais camadas visualizar e teste o resultado diretamente no navegador.</p>
+                        </section>
+
+                        <section id="folium-exportacao" data-toc="section" data-toc-title="2.3 save vs show_in_browser" class="space-y-4 rounded-2xl border border-ifsc-green/30 bg-white px-6 py-6 shadow-sm dark:border-emerald-500/50 dark:bg-slate-900/70">
+                            <h3 class="flex items-center gap-3 text-xl font-bold text-ifsc-green dark:text-emerald-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 21v-5"></path>
+                                    <path d="M20 21v-5"></path>
+                                    <path d="M4 10v1a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-1"></path>
+                                    <path d="M12 14v7"></path>
+                                    <rect width="16" height="8" x="4" y="2" rx="2"></rect>
+                                </svg>
+                                2.3 <code>save()</code> x <code>show_in_browser()</code>
+                            </h3>
+                            <ul class="list-disc list-inside text-sm leading-relaxed text-gray-700 space-y-2 dark:text-slate-200">
+                                <li><strong><code>mapa.save('arquivo.html')</code></strong>: gera um arquivo definitivo que pode ser versionado, publicado ou enviado para terceiros. Use quando precisar distribuir o mapa.</li>
+                                <li><strong><code>mapa.show_in_browser()</code></strong>: cria um arquivo temporário e abre automaticamente no navegador padrão. Ótimo para inspeções rápidas durante o desenvolvimento.</li>
+                                <li>Ambos podem ser usados no mesmo script. Uma prática comum é testar com <code>show_in_browser()</code> e, satisfeito com o resultado, salvar a versão final com <code>save()</code>.</li>
+                            </ul>
+                        </section>
                     </section>
 
                     <section id="dica-professor" data-toc="section" data-toc-title="Organização do projeto" class="space-y-4">
@@ -210,7 +294,7 @@ print("Mapa salvo com sucesso! Abra 'meu_primeiro_mapa.html'.")
                                 </svg>
                                 Dica do professor
                             </h3>
-                            <p class="text-sm leading-relaxed text-emerald-900 dark:text-emerald-100">Organize scripts, dados CSV e arquivos HTML numa mesma pasta do projeto. Assim você garante caminhos relativos simples e facilita o compartilhamento do material inteiro com a turma.</p>
+                            <p class="text-sm leading-relaxed text-emerald-900 dark:text-emerald-100">Monte uma estrutura previsível: <code>/scripts</code> para notebooks ou arquivos <code>.py</code>, <code>/arquivos</code> para CSV e shapefiles, e uma pasta <code>/saidas</code> para os HTML gerados. Caminhos relativos curtos evitam erros e facilitam publicar todo o pacote em repositórios ou ambientes educacionais.</p>
                         </div>
                     </section>
 
@@ -222,22 +306,29 @@ print("Mapa salvo com sucesso! Abra 'meu_primeiro_mapa.html'.")
                                     <path d="M12 5v14"></path>
                                     <path d="M5 12h14"></path>
                                 </svg>
-                                Ajustando os parâmetros de zoom
+                                Ajustando a janela do mapa
                             </h3>
-                            <p class="text-gray-700 dark:text-slate-200">Escolha um nível de zoom que conte a história certa: bairros, cidades ou regiões amplas. Limites de zoom evitam que o usuário perca o contexto.</p>
+                            <p class="text-gray-700 dark:text-slate-200">O recorte inicial influencia a mensagem do mapa. Ajuste centro, zoom e limites para orientar o olhar de quem consulta a visualização.</p>
+                            <ul class="list-disc list-inside text-sm text-gray-700 space-y-1 dark:text-slate-200">
+                                <li><code>zoom_start</code>: aproximação inicial. Use 4–6 para visão regional, 12–14 para cidades, 17+ para quadras.</li>
+                                <li><code>min_zoom</code> e <code>max_zoom</code>: impedem que o usuário se afaste ou aproxime demais.</li>
+                                <li><code>max_bounds</code>: define recorte geográfico obrigatório, útil para delimitar municípios ou unidades de conservação.</li>
+                                <li><code>width</code>/<code>height</code> e <code>control_scale</code>: controlam dimensões e exibem barra de escala.</li>
+                            </ul>
                             <div class="code-block mt-4">
-<pre><code class="language-python">mapa_com_zoom = folium.Map(
-    location=[-27.59397, -48.54235],
-    zoom_start=15,
+<pre><code class="language-python">mapa_com_controles = folium.Map(
+    location=[-27.6, -48.55],
+    zoom_start=12,
     min_zoom=10,
-    max_zoom=18,
-    width='80%',
-    height='500px'
+    max_zoom=17,
+    max_bounds=[[-27.75, -48.75], [-27.45, -48.35]],
+    control_scale=True,
+    tiles='CartoDB positron'
 )
 
-mapa_com_zoom.save('mapa_com_zoom.html')</code></pre>
+mapa_com_controles.show_in_browser()</code></pre>
                             </div>
-                            <p class="text-xs text-gray-500 mt-3 dark:text-slate-300/80">Experimente valores de <code>zoom_start</code> iguais a 5, 12 e 18 para comparar níveis estadual, municipal e de rua.</p>
+                            <p class="text-xs text-gray-500 mt-3 dark:text-slate-300/80">Se o mapa ficar restrito demais, amplie os limites do <code>max_bounds</code> ou ajuste o zoom máximos. Teste em diferentes tamanhos de tela.</p>
                         </div>
                     </section>
 
@@ -249,47 +340,56 @@ mapa_com_zoom.save('mapa_com_zoom.html')</code></pre>
                                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7Z"></path>
                                     <circle cx="12" cy="9" r="2"></circle>
                                 </svg>
-                                Adicionando marcadores básicos
+                                Marcadores, popups e tooltips
                             </h3>
-                            <p class="text-gray-700 dark:text-slate-200">Crie o marcador primeiro e depois fixe-o no mapa. Esse padrão facilita loops com dezenas de pontos.</p>
+                            <p class="text-gray-700 dark:text-slate-200">Marcadores são ideais para destacar pontos de interesse. Você pode construir o marcador em uma linha ou configurá-lo previamente para reutilizar em loops.</p>
                             <div class="code-block mt-4">
-<pre><code class="language-python">mapa = folium.Map(location=[-27.59397, -48.54235], zoom_start=15)
+<pre><code class="language-python">mapa = folium.Map(location=[-27.59397, -48.54235], zoom_start=13)
 
-marcador_ifsc = folium.Marker(
+folium.Marker(
     location=[-27.59397, -48.54235],
-    popup='IFSC - Câmpus Florianópolis',
-    tooltip='Clique para ver detalhes'
-)
+    popup=folium.Popup('IFSC - Câmpus Florianópolis', max_width=250),
+    tooltip='Clique ou toque para saber mais'
+).add_to(mapa)
 
-marcador_ifsc.add_to(mapa)
-mapa.save('mapa_com_marcador.html')</code></pre>
+folium.Marker(
+    location=[-27.5998, -48.5483],
+    popup='Terminal Rita Maria',
+    tooltip='Terminal rodoviário'
+).add_to(mapa)
+
+mapa.show_in_browser()</code></pre>
                             </div>
                         </div>
                         <div class="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/70">
-                            <h3 class="text-lg font-semibold text-ifsc-green dark:text-emerald-300">Ícones temáticos</h3>
-                            <p class="text-sm text-gray-700 dark:text-slate-200">Diferencie categorias com cores e símbolos da biblioteca Font Awesome.</p>
+                            <h3 class="text-lg font-semibold text-ifsc-green dark:text-emerald-300">Ícones temáticos e agrupamento</h3>
+                            <p class="text-sm text-gray-700 dark:text-slate-200">Use ícones personalizados para reforçar categorias e agrupe grandes quantidades de pontos para melhorar o desempenho.</p>
+                            <ul class="list-disc list-inside text-sm text-gray-700 space-y-1 dark:text-slate-200">
+                                <li><code>folium.Icon</code> suporta as paletas padrão (verde, azul, vermelho…) e os símbolos da Font Awesome.</li>
+                                <li><code>folium.DivIcon</code> cria marcadores com HTML próprio (números, emojis, imagens).</li>
+                                <li><code>folium.plugins.MarkerCluster</code> reúne vários pontos em um cluster expansível.</li>
+                            </ul>
                             <div class="code-block mt-4">
-<pre><code class="language-python">mapa = folium.Map(location=[-27.59, -48.54], zoom_start=14)
+<pre><code class="language-python">from folium.plugins import MarkerCluster
 
-folium.Marker(
-    location=[-27.59397, -48.54235],
-    popup='Local de estudo',
-    icon=folium.Icon(color='blue', icon='book', prefix='fa')
-).add_to(mapa)
+mapa = folium.Map(location=[-27.59, -48.54], zoom_start=12)
+cluster = MarkerCluster(name='Infraestrutura').add_to(mapa)
 
-folium.Marker(
-    location=[-27.5975, -48.545],
-    popup='Área de lazer',
-    icon=folium.Icon(color='green', icon='tree', prefix='fa')
-).add_to(mapa)
+pontos = [
+    {'nome': 'Biblioteca Central', 'coord': (-27.5946, -48.5452), 'icone': ('blue', 'book')},
+    {'nome': 'Centro Integrado de Cultura', 'coord': (-27.5942, -48.5481), 'icone': ('green', 'film')},
+    {'nome': 'Hospital Universitário', 'coord': (-27.5951, -48.5250), 'icone': ('red', 'plus-square')}
+]
 
-folium.Marker(
-    location=[-27.588, -48.54],
-    popup='Atenção: histórico de alagamentos',
-    icon=folium.Icon(color='red', icon='exclamation-sign', prefix='fa')
-).add_to(mapa)
+for ponto in pontos:
+    cor, simbolo = ponto['icone']
+    folium.Marker(
+        location=ponto['coord'],
+        popup=ponto['nome'],
+        icon=folium.Icon(color=cor, icon=simbolo, prefix='fa')
+    ).add_to(cluster)
 
-mapa.save('mapa_icones_personalizados.html')</code></pre>
+mapa.show_in_browser()</code></pre>
                             </div>
                         </div>
                     </section>
@@ -305,7 +405,8 @@ mapa.save('mapa_icones_personalizados.html')</code></pre>
                                 </svg>
                                 Crédito das camadas é obrigatório
                             </h3>
-                            <p class="text-sm leading-relaxed text-amber-900 dark:text-amber-100">Sempre informe a origem dos tiles (atributo <code>attr</code>). Alguns provedores exigem cadastro ou restringem o uso comercial. Leia a licença antes de publicar seu mapa.</p>
+                            <p class="text-sm leading-relaxed text-amber-900 dark:text-amber-100">Sempre informe a origem dos tiles (atributo <code>attr</code>) e respeite as condições de uso. Serviços como Esri, Mapbox ou Here costumam exigir chave de API, limite de requisições e crédito visível em tela.</p>
+                            <p class="text-xs leading-relaxed text-amber-700/90 dark:text-amber-200/90">Ao publicar mapas online, revise as políticas de cada provedor, evite armazenar chaves diretamente no código e, quando possível, utilize serviços de código aberto como OpenStreetMap ou tiles gerados pela própria instituição.</p>
                         </div>
                     </section>
 
@@ -318,13 +419,14 @@ mapa.save('mapa_icones_personalizados.html')</code></pre>
                                     <path d="M4 6h16"></path>
                                     <path d="M4 12h16"></path>
                                 </svg>
-                                Configurando mapas de fundo
+                                Camadas base e sobreposições
                             </h3>
-                            <p class="text-gray-700 dark:text-slate-200">Adicione múltiplas camadas e permita que o usuário troque entre ruas, satélite ou relevo.</p>
+                            <p class="text-gray-700 dark:text-slate-200">Permita que a pessoa usuária alterne entre diferentes representações e ative informações auxiliares como limites ou pontos temáticos.</p>
                             <div class="code-block mt-4">
 <pre><code class="language-python">mapa = folium.Map(location=[-27.59, -48.54], zoom_start=13)
 
-folium.TileLayer('OpenStreetMap', name='Mapa de Ruas').add_to(mapa)
+# Camadas de fundo (basemaps)
+folium.TileLayer('OpenStreetMap', name='Ruas').add_to(mapa)
 folium.TileLayer(
     tiles='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
     attr='Esri',
@@ -332,9 +434,22 @@ folium.TileLayer(
 ).add_to(mapa)
 folium.TileLayer('Stamen Terrain', name='Relevo').add_to(mapa)
 
-folium.LayerControl().add_to(mapa)
-mapa.save('mapa_com_camadas.html')</code></pre>
+# Camada temática adicional usando GeoJSON
+limite_ilha = folium.GeoJson(
+    data='arquivos/limite_florianopolis.geojson',
+    name='Limite municipal',
+    style_function=lambda feat: {
+        'color': '#1B5E20',
+        'weight': 2,
+        'fillOpacity': 0
+    }
+)
+limite_ilha.add_to(mapa)
+
+folium.LayerControl(collapsed=False).add_to(mapa)
+mapa.show_in_browser()</code></pre>
                             </div>
+                            <p class="text-xs text-gray-500 mt-3 dark:text-slate-300/80">O arquivo GeoJSON deve estar na mesma pasta ou acessível via caminho relativo. Ajuste <code>collapsed</code> para <code>True</code> se quiser um controle mais compacto.</p>
                         </div>
                     </section>
 
@@ -350,57 +465,52 @@ mapa.save('mapa_com_camadas.html')</code></pre>
                                 </svg>
                                 Balneabilidade das praias
                             </h3>
-                            <p class="text-gray-700 dark:text-slate-200">Vamos combinar Pandas e Folium para criar um mapa temático com cores por situação de balneabilidade.</p>
-                            <h3 class="text-md font-semibold text-ifsc-green mt-4 dark:text-emerald-300">Passo 1 · Dados (salve como <code>Pontos.csv</code>)</h3>
+                            <p class="text-gray-700 dark:text-slate-200">Vamos construir um mapa temático que colore cada praia conforme a situação de balneabilidade divulgada pelo órgão ambiental. Usaremos o CSV disponível em <code>arquivos/Pontos.csv</code>.</p>
+                            <h3 class="text-md font-semibold text-ifsc-green mt-4 dark:text-emerald-300">Passo 1 · Conferindo os dados</h3>
+                            <p class="text-sm text-gray-700 dark:text-slate-200">Antes de mapear, abra o CSV em um editor ou notebook e verifique se os campos <code>Longitude</code> e <code>Latitude</code> estão numéricos e com o separador decimal correto.</p>
                             <div class="code-block mt-3">
-<pre><code class="language-csv">Praia,Longitude,Latitude,Situação
-Praia da Barra,-48.573928,-27.600218,Boa
-Praia Brava,-48.574293,-27.600404,Boa
-Praia Grande,-48.57454,-27.600603,Ruim
-Praia Comprida,-48.574626,-27.600705,Regular
-Praia da Joaquina,-48.4490,-27.6325,Boa
-Praia Mole,-48.4358,-27.6092,Boa
-Praia de Canasvieiras,-48.4116,-27.4322,Ruim</code></pre>
+<pre><code class="language-csv">Praia,Latitude,Longitude,Situação
+Praia da Barra,-27.600218,-48.573928,Boa
+Praia Mole,-27.605612,-48.448782,Regular
+Praia dos Ingleses,-27.432509,-48.399489,Ruim
+Praia do Campeche,-27.658957,-48.489882,Boa
+Praia do Santinho,-27.409855,-48.368907,Ruim
+Praia da Joaquina,-27.637142,-48.436796,Regular
+Praia de Canasvieiras,-27.432064,-48.500224,Boa
+Praia do Pântano do Sul,-27.739187,-48.502771,Regular</code></pre>
                             </div>
                             <h3 class="text-md font-semibold text-ifsc-green mt-6 dark:text-emerald-300">Passo 2 · Script em Python</h3>
+                            <p class="text-sm text-gray-700 dark:text-slate-200">Use Pandas para ler o arquivo, calcule a média das coordenadas para centralizar o mapa e mapeie as categorias para cores e ícones.</p>
                             <div class="code-block mt-3">
 <pre><code class="language-python">import folium
-import pandas
+import pandas as pd
 
-df_praias = pandas.read_csv('Pontos.csv')
-media_lat = df_praias['Latitude'].mean()
-media_lon = df_praias['Longitude'].mean()
+df = pd.read_csv('arquivos/Pontos.csv')
+centro = [df['Latitude'].mean(), df['Longitude'].mean()]
 
-mapa_praias = folium.Map(location=[media_lat, media_lon], zoom_start=12)
-folium.TileLayer(
-    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-    attr='Esri',
-    name='Satélite'
-).add_to(mapa_praias)
-
-cores_situacao = {
-    'Boa': 'green',
-    'Regular': 'orange',
-    'Ruim': 'red'
+cores = {
+    'Boa': ('green', 'smile-o'),
+    'Regular': ('orange', 'meh-o'),
+    'Ruim': ('red', 'frown-o')
 }
 
-for _, praia in df_praias.iterrows():
-    situacao = praia['Situação']
-    cor_do_icone = cores_situacao.get(situacao, 'gray')
+mapa = folium.Map(location=centro, zoom_start=12)
 
+for _, linha in df.iterrows():
+    situacao = linha['Situação']
+    cor, icone = cores.get(situacao, ('gray', 'question'))
     folium.Marker(
-        location=[praia['Latitude'], praia['Longitude']],
-        popup=f"<strong>{praia['Praia']}</strong><br>Situação: {situacao}",
-        tooltip=praia['Praia'],
-        icon=folium.Icon(color=cor_do_icone, icon='tint', prefix='fa')
-    ).add_to(mapa_praias)
+        location=[linha['Latitude'], linha['Longitude']],
+        popup=f"{linha['Praia']} — Situação: {situacao}",
+        tooltip=linha['Praia'],
+        icon=folium.Icon(color=cor, icon=icone, prefix='fa')
+    ).add_to(mapa)
 
-folium.LayerControl().add_to(mapa_praias)
-mapa_praias.save('mapa_balneabilidade.html')
-
-print('Mapa das praias gerado com sucesso!')</code></pre>
+folium.LayerControl().add_to(mapa)
+mapa.show_in_browser()
+print('Mapa das praias aberto no navegador padrão.')</code></pre>
                             </div>
-                            <p class="text-xs text-gray-500 dark:text-slate-300/80">Use <code>.get()</code> para garantir que valores inesperados no CSV sejam tratados com uma cor neutra.</p>
+                            <p class="text-xs text-gray-500 mt-4 dark:text-slate-300/80">Ajuste as palavras das categorias para corresponder exatamente ao CSV. Se novas classificações surgirem, atualize o dicionário <code>cores</code>.</p>
                         </div>
                     </section>
 
@@ -430,7 +540,7 @@ DragMarker(
     popup='Arraste-me para a posição correta!'
 ).add_to(mapa)
 
-mapa.save('mapa_marcador_arrastavel.html')</code></pre>
+mapa.show_in_browser()</code></pre>
                                     </div>
                                 </div>
                                 <div class="rounded-xl border border-slate-200 bg-white/80 p-4 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/70">
@@ -455,7 +565,7 @@ folium.Marker(
     tooltip='Clique para ver!'
 ).add_to(mapa)
 
-mapa.save('mapa_popup_html.html')</code></pre>
+mapa.show_in_browser()</code></pre>
                                     </div>
                                 </div>
                                 <div class="rounded-xl border border-slate-200 bg-white/80 p-4 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/70">
@@ -474,7 +584,7 @@ pontos = [
 ]
 
 HeatMap(pontos).add_to(mapa)
-mapa.save('mapa_de_calor.html')</code></pre>
+mapa.show_in_browser()</code></pre>
                                     </div>
                                 </div>
                             </div>
@@ -538,7 +648,7 @@ mapa.save('mapa_de_calor.html')</code></pre>
                                     </svg>
                                     <span>Revisar capítulo anterior</span>
                                 </a>
-                                <a href="Página principal.html#capitulos" class="group inline-flex items-center gap-2 rounded-xl border border-ifsc-green px-4 py-3 text-sm font-semibold text-ifsc-green transition hover:bg-ifsc-green hover:text-white dark:border-emerald-400 dark:text-emerald-300 dark:hover:bg-emerald-400 dark:hover:text-slate-900">
+                                <a href="index.html#capitulos" class="group inline-flex items-center gap-2 rounded-xl border border-ifsc-green px-4 py-3 text-sm font-semibold text-ifsc-green transition hover:bg-ifsc-green hover:text-white dark:border-emerald-400 dark:text-emerald-300 dark:hover:bg-emerald-400 dark:hover:text-slate-900">
                                     <span>Voltar ao sumário</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="m9 18 6-6-6-6"></path>

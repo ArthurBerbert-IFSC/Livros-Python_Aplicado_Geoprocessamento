@@ -10,7 +10,7 @@ Livro digital responsivo que reúne os capítulos da disciplina PAG014903. O pro
 ## Estrutura
 
 ```
-├── Página principal.html
+├── index.html
 ├── A Base de Tudo - Variáveis e Dados Simples.html
 ├── Estruturas_de_Dados_Essenciais.html
 ├── Dando Inteligência ao Código - Decisões e Loops.html
