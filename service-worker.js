@@ -3,6 +3,7 @@
 const CACHE_VERSION = 'ifsc-digital-book-v1';
 const CORE_ASSETS = [
   './',
+  './index.html',
   './Página principal.html',
   './A Base de Tudo - Variáveis e Dados Simples.html',
   './Estruturas_de_Dados_Essenciais.html',
