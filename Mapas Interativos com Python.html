@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#1B5E20">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="imagens/logotipos/logo_IFSC.png">
+    <title>Mapas Interativos com Python e Folium — IFSC Digital Book</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'ifsc-green': '#1B5E20',
+                        'ifsc-gray': '#374151',
+                        'ifsc-soft': '#E6F4EA'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    },
+                    maxWidth: {
+                        prose: '70ch'
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="estilos.v2.css">
+</head>
+<body class="bg-slate-50 text-ifsc-gray antialiased dark:bg-slate-950 dark:text-slate-100">
+    <div id="reading-progress" class="fixed top-0 left-0 h-1 w-full bg-ifsc-green/80 scale-x-0 transition-transform duration-200 origin-left z-50"></div>
+
+    <header class="bg-white/95 backdrop-blur shadow-md sticky top-0 z-40 dark:bg-slate-900/90">
+        <div class="border-b border-slate-200/60 dark:border-slate-700/60">
+            <div class="container mx-auto px-6 py-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                <div class="flex flex-wrap items-center justify-center gap-4 md:justify-start">
+                    <img src="imagens/logotipos/logo_IFSC.png" alt="Logotipo do IFSC" class="h-10 w-auto object-contain opacity-80 drop-shadow-sm dark:opacity-90" loading="lazy" onerror="this.style.display='none'">
+                    <img src="imagens/logotipos/logo_DACC.jpg" alt="Logotipo do DACC" class="h-10 w-auto object-contain opacity-80 drop-shadow-sm dark:opacity-90" loading="lazy" onerror="this.style.display='none'">
+                    <img src="imagens/logotipos/Logo_Curso_Geoprocessamento.jpg" alt="Logotipo do Curso de Geoprocessamento" class="h-10 w-auto object-contain opacity-80 drop-shadow-sm dark:opacity-90" loading="lazy" onerror="this.style.display='none'">
+                    <img src="imagens/logotipos/logo_Disciplina.png" alt="Logotipo da disciplina PAG014903" class="h-16 w-auto object-contain ring-2 ring-ifsc-green rounded-md shadow-md" loading="lazy" onerror="this.style.display='none'">
+                </div>
+                <div class="flex items-center gap-3 justify-center md:justify-end">
+                    <div class="text-center md:text-right">
+                        <p class="text-lg font-semibold text-ifsc-green dark:text-emerald-300">Fundamentos de Programação em Python</p>
+                        <p class="text-xs text-gray-500 dark:text-slate-300/80">v0.0.1</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="font-size-widget" role="group" aria-label="Controle de tamanho do texto">
+                            <button id="font-decrease" type="button" aria-label="Diminuir tamanho do texto">A-</button>
+                            <span class="font-size-widget-divider" aria-hidden="true"></span>
+                            <button id="font-increase" type="button" aria-label="Aumentar tamanho do texto">A+</button>
+                            <span class="font-size-widget-label" data-font-label aria-live="polite">Padrão</span>
+                        </div>
+                        <button id="theme-toggle" type="button" class="theme-toggle" aria-pressed="false" aria-label="Alternar tema">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                            </svg>
+                            <span data-mode-text>LIGHT</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center text-sm font-medium">
+            <a href="Página principal.html#capitulos" class="text-gray-600 hover:text-ifsc-green transition-colors dark:text-slate-300/80">&larr; Capítulos</a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="Página principal.html" class="py-2 px-3 text-gray-700 hover:text-ifsc-green transition-colors dark:text-slate-200">Início</a>
+                <a href="Página principal.html#capitulos" class="py-2 px-3 text-gray-700 hover:text-ifsc-green transition-colors dark:text-slate-200">Capítulos</a>
+                <a href="Página principal.html#sobre" class="py-2 px-3 text-gray-700 hover:text-ifsc-green transition-colors dark:text-slate-200">Sobre</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <div class="flex flex-col gap-10 lg:grid lg:grid-cols-[280px_minmax(0,1fr)]">
+            <aside class="order-2 lg:order-1">
+                <div class="sticky top-32 space-y-6 rounded-3xl border border-slate-200/70 bg-white/70 p-6 shadow-md backdrop-blur dark:border-slate-700/60 dark:bg-slate-900/60">
+                    <h2 class="flex items-center gap-3 text-lg font-semibold text-ifsc-green dark:text-emerald-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 6v6l3 3" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                        Navegue pelo conteúdo
+                    </h2>
+                    <p class="text-sm text-gray-600 dark:text-slate-300/80">Escolha um tópico para revisar rapidamente ou acompanhe a leitura na ordem sugerida.</p>
+                    <nav>
+                        <ul id="toc-list" class="space-y-2 text-sm">
+                            <li class="text-slate-400">Carregando seções...</li>
+                        </ul>
+                    </nav>
+                    <div class="rounded-xl bg-ifsc-soft/70 p-4 text-xs text-ifsc-gray dark:bg-emerald-900/40 dark:text-emerald-100">
+                        <strong>Dica:</strong> pressione <span class="rounded bg-white px-1 py-0.5 font-mono text-[0.65rem] shadow-sm">Ctrl</span> + <span class="rounded bg-white px-1 py-0.5 font-mono text-[0.65rem] shadow-sm">L</span> para focar a barra de endereços e voltar rapidamente à seção de capítulos.
+                    </div>
+                </div>
+            </aside>
+
+            <article class="order-1 lg:order-2 rounded-3xl border border-slate-200/80 bg-white/95 shadow-xl backdrop-blur dark:border-slate-700/60 dark:bg-slate-900/80">
+                <div class="space-y-12 p-6 md:p-10">
+                    <header class="space-y-6">
+                        <nav class="flex flex-wrap items-center gap-3 text-sm font-medium text-ifsc-green transition-colors hover:text-ifsc-green/80 dark:text-emerald-300">
+                            <a href="Página principal.html#capitulos" class="inline-flex items-center gap-2">
+                                <span aria-hidden="true">&larr;</span>
+                                <span>Voltar aos capítulos</span>
+                            </a>
+                            <span class="hidden md:inline-block text-gray-300 dark:text-slate-500">·</span>
+                            <a href="Do Endereço ao Mapa - Geocodificação com Geopy.html" class="inline-flex items-center gap-2">
+                                <span aria-hidden="true">&#x2190;</span>
+                                <span>Capítulo anterior</span>
+                            </a>
+                        </nav>
+                        <div class="space-y-4">
+                            <h1 class="flex flex-wrap items-center gap-3 text-3xl font-extrabold text-slate-800 dark:text-white md:text-4xl">
+                                <span class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-ifsc-soft text-ifsc-green shadow-inner dark:bg-emerald-900/40 dark:text-emerald-200">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M3 9l9-7 9 7-9 7-9-7Z"></path>
+                                        <path d="M9 22V12l3 2 3-2v10"></path>
+                                    </svg>
+                                </span>
+                                <span>Mapas Interativos com Python e Folium</span>
+                            </h1>
+                            <p class="max-w-prose text-lg leading-relaxed text-gray-600 dark:text-slate-300">Transforme dados geográficos em experiências interativas: domine o Folium, personalize visualizações e publique mapas navegáveis que contam histórias.</p>
+                        </div>
+                        <div class="space-y-4 rounded-2xl border border-ifsc-green/20 bg-ifsc-soft/60 p-6 dark:border-emerald-500/30 dark:bg-emerald-900/20">
+                            <div class="space-y-2">
+                                <p class="text-sm font-semibold uppercase tracking-wide text-ifsc-green dark:text-emerald-300">Você vai aprender a</p>
+                                <ul class="space-y-2 text-sm text-ifsc-gray dark:text-slate-200">
+                                    <li class="flex gap-2"><span class="mt-0.5">▹</span><span>Criar mapas interativos com poucos comandos em Python.</span></li>
+                                    <li class="flex gap-2"><span class="mt-0.5">▹</span><span>Personalizar zoom, marcadores, ícones e camadas de fundo.</span></li>
+                                    <li class="flex gap-2"><span class="mt-0.5">▹</span><span>Construir visualizações temáticas a partir de arquivos CSV.</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </header>
+
+                    <section id="introducao" data-toc="section" data-toc-title="Por que mapas interativos?" class="space-y-6">
+                        <h2 class="text-2xl font-semibold text-ifsc-green dark:text-emerald-200">1. Por que mapas interativos?</h2>
+                        <div class="space-y-4">
+                            <p class="leading-relaxed text-gray-700 dark:text-slate-300">Análises geoespaciais ganham impacto quando os dados podem ser vistos no lugar onde acontecem. Mapas interativos oferecem zoom, clique e camadas temáticas — tudo que precisamos para transformar planilhas em narrativas visuais convincentes.</p>
+                            <p class="leading-relaxed text-gray-700 dark:text-slate-300">O Folium funciona como uma ponte entre Python e a biblioteca JavaScript Leaflet, permitindo construir experiências web sem sair do ecossistema que você já domina. Vamos entender como instalar, configurar e expandir essa ferramenta.</p>
+                        </div>
+                        <div class="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/70">
+                            <h3 class="text-lg font-semibold text-ifsc-green dark:text-emerald-300">Instalação rápida</h3>
+                            <p class="text-sm text-gray-700 dark:text-slate-200">Certifique-se de ter o Folium disponível no ambiente virtual do projeto.</p>
+                            <div class="code-block mt-4">
+<pre><code class="language-bash">pip install folium</code></pre>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-3 dark:text-slate-300/80">Se trabalhar com dados tabulares, instale também o <code>pandas</code>: <code>pip install pandas</code>.</p>
+                        </div>
+                    </section>
+
+                    <section id="folium-essentials" data-toc="section" data-toc-title="Folium em ação" class="space-y-6">
+                        <h2 class="text-2xl font-semibold text-ifsc-green dark:text-emerald-200">2. Folium em ação</h2>
+                        <div class="rounded-2xl border border-ifsc-green/30 bg-white px-6 py-6 shadow-sm dark:border-emerald-500/50 dark:bg-slate-900/70">
+                            <h3 class="flex items-center gap-3 text-xl font-bold text-ifsc-green dark:text-emerald-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 7h18"></path>
+                                    <path d="M3 12h18"></path>
+                                    <path d="M3 17h18"></path>
+                                </svg>
+                                O que o Folium entrega?
+                            </h3>
+                            <ul class="list-disc list-inside leading-relaxed text-gray-700 space-y-2 dark:text-slate-200">
+                                <li><strong>Simplicidade:</strong> com poucas linhas você gera um HTML interativo completo.</li>
+                                <li><strong>Flexibilidade:</strong> adicione marcadores, linhas, polígonos e mapas coropléticos.</li>
+                                <li><strong>Interatividade:</strong> suporte a zoom, popups, tooltips e alternância de camadas.</li>
+                                <li><strong>Portabilidade:</strong> exporte o resultado como um arquivo único compatível com qualquer navegador.</li>
+                            </ul>
+                        </div>
+                        <div class="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/70">
+                            <h3 class="text-lg font-semibold text-ifsc-green dark:text-emerald-300">Do código ao navegador</h3>
+                            <p class="text-sm text-gray-700 dark:text-slate-200">O fluxo básico envolve criar um objeto <code>folium.Map</code>, adicionar camadas ou marcadores e salvar o resultado.</p>
+                            <div class="code-block mt-4">
+<pre><code class="language-python">import folium
+
+# Coordenadas do IFSC - Campus Florianópolis
+coordenadas_ifsc = [-27.59397, -48.54235]
+
+mapa = folium.Map(location=coordenadas_ifsc)
+
+# Opção A: gerar arquivo definitivo
+mapa.save('meu_primeiro_mapa.html')
+print("Mapa salvo com sucesso! Abra 'meu_primeiro_mapa.html'.")
+
+# Opção B: abrir em um arquivo temporário
+# mapa.show_in_browser()
+# print("Mapa aberto no navegador!")</code></pre>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-3 dark:text-slate-300/80">O arquivo HTML gerado é autossuficiente. Para garantir tiles offline, utilize provedores que ofereçam cache ou tiles locais.</p>
+                        </div>
+                    </section>
+
+                    <section id="dica-professor" data-toc="section" data-toc-title="Organização do projeto" class="space-y-4">
+                        <h2 class="text-2xl font-semibold text-ifsc-green dark:text-emerald-200">3. Organização do projeto</h2>
+                        <div class="rounded-2xl border border-emerald-300/60 bg-emerald-50 px-6 py-6 shadow-sm dark:border-emerald-400/60 dark:bg-emerald-900/20">
+                            <h3 class="flex items-center gap-3 text-xl font-bold text-emerald-700 dark:text-emerald-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m22 16-6-3 6-3v6z"></path>
+                                    <path d="m2 16 6-3-6-3v6z"></path>
+                                    <path d="M17 19.5 12 22l-5-2.5"></path>
+                                    <path d="M17 4.5 12 2 7 4.5"></path>
+                                    <path d="m7 19.5 5 2.5V13"></path>
+                                    <path d="m17 19.5-5 2.5V13"></path>
+                                    <path d="m7 4.5 5-2.5v9"></path>
+                                    <path d="m17 4.5-5-2.5v9"></path>
+                                </svg>
+                                Dica do professor
+                            </h3>
+                            <p class="text-sm leading-relaxed text-emerald-900 dark:text-emerald-100">Organize scripts, dados CSV e arquivos HTML numa mesma pasta do projeto. Assim você garante caminhos relativos simples e facilita o compartilhamento do material inteiro com a turma.</p>
+                        </div>
+                    </section>
+
+                    <section id="controles" data-toc="section" data-toc-title="Controlando zoom e layout" class="space-y-6">
+                        <h2 class="text-2xl font-semibold text-ifsc-green dark:text-emerald-200">4. Controlando zoom e layout</h2>
+                        <div class="rounded-2xl border border-ifsc-green/30 bg-white px-6 py-6 shadow-sm dark:border-emerald-500/50 dark:bg-slate-900/70">
+                            <h3 class="flex items-center gap-3 text-xl font-bold text-ifsc-green dark:text-emerald-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 5v14"></path>
+                                    <path d="M5 12h14"></path>
+                                </svg>
+                                Ajustando os parâmetros de zoom
+                            </h3>
+                            <p class="text-gray-700 dark:text-slate-200">Escolha um nível de zoom que conte a história certa: bairros, cidades ou regiões amplas. Limites de zoom evitam que o usuário perca o contexto.</p>
+                            <div class="code-block mt-4">
+<pre><code class="language-python">mapa_com_zoom = folium.Map(
+    location=[-27.59397, -48.54235],
+    zoom_start=15,
+    min_zoom=10,
+    max_zoom=18,
+    width='80%',
+    height='500px'
+)
+
+mapa_com_zoom.save('mapa_com_zoom.html')</code></pre>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-3 dark:text-slate-300/80">Experimente valores de <code>zoom_start</code> iguais a 5, 12 e 18 para comparar níveis estadual, municipal e de rua.</p>
+                        </div>
+                    </section>
+
+                    <section id="marcadores" data-toc="section" data-toc-title="Trabalhando com marcadores" class="space-y-6">
+                        <h2 class="text-2xl font-semibold text-ifsc-green dark:text-emerald-200">5. Trabalhando com marcadores</h2>
+                        <div class="rounded-2xl border border-ifsc-green/30 bg-white px-6 py-6 shadow-sm dark:border-emerald-500/50 dark:bg-slate-900/70">
+                            <h3 class="flex items-center gap-3 text-xl font-bold text-ifsc-green dark:text-emerald-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7Z"></path>
+                                    <circle cx="12" cy="9" r="2"></circle>
+                                </svg>
+                                Adicionando marcadores básicos
+                            </h3>
+                            <p class="text-gray-700 dark:text-slate-200">Crie o marcador primeiro e depois fixe-o no mapa. Esse padrão facilita loops com dezenas de pontos.</p>
+                            <div class="code-block mt-4">
+<pre><code class="language-python">mapa = folium.Map(location=[-27.59397, -48.54235], zoom_start=15)
+
+marcador_ifsc = folium.Marker(
+    location=[-27.59397, -48.54235],
+    popup='IFSC - Câmpus Florianópolis',
+    tooltip='Clique para ver detalhes'
+)
+
+marcador_ifsc.add_to(mapa)
+mapa.save('mapa_com_marcador.html')</code></pre>
+                            </div>
+                        </div>
+                        <div class="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/70">
+                            <h3 class="text-lg font-semibold text-ifsc-green dark:text-emerald-300">Ícones temáticos</h3>
+                            <p class="text-sm text-gray-700 dark:text-slate-200">Diferencie categorias com cores e símbolos da biblioteca Font Awesome.</p>
+                            <div class="code-block mt-4">
+<pre><code class="language-python">mapa = folium.Map(location=[-27.59, -48.54], zoom_start=14)
+
+folium.Marker(
+    location=[-27.59397, -48.54235],
+    popup='Local de estudo',
+    icon=folium.Icon(color='blue', icon='book', prefix='fa')
+).add_to(mapa)
+
+folium.Marker(
+    location=[-27.5975, -48.545],
+    popup='Área de lazer',
+    icon=folium.Icon(color='green', icon='tree', prefix='fa')
+).add_to(mapa)
+
+folium.Marker(
+    location=[-27.588, -48.54],
+    popup='Atenção: histórico de alagamentos',
+    icon=folium.Icon(color='red', icon='exclamation-sign', prefix='fa')
+).add_to(mapa)
+
+mapa.save('mapa_icones_personalizados.html')</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="atencao" data-toc="section" data-toc-title="Atenção às licenças" class="space-y-4">
+                        <h2 class="text-2xl font-semibold text-ifsc-green dark:text-emerald-200">6. Atenção às licenças</h2>
+                        <div class="rounded-2xl border border-amber-400/70 bg-amber-50 px-6 py-6 shadow-sm dark:border-amber-300/70 dark:bg-amber-900/30">
+                            <h3 class="flex items-center gap-3 text-xl font-bold text-amber-700 dark:text-amber-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 9v4"></path>
+                                    <path d="M12 17h.01"></path>
+                                    <path d="M21 18H3l9-15z"></path>
+                                </svg>
+                                Crédito das camadas é obrigatório
+                            </h3>
+                            <p class="text-sm leading-relaxed text-amber-900 dark:text-amber-100">Sempre informe a origem dos tiles (atributo <code>attr</code>). Alguns provedores exigem cadastro ou restringem o uso comercial. Leia a licença antes de publicar seu mapa.</p>
+                        </div>
+                    </section>
+
+                    <section id="camadas" data-toc="section" data-toc-title="Alternando camadas base" class="space-y-6">
+                        <h2 class="text-2xl font-semibold text-ifsc-green dark:text-emerald-200">7. Alternando camadas base</h2>
+                        <div class="rounded-2xl border border-ifsc-green/30 bg-white px-6 py-6 shadow-sm dark:border-emerald-500/50 dark:bg-slate-900/70">
+                            <h3 class="flex items-center gap-3 text-xl font-bold text-ifsc-green dark:text-emerald-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 18h16"></path>
+                                    <path d="M4 6h16"></path>
+                                    <path d="M4 12h16"></path>
+                                </svg>
+                                Configurando mapas de fundo
+                            </h3>
+                            <p class="text-gray-700 dark:text-slate-200">Adicione múltiplas camadas e permita que o usuário troque entre ruas, satélite ou relevo.</p>
+                            <div class="code-block mt-4">
+<pre><code class="language-python">mapa = folium.Map(location=[-27.59, -48.54], zoom_start=13)
+
+folium.TileLayer('OpenStreetMap', name='Mapa de Ruas').add_to(mapa)
+folium.TileLayer(
+    tiles='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    attr='Esri',
+    name='Satélite'
+).add_to(mapa)
+folium.TileLayer('Stamen Terrain', name='Relevo').add_to(mapa)
+
+folium.LayerControl().add_to(mapa)
+mapa.save('mapa_com_camadas.html')</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="laboratorio" data-toc="section" data-toc-title="Laboratório prático" class="space-y-6">
+                        <h2 class="text-2xl font-semibold text-ifsc-green dark:text-emerald-200">8. Laboratório prático</h2>
+                        <div class="rounded-2xl border border-ifsc-green/30 bg-white px-6 py-6 shadow-sm dark:border-emerald-500/50 dark:bg-slate-900/70">
+                            <h3 class="flex items-center gap-3 text-xl font-bold text-ifsc-green dark:text-emerald-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 2v8"></path>
+                                    <path d="M8 6h8"></path>
+                                    <path d="M5 22h14"></path>
+                                    <path d="M2 18h20"></path>
+                                </svg>
+                                Balneabilidade das praias
+                            </h3>
+                            <p class="text-gray-700 dark:text-slate-200">Vamos combinar Pandas e Folium para criar um mapa temático com cores por situação de balneabilidade.</p>
+                            <h3 class="text-md font-semibold text-ifsc-green mt-4 dark:text-emerald-300">Passo 1 · Dados (salve como <code>Pontos.csv</code>)</h3>
+                            <div class="code-block mt-3">
+<pre><code class="language-csv">Praia,Longitude,Latitude,Situação
+Praia da Barra,-48.573928,-27.600218,Boa
+Praia Brava,-48.574293,-27.600404,Boa
+Praia Grande,-48.57454,-27.600603,Ruim
+Praia Comprida,-48.574626,-27.600705,Regular
+Praia da Joaquina,-48.4490,-27.6325,Boa
+Praia Mole,-48.4358,-27.6092,Boa
+Praia de Canasvieiras,-48.4116,-27.4322,Ruim</code></pre>
+                            </div>
+                            <h3 class="text-md font-semibold text-ifsc-green mt-6 dark:text-emerald-300">Passo 2 · Script em Python</h3>
+                            <div class="code-block mt-3">
+<pre><code class="language-python">import folium
+import pandas
+
+df_praias = pandas.read_csv('Pontos.csv')
+media_lat = df_praias['Latitude'].mean()
+media_lon = df_praias['Longitude'].mean()
+
+mapa_praias = folium.Map(location=[media_lat, media_lon], zoom_start=12)
+folium.TileLayer(
+    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    attr='Esri',
+    name='Satélite'
+).add_to(mapa_praias)
+
+cores_situacao = {
+    'Boa': 'green',
+    'Regular': 'orange',
+    'Ruim': 'red'
+}
+
+for _, praia in df_praias.iterrows():
+    situacao = praia['Situação']
+    cor_do_icone = cores_situacao.get(situacao, 'gray')
+
+    folium.Marker(
+        location=[praia['Latitude'], praia['Longitude']],
+        popup=f"<strong>{praia['Praia']}</strong><br>Situação: {situacao}",
+        tooltip=praia['Praia'],
+        icon=folium.Icon(color=cor_do_icone, icon='tint', prefix='fa')
+    ).add_to(mapa_praias)
+
+folium.LayerControl().add_to(mapa_praias)
+mapa_praias.save('mapa_balneabilidade.html')
+
+print('Mapa das praias gerado com sucesso!')</code></pre>
+                            </div>
+                            <p class="text-xs text-gray-500 dark:text-slate-300/80">Use <code>.get()</code> para garantir que valores inesperados no CSV sejam tratados com uma cor neutra.</p>
+                        </div>
+                    </section>
+
+                    <section id="codigo" data-toc="section" data-toc-title="Plugins e extras" class="space-y-6">
+                        <h2 class="text-2xl font-semibold text-ifsc-green dark:text-emerald-200">9. Explorando plugins e extras</h2>
+                        <div class="rounded-2xl border border-ifsc-green/30 bg-white px-6 py-6 shadow-sm dark:border-emerald-500/50 dark:bg-slate-900/70">
+                            <h3 class="flex items-center gap-3 text-xl font-bold text-ifsc-green dark:text-emerald-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m5 8 6 6"></path>
+                                    <path d="m5 14 6-6"></path>
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                </svg>
+                                Próximos passos com plugins
+                            </h3>
+                            <p class="text-gray-700 dark:text-slate-200">Amplie a experiência com extensões já incluídas no Folium.</p>
+                            <div class="grid gap-6 md:grid-cols-3">
+                                <div class="rounded-xl border border-slate-200 bg-white/80 p-4 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/70">
+                                    <h3 class="font-semibold text-ifsc-green text-sm uppercase tracking-wide dark:text-emerald-300">Marcadores arrastáveis</h3>
+                                    <div class="code-block mt-3">
+<pre><code class="language-python">import folium
+from folium.plugins import DragMarker
+
+mapa = folium.Map(location=[-27.59, -48.54], zoom_start=14)
+
+DragMarker(
+    [-27.59397, -48.54235],
+    popup='Arraste-me para a posição correta!'
+).add_to(mapa)
+
+mapa.save('mapa_marcador_arrastavel.html')</code></pre>
+                                    </div>
+                                </div>
+                                <div class="rounded-xl border border-slate-200 bg-white/80 p-4 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/70">
+                                    <h3 class="font-semibold text-ifsc-green text-sm uppercase tracking-wide dark:text-emerald-300">Popups ricos</h3>
+                                    <div class="code-block mt-3">
+<pre><code class="language-python">import folium
+
+html_popup = """
+    <h3>Ponte Hercílio Luz</h3>
+    <img src="https://upload.wikimedia.org/.../375px-Ponte_Hercílio_Luz.jpg" width="250" alt="Ponte Hercílio Luz"><br>
+    <p>A ponte é um cartão-postal de Florianópolis.</p>
+    <a href="https://pt.wikipedia.org/wiki/Ponte_Herc%C3%ADlio_Luz" target="_blank">Saiba mais</a>
+"""
+
+iframe = folium.IFrame(html_popup, width=280, height=280)
+popup = folium.Popup(iframe, max_width=280)
+
+mapa = folium.Map(location=[-27.5930, -48.5615], zoom_start=16)
+folium.Marker(
+    location=[-27.5930, -48.5615],
+    popup=popup,
+    tooltip='Clique para ver!'
+).add_to(mapa)
+
+mapa.save('mapa_popup_html.html')</code></pre>
+                                    </div>
+                                </div>
+                                <div class="rounded-xl border border-slate-200 bg-white/80 p-4 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/70">
+                                    <h3 class="font-semibold text-ifsc-green text-sm uppercase tracking-wide dark:text-emerald-300">Mapas de calor</h3>
+                                    <div class="code-block mt-3">
+<pre><code class="language-python">import folium
+from folium.plugins import HeatMap
+import random
+
+mapa = folium.Map(location=[-27.59, -48.54], zoom_start=12)
+
+pontos = [
+    [-27.59 + (random.random() - 0.5) * 0.1,
+     -48.54 + (random.random() - 0.5) * 0.2]
+    for _ in range(100)
+]
+
+HeatMap(pontos).add_to(mapa)
+mapa.save('mapa_de_calor.html')</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="curiosidade" data-toc="section" data-toc-title="Curiosidade" class="space-y-4">
+                        <h2 class="text-2xl font-semibold text-ifsc-green dark:text-emerald-200">10. Curiosidade</h2>
+                        <details class="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/70">
+                            <summary class="flex cursor-pointer items-center gap-2 text-lg font-semibold text-ifsc-green dark:text-emerald-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 3v18"></path>
+                                    <path d="m8 19 4 4 4-4"></path>
+                                    <path d="M8 5l4-4 4 4"></path>
+                                </svg>
+                                Curiosidade: integração com Jupyter
+                            </summary>
+                            <p class="mt-4 text-sm leading-relaxed text-gray-700 dark:text-slate-200">O Folium renderiza mapas diretamente em notebooks Jupyter ou Google Colab. Use <code>mapa</code> como última instrução da célula ou <code>display(mapa)</code> para visualizar sem salvar arquivos. Isso acelera protótipos e relatórios exploratórios.</p>
+                        </details>
+                    </section>
+
+                    <section id="exercicios" data-toc="section" data-toc-title="Exercícios rápidos" class="space-y-6">
+                        <h2 class="text-2xl font-semibold text-ifsc-green dark:text-emerald-200">11. Exercícios rápidos</h2>
+                        <article class="space-y-8">
+                            <section class="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/70">
+                                <h3 class="font-semibold text-gray-800 dark:text-slate-100">1. Ajuste de zoom personalizado</h3>
+                                <p class="text-sm text-gray-700 dark:text-slate-200">Usando o mapa básico, aplique <code>min_zoom</code> e <code>max_zoom</code> para limitar a navegação a uma região de interesse.</p>
+                            </section>
+                            <section class="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/70">
+                                <h3 class="font-semibold text-gray-800 dark:text-slate-100">2. Marcadores em lote</h3>
+                                <p class="text-sm text-gray-700 dark:text-slate-200">Crie uma lista de coordenadas e, com um <code>for</code>, adicione marcadores coloridos automaticamente. Use um dicionário para mapear categorias a ícones.</p>
+                            </section>
+                            <section class="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/70">
+                                <h3 class="font-semibold text-gray-800 dark:text-slate-100">3. Popup multimídia</h3>
+                                <p class="text-sm text-gray-700 dark:text-slate-200">Monte um popup com HTML, incluindo uma imagem e um link. Salve o resultado como <code>mapa_popup_personalizado.html</code>.</p>
+                            </section>
+                        </article>
+                    </section>
+
+                    <section id="conclusao" data-toc="section" data-toc-title="Conclusão" class="space-y-6">
+                        <h2 class="text-2xl font-semibold text-ifsc-green dark:text-emerald-200">12. Conclusão</h2>
+                        <div class="rounded-2xl border border-ifsc-green/30 bg-white px-6 py-6 shadow-sm dark:border-emerald-500/50 dark:bg-slate-900/70">
+                            <h3 class="flex items-center gap-3 text-xl font-bold text-ifsc-green dark:text-emerald-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M5 12l5 5L20 7"></path>
+                                </svg>
+                                Fechamento
+                            </h3>
+                            <p class="text-gray-700 dark:text-slate-200">Você aprendeu a transformar dados tabulares e geoespaciais em mapas navegáveis, com controle total sobre zoom, camadas e marcadores. Dominar Folium significa comunicar resultados sem depender de softwares pesados ou longas instruções para o público final.</p>
+                            <p class="text-gray-700 dark:text-slate-200">Continue combinando Folium com bibliotecas como GeoPandas e Shapely para análises espaciais mais complexas — os mapas interativos serão a vitrine ideal para seus insights.</p>
+                        </div>
+                    </section>
+
+                    <section id="navegacao" data-toc="section" data-toc-title="Navegação" class="space-y-6">
+                        <nav aria-label="Navegação entre capítulos" class="flex flex-col gap-4 rounded-2xl border border-slate-200/80 bg-white/90 p-6 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/70">
+                            <p class="text-sm font-semibold uppercase tracking-wide text-ifsc-green dark:text-emerald-300">Continue sua jornada</p>
+                            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                                <a href="Do Endereço ao Mapa - Geocodificação com Geopy.html" class="group inline-flex items-center gap-2 rounded-xl border border-slate-200 px-4 py-3 text-sm font-medium text-slate-600 transition hover:border-ifsc-green hover:text-ifsc-green dark:border-slate-700 dark:text-slate-200 dark:hover:border-emerald-400 dark:hover:text-emerald-300">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition group-hover:-translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="m15 18-6-6 6-6"></path>
+                                    </svg>
+                                    <span>Revisar capítulo anterior</span>
+                                </a>
+                                <a href="Página principal.html#capitulos" class="group inline-flex items-center gap-2 rounded-xl border border-ifsc-green px-4 py-3 text-sm font-semibold text-ifsc-green transition hover:bg-ifsc-green hover:text-white dark:border-emerald-400 dark:text-emerald-300 dark:hover:bg-emerald-400 dark:hover:text-slate-900">
+                                    <span>Voltar ao sumário</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="m9 18 6-6-6-6"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                            <p class="text-xs text-slate-500 dark:text-slate-300/80">Novos módulos abordarão automação de relatórios e publicação web. Fique de olho nas atualizações!</p>
+                        </nav>
+                    </section>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <footer class="mt-8 bg-white shadow-inner dark:bg-slate-900/90">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-600 dark:text-slate-300">
+            <p class="text-base font-semibold text-ifsc-green">PAG014903 - PROGRAMAÇÃO APLICADA AO GEOPROCESSAMENTO</p>
+            <p class="text-sm">Curso Técnico em Geoprocessamento · DACC - IFSC Florianópolis</p>
+            <p class="text-sm">Professor responsável: Arthur Berbert</p>
+            <p class="text-xs text-gray-400 mt-2">Versão 2025-2</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="main.v2.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

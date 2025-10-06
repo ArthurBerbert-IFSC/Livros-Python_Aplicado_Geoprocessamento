@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">IFSC Digital Book Maskable</title>
+  <desc id="desc">Ícone maskable com bordas estendidas para o livro digital do IFSC.</desc>
+  <defs>
+    <linearGradient id="grad-mask" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1B5E20" />
+      <stop offset="100%" stop-color="#2E7D32" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#grad-mask)" />
+  <g fill="#E6F4EA">
+    <path d="M128 120c-22.091 0-40 17.909-40 40v192c0 22.091 17.909 40 40 40h112v-40H144c-8.837 0-16-7.163-16-16V176c0-8.837 7.163-16 16-16h96v-40H128z" />
+    <path d="M384 120H224v40h128c8.837 0 16 7.163 16 16v165.047L328 308l-40 24v-84h-40v148l80-48 80 48V176c0-30.928-25.072-56-56-56z" />
+  </g>
+</svg>

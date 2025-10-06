@@ -1,0 +1,95 @@
+Nome;Endereço;CEP;Telefone;Diretor(a);E-mail
+NEIM Abraão;Rua João Meirelles, n° 1780 - Abraão;88085-201;(48) 3348-9209;MARIZA MARIA MARTINS DA SILVA;neim.abraao@sme.pmf.sc.gov.br
+NEIM Anirson Antônio das Chagas;Rod. Dr. Antônio Luiz Gonzaga, 2023 - Rio Tavares;88048-414;(48) 3226-8113;LAILA ELENA BION CUNHA;neim.anirson@sme.pmf.sc.gov.br
+NEIM Antonieta de Barros;Rua Nossa Senhora Aparecida, s/n - Coqueiros | Vila Aparecida;88010-970;(48) 3348-7632;ADRIANA MARIA LOPES DE O MACHADO;neim.antonietadebarros@sme.pmf.sc.gov.br
+NEIM Profª Alessandra Abdalla;Rua do Conselho s/nº - Tapera;88064-000;(48) 3337-5702;ANDREIA MARIA DE SOUZA FERNANDES;neim.professoraalessandra@sme.pmf.sc.gov.br
+NEIM Almirante Lucas Alexandre Boiteux;Avenida Mauro Ramos, n° 658 - Centro;88020-301;(48) 3324-2819;LAURA SEVERO THOMAZETTI;neim.almirantelucas@sme.pmf.sc.gov.br
+NEIM Altino Dealtino Cabral;Rua Padre Lourenço Rodrigues de Andrade, n° 120 - Santo Antônio de Lisboa;88050-400;(48) 3334-1098;JAQUELINE AZEVEDO;neim.altino@sme.pmf.sc.gov.br
+NEIM Anjo da Guarda;Rua João da Cruz Meira, n° 350 - Trindade;88036-030;(48) 3333-3819;MIRELLA RENATA MANICA;neim.anjodaguarda@sme.pmf.sc.gov.br
+NEIM Anna Spyrios Dimatos;Rodovia Açoriana, n° 1180 - Tapera;88049-100;(48) 3337-0614;ANDREZA VENTURA DA CRUZ;neim.annaspyrios@sme.pmf.sc.gov.br
+NEIM Armação;Rua Izidoro Pires, n° 143 - Armação;88066-520;(48)3237-5717;LENISSA COUTINHO;neim.armacao@sme.pmf.sc.gov.br
+NEIM Barreira do Janga;Rua Virgílio Varzea, n° 2507 - Saco Grande;88032-000;(48) 3238-0378 | (48) 3238-3064;GABRIELA PIRES VIEIRA;neim.barreiradojanga@sme.pmf.sc.gov.br
+NEIM Bem-te-vi;Avenida Rio Branco, n° 719 - Centro;88015-203;(48) 3324-1723;MARILETE FIGUEREDO;neim.bemtevi@sme.pmf.sc.gov.br
+NEIM Caetana Marcelina Dias;Rodovia Baldicero Filomeno, n° 3000 - Ribeirão da Ilha;88064-001;(48) 3337-6273;PATRICIA ABS DA CRUZ ABES;neim.caetana@sme.pmf.sc.gov.br
+NEIM Caieira da Barra do Sul;Rodovia Baldicero Filomeno, n° 19795 - Caieira da Barra do Sul;88064-002;(48) 3237-6184;MICHELLE CRISTINA MENDES;neim.caieira@sme.pmf.sc.gov.br
+NEIM Campeche;Servidão Dionísio Rafhael Ignácio, n° 287 - Campeche;88063-315;(48) 3338-4886;LAÍS DA COSTA INÁCIO;neim.campeche@sme.pmf.sc.gov.br
+NEIM Canto da Lagoa;Rua Laurindo Januário da Silveira, n° 2493 - Canto da Lagoa;88062-200;(48) 3226-8118;LORAINE REINEHR NOBRE;neim.cantodalagoa@sme.pmf.sc.gov.br
+NEIM Carlos Humberto Pederneiras Corrêa;Rua Zumbi dos Palmares, n° 29 - Agronômica;88025-235;(48) 3222-7076;BRUNA DUARTE GONÇALVES AMARAL;neim.carloshumberto@sme.pmf.sc.gov.br
+NEIM Celso Pamplona;Rua Gualberto Senna, n° 111 - Jardim Atlântico;88095-390;(48) 3240-1433;TANIA CLAUDIA RITA MARTINS;neim.celsopamplona@sme.pmf.sc.gov.br
+NEIM Celso Ramos;Rua Silva Jardim, n° 870 - Prainha;88020-200;(48) 3225-8428;ALINE MARIA RIOS;neim.celsoramos@sme.pmf.sc.gov.br
+NEIM Chico Mendes;Rua João Almeida de Oliveira, n°147 - Monte Cristo;88090-576;(48) 3240-6402;KARINE QUINT RACHADEL;neim.chicomendes@sme.pmf.sc.gov.br
+NEIM Clair Gruber Souza;Rua Manoel Mancellos Moura, n° 171 - Canasvieiras;88054-030;(48) 3369-1584;ANDREIA VANESSA GERSTNER;neim.clair@sme.pmf.sc.gov.br
+NEIM Colônia Z-11;Rua Desembargador Ivo Guilhon Pereira de Melo, n° 64 - Barra da Lagoa;88061-289;(48) 3232-3046;CLEUSA ANTONIA MEDEIROS;neim.coloniaz11@sme.pmf.sc.gov.br
+NEIM Coqueiros;Rua Bento Góia, n° 185 - Coqueiros;88080-150;(48) 3348-2033 | (48) 3248-5184;SHARLENE DOS SANTOS;neim.coqueiros@sme.pmf.sc.gov.br
+NEIM Costeira do Pirajubaé;Avenida Jorge Lacerda, 1472 fundos - Costeira do Pirajubaé;88047-001;(48) 3338-8477;CINTIA OLIVEIRA FERNANDES;neim.costeira@sme.pmf.sc.gov.br
+NEIM Cristo Redentor;Rua Valdemiro Monguilhot, n° 5 - Centro;88020-310;(48) 3324-2229;JUCELIA MARIA GONZAGA RIBEIRO;neim.cristoredentor@sme.pmf.sc.gov.br
+NEIM Diamantina Bertolina da Conceição;Rod. Luiz Moura Gonzaga, n° 1525 - Rio Tavares;88063-000;(48) 3226-8680;RENATA SUELI DA ROCHA;neim.diamantina@sme.pmf.sc.gov.br
+NEIM Dona Cota;Rua João Meirelles, n° 1515 - Abraão;88085-201;(48) 3249-5576;DEYZE APARECIDA TURNES;neim.donacota@sme.pmf.sc.gov.br
+NEIM do Futuro Doralice Maria Dias;Rodovia SC 403, km 3 - Vargem do Bom Jesus;88058-601;(48) 99999-5251 - (48) 3266 - 8798;ELIANE BRUSCO DAS CHAGAS;neim.doralicemaria@sme.pmf.sc.gov.br
+NEIM Doralice Teodora Bastos;Rua Manoel Mancellos Moura, n° 85 - Canasvieiras;88054-030;(48) 3266-4789;MARCIA ELIZA DE SOUZA;neim.doraliceteodora@sme.pmf.sc.gov.br
+NEIM Elisabete Nunes Anderle;Servidão Timóteo José Mariano, n° 254 - Barra da Lagoa;88061-190;(48) 3338-4785;GRASIELA IRINETE FERREIRA MENESES;neim.elisabete@sme.pmf.sc.gov.br
+NEIM Evandro de Souza;Rua General Vieira da Rosa - Carvoeira, Florianópolis - SC;88045;;JULIANA SILVA NOBORO MARQUES;neim.evandrodesousa@sme.pmf.sc.gov.br
+NEIM Fermínio Francisco Vieira;Rua Sebastião Laurentino da Silva, n° 250 - Córrego Grande;88037-400;(48) 3234-6381;SIMONE CARMINATTI DE ALMEIDA;neim.ferminio@sme.pmf.sc.gov.br
+NEIM Francisca Idalina Lopes;Rua Nossa Senhora de Fátima, n° 325 - Areias Morro das Pedras;88066-030;(48) 3338-7816;FABIANA KARLA DA COSTA DOMINGUES;neim.franciscaidalina@sme.pmf.sc.gov.br
+NEIM Gentil Mathias da Silva;Rua Dom João Becker, n° 988 - Ingleses;88058-600;(48) 3369-1126 | (48) 3282-9021;VANUSA ALDA DE SOUZA;neim.gentilmathias@sme.pmf.sc.gov.br
+NEIM Hassis;Rodovia Jorge Lacerda, s/n° - Costeira do Pirajubaé;88047-001;(48) 3226-3180;MARIA EMILCE MACHADO ALVES;neim.hassis@sme.pmf.sc.gov.br
+NEIM Hermenegilda Carolina Jacques;Rua Intendente Antônio Damasco, n° 3800 - Ratones;88052-100;(48) 3266-8590;LILIANE OLIVEIRA PINHEIRO;neim.hermenegilda@sme.pmf.sc.gov.br
+NEIM Idalina Ochôa;Vereador Osvaldo Bittencourt, n° 327 - Carianos;88047-440;(48) 3236-2646;GIPSY MAIARA LEMES DOS SANTOS;neim.idalina@sme.pmf.sc.gov.br
+NEIM Ilha Continente;Tv. Central Continente, 124 - Capoeiras;88070-224;(48) 3248-6297;ANA PAULA DA CUNHA PEREIRA;neim.ilhacontinente@sme.pmf.sc.gov.br
+NEIM Ingleses I;Rua Três Maria, n° 1040 - Ingleses;88058-600;(48) 3269-3691;SAMANTHA GONZALES BROUWENSTYN;neim.ingleses1@sme.pmf.sc.gov.br
+NEIM Profª Sueli Gadotti Rodrigues;Servidão Anibal Pedro de Oliveira, n° 319 - Ingleses;88058-324;(48) 3369-6024;CLÁUDIA COSTA RICARDO;neim.ingleses2@sme.pmf.sc.gov.br
+NEIM Irmã Scheilla;Avenida Pequeno Príncipe, n° 721 - Campeche;88063-000;(48) 3233-6035;NEIDE MARIA DE ANDRADE;neim.irmascheilla@sme.pmf.sc.gov.br
+NEIM Irmão Celso;Rua Rui Barbosa, n° 677 Fundos - Agronômica;88025-301;(48) 3228-6558;KATIA REGINA COSTA;neim.irmaocelso@sme.pmf.sc.gov.br
+NEIM Jardim Atlântico;Rua Irmã Bonavita, esquina com a Rua Rogério Vieira - Jardim Atlântico;88095-200;(48) 3244-0690;FERNANDA EDITE FERREIRA;neim.jardimatlantico@sme.pmf.sc.gov.br
+NEIM João Machado da Silva;Rua José Pedro Gil, n° 195 - Agronômica;88025-030;(48) 3228 - 4764;PAMELLA TOLENTINO;neim.joaomachado@sme.pmf.sc.gov.br
+NEIM Joaquina Maria Peres;Rua Amaro Antônio Vieira, n° 2095 - Itacorubi;88032-000;(48) 3334-2466;INGRID FRANZONI;neim.joaquina@sme.pmf.sc.gov.br
+NEIM Joel Rogério de Freitas;Rua Mauro de Carvalho, n° 114 - Monte Cristo;88090-600;(48) 3240-8855 | (48) 3249-3221;MADALENA FERNANDES IGNÁCIO;neim.joelrogerio@sme.pmf.sc.gov.br
+NEIM do Futuro José Rodrigues Willamil;Rod. Açoriana - Tapera, Florianópolis - SC;88049-315;;ALICE JOICE OLIVEIRA DE CASTRO;neim.joserodrigues@sme.pmf.sc.gov.br
+NEIM Judite Fernandes de Lima;Rodovia João Paulo, n° 1268 Fundos Escola Básica - João Paulo;88030-300;(48) 3337-4832;MICHELE ALBINO MOTTA;neim.judite@sme.pmf.sc.gov.br
+NEIM Júlia Maria Rodrigues;Rua Eugênio Raulino Koerich, n° 231 - Jardim Atlântico;88095-151;(48) 3244-0420;ROSANA RÉUS;neim.juliamaria@sme.pmf.sc.gov.br
+NEIM Lausimar Maria Laus;Servidão Luiz Duarte Soares, n° 851 - Rio Vermelho;88060-000;(48) 3269-7225;CLARICE MAURA LUCAS;neim.lausimar@sme.pmf.sc.gov.br
+NEIM Luiz Paulo da Silva;Rua Vereador Onildo Lemos, n° 1000 - Santinho;88058-601;(48) 3269-2368 | (48) 33693623;TAISE ANDRIM;neim.luizpaulo@sme.pmf.sc.gov.br
+NEIM Machado de Assis;Rua Santos Saraiva s/n - Ao lado do CRAS2 - Capoeiras (Anexo ao centro comunitário de Capoeiras);88090-175;(48) 3244-2613;PATRÍCIA GENIL VICENTE SILVEIRA;neim.machadodeassis@sme.pmf.sc.gov.br
+NEIM Marcelino Barcelos Dutra;Rodovia Baldicero Filomeno, n° 11263 - Costeira do Ribeirão da Ilha;88064-002;(48) 3237-6595;MARIA CIRAL VIEIRA;neim.marcelino@sme.pmf.sc.gov.br
+NEIM Maria Barreiros;Rua João Evangelista da Costa, n° 455 - Coloninha;88090-300;(48) 3348-7043;FERNANDA PIRES FIRMO;neim.mariabarreiros@sme.pmf.sc.gov.br
+NEIM Maria Elena da Silva;Rua Graciliano Manoel Gomes, 619 - Ingleses do Rio Vermelho;88058-200;(48) 9924-4969 ou (48) 3269-1253;JOICE APARECIDA UMBELINO VIEIRA;neim.mariaelena@sme.pmf.sc.gov.br
+NEIM Maria Nair da Silva;Rodovia SC 405, s/n - Rio Tavares (Ponto de referência: Posto de Saúde e Terminal de Integração);88066-000;(48) 3237-3459;TALITA MONIQUE GEROMINE;neim.marianair@sme.pmf.sc.gov.br
+NEIM Maria Salomé dos Santos;Rua Izid Dutra, n° 249 - Sambaqui;88051-040;(48) 3235-2500;KÁTIA LIVRAMENTO DA ROSA;neim.mariasalome@sme.pmf.sc.gov.br
+NEIM Maria Terezinha Sardá da Luz;Rua José Cardoso de Oliveira, n° 3547 - Jurerê Internacional;88053-306;(48) 3282-1458;LILIAN CRISTINA LUZ;neim.mariaterezinha@sme.pmf.sc.gov.br
+NEIM Mateus de Barros;Rua dos Cedros, n° 88 - Monte Cristo;88090-519;(48) 3240-9413;ANA MARIA JOÃO;neim.mateus@sme.pmf.sc.gov.br
+NEIM Monsenhor Frederico Hobold;Rua José Kumakola, n° 100 - Costeira do Pirajubaé;88047-000;(48) 3226-1119;JULIANA PEREIRA VIEIRA DA SILVEIRA;neim.monsenhorfrederico@sme.pmf.sc.gov.br
+NEIM Monteiro Lobato;Rua José Xavier da Rosa, n° 456 - Carianos;88047-460;(48) 3234-3374;GISELI LIENI DA SILVA;neim.monteirolobato@sme.pmf.sc.gov.br
+NEIM Morro da Queimada;Rua Anibal Nunes Pires, n° 580 - José Mendes;88045-035;(48) 3225-7694;LUCIMARA ANDRADE MARTINS;neim.morrodaqueimada@sme.pmf.sc.gov.br
+NEIM do Futuro Morro do Horácio;R. Estanislau Viêira Filho, nº 23 - Centro, Florianópolis;88025-180;;MORGANA MARIA DA SILVA DE CASTRO;neim.morrodohoracio@sme.pmf.sc.gov.br
+NEIM Morro do Mocotó;Servidão Família Furtado, s/n - Morro da Queimada (Ponto de referência: Centro de Eventos do Morro do Mocotó);88015-540;(48) 3225-7805;GISELE STEIN;neim.morrodomocoto@sme.pmf.sc.gov.br
+NEIM Nagib Jabor;Rua Professor Clementino de Brito, n° 570 - Estreito;88070-150;(48) 3248-9124;GRASIELE ALINE DA ROCHA;neim.nagibjabor@sme.pmf.sc.gov.br
+NEIM Nossa Senhora Aparecida;Servidão Crescêncio Mariano, n° 149 - Pantanal;88040-000;(48) 3233-2198;CRISTIANE JANUARIO;neim.nsaparecida@sme.pmf.sc.gov.br
+NEIM Nossa Senhora de Lurdes;Rua Pedro Joaquim da Silva, n° 115 - Agronômica;88025-560;(48) 3333-2527;PEDRO HENRIQUE CARDOSO;neim.nsdelurdes@sme.pmf.sc.gov.br
+NEIM Orisvaldina Silva;Servidão Ruth Bastos de Oliveira, n° 75 - Lagoa da Conceição;88062-308;(48) 3232-8381;ELIANE GOMES BONGIOLO;neim.orisvaldina@sme.pmf.sc.gov.br
+NEIM do Futuro Orlandina Cordeiro;Rua Virgílio Várzea, n° 380 - Saco Grande;88032-000;(48) 3238-0305;GABRIELA MARTINS;neim.orlandina@sme.pmf.sc.gov.br
+NEIM do Futuro Otília Cruz;Rua Professora Otília Cruz, n° 482 - Coloninha;88095-080;(48) 3249-3458 | (48) 3249-3454;KEITY PACHECO WERNER;neim.otiliacruz@sme.pmf.sc.gov.br
+NEIM Pântano do Sul;Servidao Anibal Vidal De Avila, 115 - Pântano Do Sul;88067-135;;RAMONE IVONI DA ROSA FORTUNATO;neim.pantanodosul@sme.pmf.sc.gov.br
+NEIM Paulo Michels;Rua Pedro Mariano da Silva, n° 63 - Sapé;88095-680;(48) 3240-5510;PATRICIA SILVA BECCARI BOSA;neim.paulomichels@sme.pmf.sc.gov.br
+NEIM Pequeno Príncipe;Rua Sagrado Coração de Jesus, S/N - Morro das Pedras;88066-070;(48) 3334-5939;FABIANA ODETE NAIR MOREIRA;neim.pequenoprincipe@sme.pmf.sc.gov.br
+NEIM Poeta João da Cruz e Sousa;Rua Imburana, n° 123 - Areias do Campeche;88066-123;(48) 3238-6103;DAIANA MENDES PEREIRA MARTINS;neim.cruzesousa@sme.pmf.sc.gov.br
+NEIM Raul Francisco Lisboa;Rua XV de Novembro, n° 228 - Santo Antônio de Lisboa;88050-470;(48) 3235-2636;KELEN CRISTINA LACERDA;neim.raulfrancisco@sme.pmf.sc.gov.br
+NEIM Santo Antônio de Pádua;Rua Coronel Luiz Caldeira, n° 60 - João Paulo;88034-110;(48) 3334-8363;BRUNA DE ANDRADE VIEIRA;neim.santoantonio@sme.pmf.sc.gov.br
+NEIM São João Batista;Rua Luiz Duarte Soares, n° 189 - Rio Vermelho;88060-380;(48) 3269-8062;WANIA SILVEIRA DE AGUIAR;neim.saojoaobatista@sme.pmf.sc.gov.br
+NEIM do Futuro Sergio Grando;Rua Cruz e Souza, n° 308 - Centro;88020-710;(48) 3228-4745;ANA LUCIA DE SOUZA SILVEIRA;neim.sergiogrando@sme.pmf.sc.gov.br
+NEIM Stella Maris Corrêa Carneiro;Rua Luiz Boiteux Piaza, n° 5908 - Ponta das Canas;88056-000;(48) 32842379;GRAZIELA RAMOS COSTA MARTINS;neim.stellamaris@sme.pmf.sc.gov.br
+NEIM Sol Nascente;R. Pedra de Listras, 515 - Saco Grande, Florianópolis - SC;88032-225;3234-4641;ADRIANA SOUZA LAMARK;neim.solnascente@sme.pmf.sc.gov.br
+NEIM Vicentina Maria da Costa Laurindo;Rodovia SC 401, km 15 - Vargem Pequena;88057-970;(48) 3269-6882;CRISTIANI CAMPOS SASSO MACHADO;neim.vicentina@sme.pmf.sc.gov.br
+NEIM Vila Cachoeira;Rod. Virgílio Varzea, n° 1278 - Saco Grande;88032-185;(48) 3238-1599;GRASIELA NUNES DA SILVA;neim.vilacachoeira@sme.pmf.sc.gov.br
+NEIM Vila União;Rua Anarolina Silveira dos Santos, n° 79 - Vargem do Bom Jesus;88107-398;(48) 3369-5074;MARIA BETHÂNIA SARDO DE FIGUEREDO;neim.vilauniao@sme.pmf.sc.gov.br
+NEIM Vó Terezinha;R. Joaquim Costa, 558 - Agronômica;88025-400;(48) 3224-2334;DANIELA CRISTINA DA SILVA;neim.voterezinha@sme.pmf.sc.gov.br
+NEIM Waldemar da Silva Filho;Av. Madre Benvenuta, n° 521 - Trindade;88036-500;(48) 3234-4741;MARCIA MARIA DA SILVA KNOBLAUCH;neim.waldemar@sme.pmf.sc.gov.br
+NEIM Zilda Arns Neumann;Rua Arco Iris 8ª quadra nº: 79 - Carianos;88047-400;(48) 3236-2650;LUCILA MONTEIRO DOS SANTOS MALAGOLI;neim.zilda@sme.pmf.sc.gov.br
+NEIM Vinculado Virgílio dos Reis Várzea;Rua Manoel Mancellos Moura, n° 170 - Canasvieiras;88054-030;(48) 3369-0833;DIRCIANE SCHIMITH DALAGNOL;ebm.virgiliovarzea@sme.pmf.sc.gov.br
+NEIM Vinculado Vitor Miguel de Souza;Rua Vitor Miguel de Souza, n° 186 - Itacorubi;88034-390;(48) 3334-0031;SCHEILA FERNANDO COUTINHO;ebm.vitormiguel@sme.pmf.sc.gov.br
+NEIM Vinculado José Amaro Cordeiro;Rodovia Francisco Thomaz dos Santos, n° 1691 - Morro das Pedras;88066-000;(48) 3338-7834;NELI DE FATIMA WOSNES CONGINSKI;ebm.joseamaro@sme.pmf.sc.gov.br
+NEIM Vinculado Costa da Lagoa;Estrada Geral Costa da Lagoa, n° 5500 - Costa da Lagoa;88062-300;(48) 3335-3013;FABIANA DE ANDRADE DOS SANTOS;ebm.costadalagoa@sme.pmf.sc.gov.br
+NEIM Vinculado Costa de Dentro;Rua Rosália Paulina Ferreira, n° 2550 - Costa de Dentro;88070-220;(48) 3237-7276;RITA DE CASSIA LEITE GONÇALVES;ebm.costadedentro@sme.pmf.sc.gov.br
+NEIM Vinculado Jurerê;Rua Jurerê Tradicional, n° 230 - Jurerê;88053-750;(48) 3282-2034;THIAGO CHAGAS ALMEIDA DE OLIVEIRA;ebm.jurere@sme.pmf.sc.gov.br
+NEIM Vinculado Osvaldo Galupo;Rua Antônio Carlos Ferreira, n° 1110 - Morro do Horácio;88025-211;(48) 3333-0400;LIDIANY DA SILVA;ebm.osvaldogalupo@sme.pmf.sc.gov.br
+NEIM Vinculado Retiro da Lagoa;Rua Acácio Garibaldi Santiago, n° 210 - Retiro da Lagoa;88062-420;(48) 3232-5199;ROBERTA BAYESTORFF;ebm.retirodalagoa@sme.pmf.sc.gov.br
+NEIM Vinculado Albertina Madalena Dias;Rua Cristóvão Machado de Campos, n° 1537 - Vargem Grande;88056-000;(48) 3269-5835;EDUARDO CALDAS DA SILVA;ebm.albertina@sme.pmf.sc.gov.br

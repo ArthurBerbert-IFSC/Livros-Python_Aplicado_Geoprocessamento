@@ -1,0 +1,31 @@
+{
+  "name": "IFSC Digital Book — Programação",
+  "short_name": "IFSC Book",
+  "description": "Livro digital interativo da disciplina PAG014903 — Programação Aplicada ao Geoprocessamento.",
+  "lang": "pt-BR",
+  "start_url": "./Página principal.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F8FAFC",
+  "theme_color": "#1B5E20",
+  "icons": [
+    {
+      "src": "imagens/logotipos/logo_IFSC.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

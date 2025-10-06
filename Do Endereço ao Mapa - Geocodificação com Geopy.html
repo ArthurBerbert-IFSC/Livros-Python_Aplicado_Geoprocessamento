@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#1B5E20">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="imagens/logotipos/logo_IFSC.png">
+    <title>Do Endereço ao Mapa — Geocodificação com Geopy — IFSC Digital Book</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'ifsc-green': '#1B5E20',
+                        'ifsc-gray': '#374151',
+                        'ifsc-soft': '#E6F4EA'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'Segoe UI', 'sans-serif']
+                    },
+                    maxWidth: {
+                        prose: '70ch'
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="estilos.v2.css">
+</head>
+<body class="bg-slate-50 text-ifsc-gray antialiased dark:bg-slate-950 dark:text-slate-100">
+    <div id="reading-progress" class="fixed top-0 left-0 h-1 w-full bg-ifsc-green/80 scale-x-0 transition-transform duration-200 origin-left z-50"></div>
+    <header class="bg-white/95 backdrop-blur shadow-md sticky top-0 z-40 dark:bg-slate-900/90">
+        <div class="border-b border-slate-200/60 dark:border-slate-700/60">
+            <div class="container mx-auto px-6 py-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                <div class="flex flex-wrap items-center justify-center gap-4 md:justify-start">
+                    <img src="imagens/logotipos/logo_IFSC.png" alt="Logotipo do IFSC" class="h-10 w-auto object-contain opacity-80 drop-shadow-sm dark:opacity-90" loading="lazy" onerror="this.style.display='none'">
+                    <img src="imagens/logotipos/logo_DACC.jpg" alt="Logotipo do DACC" class="h-10 w-auto object-contain opacity-80 drop-shadow-sm dark:opacity-90" loading="lazy" onerror="this.style.display='none'">
+                    <img src="imagens/logotipos/Logo_Curso_Geoprocessamento.jpg" alt="Logotipo do Curso de Geoprocessamento" class="h-10 w-auto object-contain opacity-80 drop-shadow-sm dark:opacity-90" loading="lazy" onerror="this.style.display='none'">
+                    <img src="imagens/logotipos/logo_Disciplina.png" alt="Logotipo da disciplina PAG014903" class="h-16 w-auto object-contain ring-2 ring-ifsc-green rounded-md shadow-md" loading="lazy" onerror="this.style.display='none'">
+                </div>
+                <div class="flex items-center gap-3 justify-center md:justify-end">
+                    <div class="text-center md:text-right">
+                        <p class="text-lg font-semibold text-ifsc-green dark:text-emerald-300">Fundamentos de Programação em Python</p>
+                        <p class="text-xs text-gray-500 dark:text-slate-300/80">v0.0.1</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="font-size-widget" role="group" aria-label="Controle de tamanho do texto">
+                            <button id="font-decrease" type="button" aria-label="Diminuir tamanho do texto">A-</button>
+                            <span class="font-size-widget-divider" aria-hidden="true"></span>
+                            <button id="font-increase" type="button" aria-label="Aumentar tamanho do texto">A+</button>
+                            <span class="font-size-widget-label" data-font-label aria-live="polite">Padrão</span>
+                        </div>
+                        <button id="theme-toggle" type="button" class="theme-toggle" aria-pressed="false" aria-label="Alternar tema">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                            </svg>
+                            <span data-mode-text>LIGHT</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center text-sm font-medium">
+            <a href="Página principal.html#capitulos" class="text-gray-600 hover:text-ifsc-green transition-colors dark:text-slate-300/80">&larr; Capítulos</a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="Página principal.html" class="py-2 px-3 text-gray-700 hover:text-ifsc-green transition-colors dark:text-slate-200">Início</a>
+                <a href="Página principal.html#capitulos" class="py-2 px-3 text-gray-700 hover:text-ifsc-green transition-colors dark:text-slate-200">Capítulos</a>
+                <a href="Página principal.html#sobre" class="py-2 px-3 text-gray-700 hover:text-ifsc-green transition-colors dark:text-slate-200">Sobre</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <div class="flex flex-col gap-10 lg:grid lg:grid-cols-[280px_minmax(0,1fr)]">
+
+        <aside class="order-2 lg:order-1">
+            <div class="sticky top-32 space-y-6 rounded-3xl border border-slate-200/70 bg-white/70 p-6 shadow-md backdrop-blur dark:border-slate-700/60 dark:bg-slate-900/60">
+                <h2 class="flex items-center gap-3 text-lg font-semibold text-ifsc-green dark:text-emerald-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 6v6l3 3" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                    Navegue pelo conteúdo
+                </h2>
+                <p class="text-sm text-gray-600 dark:text-slate-300/80">Use o sumário para pular diretamente entre conceitos, exemplos e laboratório prático.</p>
+                <nav>
+                    <ul id="toc-list" class="space-y-2 text-sm">
+                        <li class="text-slate-400">Carregando seções...</li>
+                    </ul>
+                </nav>
+                <div class="rounded-xl bg-ifsc-soft/70 p-4 text-xs text-ifsc-gray dark:bg-emerald-900/40 dark:text-emerald-100">
+                    <strong>Dica:</strong> combine este capítulo com os anteriores sobre Pandas e GeoPandas para um fluxo completo de ETL espacial.
+                </div>
+            </div>
+        </aside>
+
+
+        <article class="order-1 lg:order-2 rounded-3xl border border-slate-200/80 bg-white/95 shadow-xl backdrop-blur dark:border-slate-700/60 dark:bg-slate-900/80">
+            <div class="space-y-12 p-6 md:p-10">
+                <header class="space-y-6">
+                    <nav class="flex flex-wrap items-center gap-3 text-sm font-medium text-ifsc-green transition-colors hover:text-ifsc-green/80 dark:text-emerald-300">
+                        <a href="Página principal.html#capitulos" class="inline-flex items-center gap-2">
+                            <span aria-hidden="true">&larr;</span>
+                            <span>Voltar aos capítulos</span>
+                        </a>
+                        <span class="hidden md:inline-block text-gray-300 dark:text-slate-500">·</span>
+                        <a href="GeoPandas.html" class="inline-flex items-center gap-2">
+                            <span aria-hidden="true">&#x2190;</span>
+                            <span>Capítulo anterior</span>
+                        </a>
+                        <span class="hidden md:inline-block text-gray-300 dark:text-slate-500">·</span>
+                        <a href="Mapas Interativos com Python.html" class="inline-flex items-center gap-2">
+                            <span aria-hidden="true">&#x2192;</span>
+                            <span>Próximo capítulo</span>
+                        </a>
+                    </nav>
+                    <div class="space-y-4">
+                        <h1 class="flex flex-wrap items-center gap-3 text-3xl font-extrabold text-slate-800 dark:text-white md:text-4xl">
+                            <span class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-ifsc-soft text-ifsc-green shadow-inner dark:bg-emerald-900/40 dark:text-emerald-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 11l6-6 4 4 8-8"></path>
+                                    <path d="M14 7l7 7-4 4-7-7"></path>
+                                    <path d="M5 19h5"></path>
+                                </svg>
+                            </span>
+                            <span>Capítulo 5 · Do Endereço ao Mapa — Geocodificação com Geopy</span>
+                        </h1>
+                        <p class="max-w-prose text-lg leading-relaxed text-gray-600 dark:text-slate-300">Aprenda a transformar endereços em coordenadas, automatizar buscas em lote e preparar bases espaciais prontas para análise ou visualização.</p>
+                    </div>
+                    <div class="space-y-4 rounded-2xl border border-ifsc-green/20 bg-ifsc-soft/60 p-6 dark:border-emerald-500/30 dark:bg-emerald-900/20">
+                        <div class="space-y-2">
+                            <p class="text-sm font-semibold uppercase tracking-wide text-ifsc-green dark:text-emerald-300">Você vai aprender a</p>
+                            <ul class="space-y-2 text-sm text-ifsc-gray dark:text-slate-200">
+                                <li class="flex gap-2"><span class="mt-0.5">▹</span><span>Explicar o conceito de geocodificação e suas aplicações no geoprocessamento.</span></li>
+                                <li class="flex gap-2"><span class="mt-0.5">▹</span><span>Configurar o Geopy para consumir provedores confiáveis, como o ArcGIS.</span></li>
+                                <li class="flex gap-2"><span class="mt-0.5">▹</span><span>Geocodificar endereços individuais ou em lote e gerar planilhas com coordenadas.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </header>
+
+                <section id="introducao" data-toc="section" data-toc-title="Por que geocodificar?" class="space-y-6">
+                    <h2 class="text-2xl font-semibold text-ifsc-green dark:text-emerald-200">1. O que é geocodificação? Transformando texto em localização</h2>
+                    <p>Endereços como <em>"Avenida Mauro Ramos, 950"</em> ou <em>"Praça XV de Novembro"</em> são intuitivos para nós, mas computadores trabalham melhor com números. A geocodificação converte descrições textuais em pares de coordenadas (latitude e longitude), permitindo que sistemas GIS posicionem um pino no mapa.</p>
+                    <p>O processo inverso recebe o nome de <strong>geocodificação reversa</strong>: dado um par de coordenadas, obtemos o endereço correspondente. Ambas as direções sustentam análises espaciais modernas e integram planilhas a mapas.</p>
+                    <div class="rounded-2xl border-l-4 border-ifsc-green bg-white px-6 py-6 shadow-sm dark:border-emerald-500/40 dark:bg-slate-900/70">
+                        <h3 class="mb-3 flex items-center gap-2 text-lg font-semibold text-ifsc-green dark:text-emerald-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                                <path d="M13 2v7h7"></path>
+                            </svg>
+                            Por que isso é crucial no geoprocessamento?
+                        </h3>
+                        <ul class="list-disc list-inside space-y-2 text-sm text-gray-700 dark:text-slate-200">
+                            <li><strong>Enriquecimento de dados:</strong> planilhas com endereços passam a conter coordenadas, desbloqueando análises espaciais.</li>
+                            <li><strong>Análises avançadas:</strong> cálculos de distância, identificação de clusters e criação de mapas de calor dependem de pontos georreferenciados.</li>
+                            <li><strong>Aplicações modernas:</strong> logística, transporte e marketing baseiam-se em geocodificação para localizar clientes, criar rotas e definir áreas de influência.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="apis" data-toc="section" data-toc-title="APIs e Geopy" class="space-y-6">
+                    <h2 class="text-2xl font-semibold text-ifsc-green dark:text-emerald-200">2. Como funciona? APIs e a biblioteca Geopy</h2>
+                    <p>Construir um geocodificador do zero exigiria um banco global de endereços — tarefa reservada às grandes empresas. Felizmente, APIs prontas (Google, Here, TomTom, Esri) disponibilizam infraestrutura robusta mediante requisições HTTP.</p>
+                    <p>A biblioteca <strong>Geopy</strong> atua como um tradutor universal. Você usa métodos padronizados como <code>.geocode()</code>, e ela cuida de adaptar a chamada para o serviço escolhido. Trocar de provedor costuma ser tan-to simples quanto alterar uma linha de código.</p>
+                    <div class="rounded-2xl border-l-4 border-emerald-500 bg-emerald-50 px-6 py-6 shadow-sm dark:border-emerald-400/60 dark:bg-emerald-900/20">
+                        <h3 class="mb-2 flex items-center gap-2 text-lg font-semibold text-emerald-700 dark:text-emerald-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M8 21h8"></path>
+                                <path d="M12 17v4"></path>
+                                <path d="M7 5h10"></path>
+                                <path d="M17 5v8a5 5 0 0 1-5 5 5 5 0 0 1-5-5V5"></path>
+                            </svg>
+                            Dica do professor
+                        </h3>
+                        <p class="text-sm text-emerald-900 dark:text-emerald-100">Para projetos acadêmicos, o provedor ArcGIS equilibra qualidade e facilidade: não exige chave de API para uso básico e aceita um volume moderado de requisições.</p>
+                    </div>
+                    <details class="group rounded-xl border border-slate-200 bg-white/90 p-5 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/70">
+                        <summary class="flex cursor-pointer items-center gap-2 text-sm font-semibold text-ifsc-green transition group-open:text-ifsc-green/80 dark:text-emerald-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2v20"></path>
+                                <path d="m19 9-7 7-7-7"></path>
+                            </svg>
+                            Curiosidade: limites de uso
+                        </summary>
+                        <p class="mt-3 text-sm text-gray-600 dark:text-slate-300">Serviços como o Nominatim, baseado no OpenStreetMap, limitam o ritmo de requisições (tipicamente 1 por segundo) para evitar sobrecarga. Respeitar limites é parte da boa cidadania digital.</p>
+                    </details>
+                </section>
+
+                <section id="exemplo-unico" data-toc="section" data-toc-title="Geocodificando um endereço" class="space-y-6">
+                    <h2 class="text-2xl font-semibold text-ifsc-green dark:text-emerald-200">3. Mãos à obra: geocodificando seu primeiro endereço</h2>
+                    <p>Vamos localizar o IFSC Florianópolis com o provedor ArcGIS. Instale o Geopy no ambiente virtual do projeto:</p>
+                    <div class="code-container">
+                        <pre><code class="language-bash">pip install geopy</code></pre>
+                    </div>
+                    <p>O script abaixo organiza o fluxo em quatro etapas: importar, instanciar, geocodificar e validar o retorno.</p>
+                    <div class="code-container">
+<pre><code class="language-python"># 1. Importar a classe do provedor escolhido
+from geopy.geocoders import ArcGIS
+
+# 2. Criar o geocodificador (nosso "controle remoto")
+geolocator = ArcGIS()
+
+# 3. Enviar o endereço para a API
+endereco = "IFSC Florianópolis, Avenida Mauro Ramos, 950, Centro, Florianópolis, SC"
+print(f"Buscando as coordenadas para: '{endereco}'")
+
+try:
+    location = geolocator.geocode(endereco, timeout=10)
+
+    # 4. Conferir se o resultado é válido
+    if location:
+        print(f"\nEndereço completo encontrado: {location.address}")
+        print(f"Latitude: {location.latitude}")
+        print(f"Longitude: {location.longitude}")
+        print(f"Coordenadas: ({location.latitude}, {location.longitude})")
+        # print(f"Dados brutos: {location.raw}")
+    else:
+        print("\nEndereço não encontrado ou ambíguo. Tente detalhar mais.")
+
+except Exception as e:
+    print(f"\nOcorreu um erro durante a geocodificação: {e}")</code></pre>
+                    </div>
+                    <div class="rounded-2xl border-l-4 border-amber-500 bg-amber-50 px-6 py-6 shadow-sm dark:border-amber-400/60 dark:bg-amber-900/20">
+                        <h3 class="mb-2 flex items-center gap-2 text-lg font-semibold text-amber-700 dark:text-amber-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 9v2"></path>
+                                <path d="M12 17h.01"></path>
+                                <circle cx="12" cy="12" r="10"></circle>
+                            </svg>
+                            Atenção aos resultados
+                        </h3>
+                        <p class="text-sm text-amber-800 dark:text-amber-100">Se <code>location</code> for <code>None</code>, o endereço não foi encontrado. Sempre valide antes de acessar <code>location.latitude</code> para evitar erros <em>AttributeError</em>.</p>
+                    </div>
+                </section>
+
+                <section id="laboratorio" data-toc="section" data-toc-title="Processamento em lote" class="space-y-6">
+                    <h2 class="text-2xl font-semibold text-ifsc-green dark:text-emerald-200">4. Laboratório prático: geocodificando uma lista de escolas</h2>
+                    <p>Agora, aplicamos o conceito em lote. Se você já tem o arquivo <code>arquivos/NEIM.txt</code> da rede municipal de Florianópolis (disponível neste material), basta reutilizá-lo para gerar a lista simplificada de endereços. Utilize o botão abaixo para baixar o arquivo original direto para o seu computador.</p>
+                    <div class="flex flex-col gap-3 rounded-2xl border border-ifsc-green/30 bg-ifsc-soft/70 p-5 dark:border-emerald-500/40 dark:bg-emerald-900/20 md:flex-row md:items-center md:justify-between">
+                        <div class="space-y-1">
+                            <p class="text-sm font-semibold uppercase tracking-wide text-ifsc-green dark:text-emerald-300">Arquivo de referência</p>
+                            <p class="text-sm text-gray-600 dark:text-slate-300">Coleção completa dos NEIMs de Florianópolis com nome, endereço, CEP, contato e direção.</p>
+                        </div>
+                        <a href="arquivos/NEIM.txt" download class="group inline-flex items-center gap-2 rounded-xl border border-ifsc-green/60 bg-white px-4 py-2 text-sm font-semibold text-ifsc-green shadow-sm transition hover:bg-ifsc-green hover:text-white dark:border-emerald-400/70 dark:bg-slate-900/70 dark:text-emerald-200 dark:hover:bg-emerald-400 dark:hover:text-slate-900">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition group-hover:translate-y-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <path d="M7 10l5 5 5-5"></path>
+                                <path d="M12 15V3"></path>
+                            </svg>
+                            <span>Baixar NEIM.txt</span>
+                        </a>
+                    </div>
+                    <p>O fragmento abaixo cria automaticamente um <code>enderecos.txt</code> com apenas o nome da unidade e o endereço completo separados por ponto e vírgula.</p>
+                    <div class="code-container">
+<pre><code class="language-python">import pandas as pd
+from pathlib import Path
+
+fonte = Path('arquivos/NEIM.txt')
+destino = Path('enderecos.txt')
+
+df = pd.read_csv(fonte, sep=';', encoding='utf-8')
+
+df[['Nome', 'Endereço']].to_csv(destino, sep=';', index=False, header=False)
+
+print(f"Arquivo '{destino}' criado com {len(df)} endereços.")</code></pre>
+                    </div>
+                    <p>Se preferir manter tudo em um único arquivo, também é possível adaptar o script principal para ler diretamente o <code>NEIM.txt</code>; a versão abaixo mostra a abordagem com o arquivo reduzido <code>enderecos.txt</code>, ideal para focar nos campos essenciais.</p>
+                    <p>Com o arquivo de endereços pronto, confirme que cada linha possui o formato <code>nome;endereço</code>:</p>
+                    <div class="code-container">
+<pre><code class="language-none">NEIM Abraão;Rua João Meirelles, n° 1780 - Abraão, Florianópolis
+NEIM Anjo da Guarda;Rua João da Cruz Meira, n° 350 - Trindade, Florianópolis
+NEIM Campeche;Servidão Dionísio Rafhael Ignácio, n° 287 - Campeche, Florianópolis
+NEIM Coqueiros;Rua Bento Góia, n° 185 - Coqueiros, Florianópolis
+NEIM Ingleses I;Rua Três Maria, n° 1040 - Ingleses, Florianópolis
+Lugar Inválido;Rua Inexistente, 9999, Bairro Fantasma, Cidade Nenhuma</code></pre>
+                    </div>
+                    <p>O script a seguir lê cada linha, chama a API, respeita limites de uso e salva um CSV estruturado:</p>
+                    <div class="code-container">
+<pre><code class="language-python">import pandas as pd
+from geopy.geocoders import ArcGIS
+import time
+
+# --- 1. Configuração ---
+geolocator = ArcGIS()
+arquivo_entrada = 'enderecos.txt'
+arquivo_saida = 'escolas_geocodificadas.csv'
+resultados_geocodificados = []
+
+print(f"Iniciando a geocodificação do arquivo '{arquivo_entrada}'...")
+
+try:
+    with open(arquivo_entrada, 'r', encoding='utf-8') as f:
+        for linha in f:
+            if not linha.strip():
+                continue
+
+            partes = linha.strip().split(';')
+            if len(partes) != 2:
+                print(f"  - AVISO: Linha mal formatada, pulando: '{linha.strip()}'")
+                continue
+
+            nome_escola, endereco_para_buscar = partes
+            print(f"  - Geocodificando: {nome_escola}...")
+
+            try:
+                location = geolocator.geocode(endereco_para_buscar, timeout=10)
+
+                if location:
+                    resultados_geocodificados.append({
+                        'nome_escola': nome_escola,
+                        'endereco_encontrado': location.address,
+                        'latitude': location.latitude,
+                        'longitude': location.longitude
+                    })
+                else:
+                    print(f"    AVISO: Endereço para '{nome_escola}' não encontrado.")
+                    resultados_geocodificados.append({
+                        'nome_escola': nome_escola,
+                        'endereco_encontrado': 'NÃO ENCONTRADO',
+                        'latitude': None,
+                        'longitude': None
+                    })
+
+            except Exception as e:
+                print(f"    ERRO ao geocodificar '{nome_escola}': {e}")
+
+            time.sleep(1)  # Respeito ao rate limit
+
+except FileNotFoundError:
+    print(f"ERRO CRÍTICO: O arquivo '{arquivo_entrada}' não foi encontrado.")
+except Exception as e:
+    print(f"Ocorreu um erro inesperado: {e}")
+
+if resultados_geocodificados:
+    df_resultados = pd.DataFrame(resultados_geocodificados)
+    df_resultados.to_csv(arquivo_saida, index=False, encoding='utf-8-sig')
+    print(f"\nGeocodificação concluída! Resultados salvos em '{arquivo_saida}'.")
+else:
+    print("\nNenhum endereço foi processado.")</code></pre>
+                    </div>
+                    <p>O arquivo <code>escolas_geocodificadas.csv</code> gerado contém coordenadas prontas para o QGIS, Folium ou quaisquer análises espaciais subsequentes.</p>
+                </section>
+
+                <section id="exercicio" data-toc="section" data-toc-title="Exercício rápido" class="space-y-6">
+                    <div class="rounded-2xl border border-slate-200/80 bg-white/90 p-6 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/70">
+                        <h2 class="mb-4 flex items-center gap-3 text-xl font-semibold text-ifsc-green dark:text-emerald-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 11l3 3L22 4"></path>
+                                <path d="M2 20h6"></path>
+                                <path d="M9 20h13"></path>
+                                <path d="M2 14h6"></path>
+                                <path d="M9 14h13"></path>
+                            </svg>
+                            Exercício rápido
+                        </h2>
+                        <ol class="space-y-3 text-sm text-gray-700 dark:text-slate-200">
+                            <li><strong>Personalize a lista:</strong> inclua três endereços relevantes para seus projetos e avalie a precisão das coordenadas.</li>
+                            <li><strong>Valide resultados:</strong> abra o CSV no QGIS e confirme se os pontos coincidem com os locais esperados.</li>
+                            <li><strong>Experimente outro provedor:</strong> troque <code>ArcGIS()</code> por <code>Nominatim(user_agent="ifsc-geopy")</code> e compare diferenças.</li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="conclusao" data-toc="section" data-toc-title="Conclusão" class="space-y-4">
+                    <h2 class="text-2xl font-semibold text-ifsc-green dark:text-emerald-200">5. Conclusão e próximos passos</h2>
+                    <p>Você aprendeu a transformar textos em coordenadas, tratar erros de geocodificação e gerar outputs compatíveis com ferramentas de análise espacial. No próximo capítulo, integraremos esses dados a mapas interativos.</p>
+                </section>
+
+                <section id="navegacao" data-toc="section" data-toc-title="Navegação" class="mt-10">
+                    <nav aria-label="Navegação entre capítulos" class="flex flex-col gap-4 rounded-2xl border border-slate-200/80 bg-white/90 p-6 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/70">
+                        <p class="text-sm font-semibold uppercase tracking-wide text-ifsc-green dark:text-emerald-300">Continue sua jornada</p>
+                        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                            <a href="GeoPandas.html" class="group inline-flex items-center gap-2 rounded-xl border border-slate-200 px-4 py-3 text-sm font-medium text-slate-600 transition hover:border-ifsc-green hover:text-ifsc-green dark:border-slate-700 dark:text-slate-200 dark:hover:border-emerald-400 dark:hover:text-emerald-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition group-hover:-translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m15 18-6-6 6-6"></path>
+                                </svg>
+                                <span>Revisar capítulo anterior</span>
+                            </a>
+                            <a href="Mapas Interativos com Python.html" class="group inline-flex items-center gap-2 rounded-xl border border-ifsc-green px-4 py-3 text-sm font-semibold text-ifsc-green transition hover:bg-ifsc-green hover:text-white dark:border-emerald-400 dark:text-emerald-300 dark:hover:bg-emerald-400 dark:hover:text-slate-900">
+                                <span>Avançar para mapas interativos</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m9 18 6-6-6-6"></path>
+                                </svg>
+                            </a>
+                        </div>
+                        <p class="text-xs text-slate-500 dark:text-slate-300/80">Pronto para visualizar essas coordenadas? Vamos transformar CSVs em experiências interativas com Folium.</p>
+                    </nav>
+                </section>
+            </div>
+        </article>
+
+        </div>
+    </main>
+
+    <footer class="mt-8 bg-white shadow-inner dark:bg-slate-900/90">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-600 dark:text-slate-300">
+            <p class="text-base font-semibold text-ifsc-green">PAG014903 - PROGRAMAÇÃO APLICADA AO GEOPROCESSAMENTO</p>
+            <p class="text-sm">Curso Técnico em Geoprocessamento · DACC - IFSC Florianópolis</p>
+            <p class="text-sm">Professor responsável: Arthur Berbert</p>
+            <p class="text-xs text-gray-400 mt-2">Versão 2025-2</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="main.v2.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

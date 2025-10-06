@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#1B5E20">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="imagens/logotipos/logo_IFSC.png">
+    <title>A Base de Tudo — Variáveis e Dados Simples — IFSC Digital Book</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'ifsc-green': '#1B5E20',
+                        'ifsc-gray': '#374151',
+                        'ifsc-soft': '#E6F4EA'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'Segoe UI', 'sans-serif']
+                    },
+                    maxWidth: {
+                        prose: '70ch'
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="estilos.v2.css">
+</head>
+<body class="bg-slate-50 text-ifsc-gray antialiased dark:bg-slate-950 dark:text-slate-100">
+    <div id="reading-progress" class="fixed top-0 left-0 h-1 w-full bg-ifsc-green/80 scale-x-0 transition-transform duration-200 origin-left z-50"></div>
+    <header class="bg-white/95 backdrop-blur shadow-md sticky top-0 z-40 dark:bg-slate-900/90">
+        <div class="border-b border-slate-200/60 dark:border-slate-700/60">
+            <div class="container mx-auto px-6 py-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                <div class="flex flex-wrap items-center justify-center gap-4 md:justify-start">
+                    <img src="imagens/logotipos/logo_IFSC.png" alt="Logotipo do IFSC" class="h-10 w-auto object-contain opacity-80 drop-shadow-sm dark:opacity-90" loading="lazy" onerror="this.style.display='none'">
+                    <img src="imagens/logotipos/logo_DACC.jpg" alt="Logotipo do DACC" class="h-10 w-auto object-contain opacity-80 drop-shadow-sm dark:opacity-90" loading="lazy" onerror="this.style.display='none'">
+                    <img src="imagens/logotipos/Logo_Curso_Geoprocessamento.jpg" alt="Logotipo do Curso de Geoprocessamento" class="h-10 w-auto object-contain opacity-80 drop-shadow-sm dark:opacity-90" loading="lazy" onerror="this.style.display='none'">
+                    <img src="imagens/logotipos/logo_Disciplina.png" alt="Logotipo da disciplina PAG014903" class="h-16 w-auto object-contain ring-2 ring-ifsc-green rounded-md shadow-md" loading="lazy" onerror="this.style.display='none'">
+                </div>
+                <div class="flex items-center gap-3 justify-center md:justify-end">
+                    <div class="text-center md:text-right">
+                        <p class="text-lg font-semibold text-ifsc-green dark:text-emerald-300">Fundamentos de Programação em Python</p>
+                        <p class="text-xs text-gray-500 dark:text-slate-300/80">v0.0.1</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="font-size-widget" role="group" aria-label="Controle de tamanho do texto">
+                            <button id="font-decrease" type="button" aria-label="Diminuir tamanho do texto">A-</button>
+                            <span class="font-size-widget-divider" aria-hidden="true"></span>
+                            <button id="font-increase" type="button" aria-label="Aumentar tamanho do texto">A+</button>
+                            <span class="font-size-widget-label" data-font-label aria-live="polite">Padrão</span>
+                        </div>
+                        <button id="theme-toggle" type="button" class="theme-toggle" aria-pressed="false" aria-label="Alternar tema">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                            </svg>
+                            <span data-mode-text>LIGHT</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="Página principal.html#capitulos" class="text-sm uppercase tracking-wide text-gray-500 hover:text-ifsc-green transition-colors dark:text-slate-300/80">&larr; Capítulos</a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="Página principal.html" class="py-2 px-3 text-gray-700 hover:text-ifsc-green transition duration-300 dark:text-slate-200">Início</a>
+                <a href="Página principal.html#capitulos" class="py-2 px-3 text-gray-700 hover:text-ifsc-green transition duration-300 dark:text-slate-200">Capítulos</a>
+                <a href="Página principal.html#sobre" class="py-2 px-3 text-gray-700 hover:text-ifsc-green transition duration-300 dark:text-slate-200">Sobre</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <div class="flex flex-col gap-10 lg:grid lg:grid-cols-[280px_minmax(0,1fr)]">
+            <aside class="order-2 lg:order-1">
+                <div class="sticky top-32 space-y-6 rounded-3xl border border-slate-200/70 bg-white/70 p-6 shadow-md backdrop-blur dark:border-slate-700/60 dark:bg-slate-900/60">
+                    <h2 class="flex items-center gap-3 text-lg font-semibold text-ifsc-green dark:text-emerald-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 6v6l3 3" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                        Navegue pelo conteúdo
+                    </h2>
+                    <p class="text-sm text-gray-600 dark:text-slate-300/80">Acompanhe os blocos temáticos e avance no seu ritmo. Clique em um tópico para ir direto ao ponto.</p>
+                    <nav>
+                        <ul id="toc-list" class="space-y-2 text-sm">
+                            <li class="text-slate-400">Carregando seções...</li>
+                        </ul>
+                    </nav>
+                    <div class="rounded-xl bg-ifsc-soft/70 p-4 text-xs text-ifsc-gray dark:bg-emerald-900/40 dark:text-emerald-100">
+                        <strong>Dica:</strong> pressione <span class="rounded bg-white px-1 py-0.5 font-mono text-[0.65rem] shadow-sm">Ctrl</span> + <span class="rounded bg-white px-1 py-0.5 font-mono text-[0.65rem] shadow-sm">L</span> para focar a barra de endereços e voltar rapidamente à seção de capítulos.
+                    </div>
+                </div>
+            </aside>
+
+            <article class="order-1 lg:order-2 rounded-3xl border border-slate-200/80 bg-white/95 shadow-xl backdrop-blur dark:border-slate-700/60 dark:bg-slate-900/80">
+                <div class="space-y-12 p-6 md:p-10">
+                    <header class="space-y-6">
+                        <nav>
+                            <a href="Página principal.html#capitulos" class="inline-flex items-center gap-2 text-sm font-medium text-ifsc-green transition hover:text-ifsc-green/80 dark:text-emerald-300">
+                                <span aria-hidden="true">&larr;</span>
+                                <span>Voltar aos capítulos</span>
+                            </a>
+                        </nav>
+                        <div class="space-y-4">
+                            <h1 class="flex flex-wrap items-center gap-3 text-3xl font-extrabold text-slate-800 dark:text-white md:text-4xl">
+                                <span class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-ifsc-soft text-ifsc-green shadow-inner dark:bg-emerald-900/40 dark:text-emerald-200">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+                                        <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+                                        <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+                                        <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+                                    </svg>
+                                </span>
+                                <span>A Base de Tudo &mdash; Variáveis e Dados Simples</span>
+                            </h1>
+                            <p class="max-w-prose text-lg leading-relaxed text-gray-600 dark:text-slate-300">Descubra como o Python guarda informações, domine os tipos de dados fundamentais e cultive boas práticas que deixarão seu código claro e confiável desde o primeiro dia.</p>
+                        </div>
+                        <div class="space-y-4 rounded-2xl border border-ifsc-green/20 bg-ifsc-soft/60 p-6 dark:border-emerald-500/30 dark:bg-emerald-900/20">
+                            <div class="space-y-2">
+                                <p class="text-sm font-semibold uppercase tracking-wide text-ifsc-green dark:text-emerald-300">Você vai aprender a</p>
+                                <ul class="space-y-2 text-sm text-ifsc-gray dark:text-slate-200">
+                                    <li class="flex gap-2"><span class="mt-0.5">✅</span><span>Relacionar variáveis com a memória do computador.</span></li>
+                                    <li class="flex gap-2"><span class="mt-0.5">✅</span><span>Identificar os principais tipos de dados e quando usá-los.</span></li>
+                                    <li class="flex gap-2"><span class="mt-0.5">✅</span><span>Receber e converter informações digitadas pela pessoa usuária.</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </header>
+
+                    <section data-toc="section" data-toc-title="Introdução" class="space-y-6">
+                        <section class="rounded-2xl border-l-4 border-ifsc-green bg-white px-6 py-6 shadow-sm dark:border-emerald-500 dark:bg-slate-900/60">
+                            <h2 class="flex items-center gap-3 text-xl font-bold text-ifsc-green dark:text-emerald-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M9 18h6"></path>
+                                    <path d="M10 22h4"></path>
+                                    <path d="M12 2a6 6 0 0 0-4 10.65V14a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-1.35A6 6 0 0 0 12 2z"></path>
+                                </svg>
+                                Introdução: como o computador guarda informações?
+                            </h2>
+                            <p class="leading-relaxed text-gray-700 dark:text-slate-200">Todo programa, do script mais curto ao sistema que integra dados de campo, precisa manipular informações. Elas podem ser o nome de uma rua, a altura de um poste, uma coordenada GPS ou a lista de bairros da sua cidade. Para trabalhar com tudo isso, o computador reserva espaços temporários na memória RAM, e nós damos rótulos para encontrar esses espaços com facilidade: as variáveis.</p>
+                        </section>
+
+                        <div class="grid gap-6 lg:grid-cols-2">
+                            <div class="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/50">
+                                <h3 class="flex items-center gap-2 text-lg font-semibold text-slate-800 dark:text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+                                        <path d="M14 6h7"></path>
+                                        <path d="M14 10h7"></path>
+                                        <path d="M4 14h7"></path>
+                                        <path d="M4 18h7"></path>
+                                    </svg>
+                                    Analogia das caixinhas
+                                </h3>
+                                <p class="text-sm leading-relaxed text-gray-700 dark:text-slate-300">Imagine várias caixinhas etiquetadas em uma prateleira (a memória). Cada etiqueta é o nome da variável e dentro dela colocamos o valor que precisamos durante a execução do programa.</p>
+                                <ul class="mt-4 space-y-2 text-sm text-gray-600 dark:text-slate-300">
+                                    <li class="flex gap-2"><span class="mt-0.5">📦</span><span><strong>nome_da_rua</strong> guarda “Avenida Mauro Ramos”.</span></li>
+                                    <li class="flex gap-2"><span class="mt-0.5">📦</span><span><strong>numero_do_predio</strong> guarda <code class="font-mono">950</code>.</span></li>
+                                    <li class="flex gap-2"><span class="mt-0.5">📦</span><span><strong>tem_estacionamento</strong> guarda <code class="font-mono">True</code>.</span></li>
+                                </ul>
+                            </div>
+                            <div class="code-block">
+                                <pre><code class="language-python"># Criando "caixinhas" e etiquetando valores
+nome_da_rua = "Avenida Mauro Ramos"
+numero_do_predio = 950
+tem_estacionamento = True
+
+# Variáveis podem ser atualizadas ao longo do tempo
+temperatura_atual = 25.5
+temperatura_atual = 26.0  # entrou um novo valor na mesma caixinha</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="rounded-md bg-amber-50 border-l-4 border-amber-400 p-4 text-sm text-amber-900 dark:bg-amber-900/30 dark:text-amber-100">
+                            <div class="flex items-start gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="mt-0.5 h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M10.29 3.86 2.82 17.12A2 2 0 0 0 4.54 20h14.92a2 2 0 0 0 1.72-2.88L12.71 3.86a2 2 0 0 0-3.42 0Z"></path>
+                                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                </svg>
+                                <p><strong>Atenção:</strong> em Python o símbolo <code>=</code> significa atribuição. Para comparar valores usamos <code>==</code>. Guarde esta diferença para evitar bugs silenciosos.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section data-toc="section" data-toc-title="Tipos de dados" class="space-y-8">
+                        <div class="rounded-2xl border-l-4 border-ifsc-green bg-white px-6 py-6 shadow-sm dark:border-emerald-500 dark:bg-slate-900/60">
+                            <h2 class="flex items-center gap-3 text-xl font-bold text-ifsc-green dark:text-emerald-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 7h-9"></path>
+                                    <path d="M14 17H5"></path>
+                                    <circle cx="9" cy="7" r="2"></circle>
+                                    <circle cx="15" cy="17" r="2"></circle>
+                                </svg>
+                                Variáveis simples: os tipos que usamos todos os dias
+                            </h2>
+                            <p class="leading-relaxed text-gray-700 dark:text-slate-200">Chamamos de <strong>tipos primitivos</strong> os valores que representam uma única informação. Saber diferenciá-los garante precisão em cálculos, mapas e relatórios.</p>
+                        </div>
+
+                        <div class="space-y-6">
+                            <div class="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/50">
+                                <header class="flex items-center gap-3">
+                                    <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200">str</span>
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-slate-800 dark:text-white">String (<code>str</code>) — texto</h3>
+                                        <p class="text-sm text-gray-600 dark:text-slate-300">Perfeita para nomes, endereços, códigos de setor e qualquer dado qualitativo.</p>
+                                    </div>
+                                </header>
+                                <div class="mt-4 rounded-md bg-sky-50 p-4 text-sm text-sky-900 dark:bg-sky-900/30 dark:text-sky-100">
+                                    <strong>Ponto de atenção:</strong> CEPs, telefones e IDs devem ser strings para preservar zeros à esquerda e caracteres especiais.
+                                </div>
+                                <div class="code-block">
+                                    <pre><code class="language-python">nome_municipio = "Florianópolis"
+tipo_de_poste = "Concreto Armado"
+codigo_do_mapa = "FLN_MAPA_01"
+cep_ifsc = "88020-300"
+setor_censitario = "0014"
+
+print(type(nome_municipio))  # &lt;class 'str'&gt;</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/50">
+                                <header class="flex items-center gap-3">
+                                    <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200">int</span>
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-slate-800 dark:text-white">Integer (<code>int</code>) — números inteiros</h3>
+                                        <p class="text-sm text-gray-600 dark:text-slate-300">Use para contagens exatas, identificadores sequenciais e cálculos sem casas decimais.</p>
+                                    </div>
+                                </header>
+                                <div class="code-block">
+                                    <pre><code class="language-python">ano_de_fundacao = 1726
+quantidade_de_postes = 150
+populacao_setor_A = 534
+altitude_metros = 812
+
+print(type(quantidade_de_postes))  # &lt;class 'int'&gt;</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/50">
+                                <header class="flex items-center gap-3">
+                                    <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200">float</span>
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-slate-800 dark:text-white">Float (<code>float</code>) — números com casas decimais</h3>
+                                        <p class="text-sm text-gray-600 dark:text-slate-300">Fundamentais para coordenadas, distâncias, áreas e medições que exigem precisão.</p>
+                                    </div>
+                                </header>
+                                <div class="mt-4 rounded-md border-l-4 border-amber-400 bg-amber-50 p-4 text-sm text-amber-900 dark:bg-amber-900/30 dark:text-amber-100">
+                                    <strong>Atenção:</strong> sempre use ponto (<code>.</code>) como separador decimal. Vírgula (,) produz erros silenciosos.
+                                </div>
+                                <div class="code-block">
+                                    <pre><code class="language-python">latitude = -27.59397
+altura_do_poste = 8.5
+area_lote_m2 = 450.75
+distancia_km = 1.25
+
+print(type(latitude))  # &lt;class 'float'&gt;</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/50">
+                                <header class="flex items-center gap-3">
+                                    <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200">bool</span>
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-slate-800 dark:text-white">Boolean (<code>bool</code>) — verdadeiro ou falso</h3>
+                                        <p class="text-sm text-gray-600 dark:text-slate-300">São as respostas “sim” ou “não” que direcionam as decisões lógicas do programa.</p>
+                                    </div>
+                                </header>
+                                <div class="code-block">
+                                    <pre><code class="language-python">lampada_acesa = True
+requer_manutencao = False
+area_protegida = True
+dentro_do_limite_urbano = False
+
+print(type(lampada_acesa))  # &lt;class 'bool'&gt;</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section data-toc="section" data-toc-title="Nomeando variáveis" class="space-y-6">
+                        <div class="rounded-2xl border-l-4 border-ifsc-green bg-white px-6 py-6 shadow-sm dark:border-emerald-500 dark:bg-slate-900/60">
+                            <h2 class="flex items-center gap-3 text-xl font-bold text-ifsc-green dark:text-emerald-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M16 6H3"></path>
+                                    <path d="M13 12H3"></path>
+                                    <path d="M7 18H3"></path>
+                                    <path d="m20 18 2-2-2-2"></path>
+                                    <path d="M14 20a4 4 0 0 1 0-8"></path>
+                                </svg>
+                                Nomeando variáveis com clareza
+                            </h2>
+                            <p class="leading-relaxed text-gray-700 dark:text-slate-200">Um código com bons nomes se explica sozinho. Isso vale para revisões rápidas e para o trabalho em equipe.</p>
+                        </div>
+                        <div class="grid gap-6 md:grid-cols-2">
+                            <div class="rounded-xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/50">
+                                <h3 class="mb-3 flex items-center gap-2 text-lg font-semibold text-slate-800 dark:text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <path d="m14.31 8 5.74 9.94"></path>
+                                        <path d="M9.69 8h11.48"></path>
+                                        <path d="M7.38 12 1.64 2.06"></path>
+                                        <path d="M9.69 16H3"></path>
+                                    </svg>
+                                    Regras obrigatórias
+                                </h3>
+                                <ul class="space-y-2 text-sm text-gray-600 dark:text-slate-300">
+                                    <li>Comece com letra ou sublinhado. Ex.: <code>rua</code>, <code>_temporario</code>.</li>
+                                    <li>Use apenas letras, números e <code>_</code>. Evite espaços e símbolos.</li>
+                                    <li>Não utilize palavras reservadas como <code>for</code> ou <code>True</code>.</li>
+                                    <li>Lembre-se: <code>cidade</code>, <code>Cidade</code> e <code>CIDADE</code> são nomes diferentes.</li>
+                                </ul>
+                            </div>
+                            <div class="rounded-xl border border-emerald-200 bg-emerald-50/80 p-6 shadow-sm dark:border-emerald-500/40 dark:bg-emerald-900/30">
+                                <h3 class="mb-3 flex items-center gap-2 text-lg font-semibold text-emerald-700 dark:text-emerald-200">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="m9 11-6 6"></path>
+                                        <path d="m15 11 6 6"></path>
+                                        <path d="M9 5 3 11"></path>
+                                        <path d="M15 5h6"></path>
+                                    </svg>
+                                    Boas práticas que ajudam no dia a dia
+                                </h3>
+                                <ul class="space-y-2 text-sm text-emerald-800 dark:text-emerald-100">
+                                    <li>Prefira nomes descritivos, como <code>latitude_inicial</code>.</li>
+                                    <li>Adote o padrão <em>snake_case</em> para termos compostos.</li>
+                                    <li>Evite nomes quase iguais: <code>dado</code>, <code>dado1</code>, <code>dado2</code> geram confusão.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3 rounded-md border-l-4 border-emerald-400 bg-emerald-50 p-4 text-sm text-gray-700 dark:border-emerald-500/40 dark:bg-emerald-900/30 dark:text-emerald-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mt-0.5 h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 14v4"></path>
+                                <path d="M8 14c0 1.381.561 2.632 1.464 3.536C10.368 18.439 11.619 19 13 19h0c1.381 0 2.632-.561 3.536-1.464C17.439 16.632 18 15.381 18 14c0-1.381-.561-2.632-1.464-3.536C15.632 9.561 14.381 9 13 9h-2c-1.381 0-2.632-.561-3.536-1.464C6.561 6.632 6 5.381 6 4" opacity="0.7"></path>
+                                <path d="M6 2v2"></path>
+                            </svg>
+                            <p><strong>Dica do professor:</strong> quando o nome da variável deixa claro o que ela guarda, você pode reduzir a quantidade de comentários e focar em explicar o “porquê” do algoritmo.</p>
+                        </div>
+                    </section>
+
+                    <section data-toc="section" data-toc-title="Entrada e conversão" class="space-y-6">
+                        <div class="rounded-2xl border-l-4 border-ifsc-green bg-white px-6 py-6 shadow-sm dark:border-emerald-500 dark:bg-slate-900/60">
+                            <h2 class="flex items-center gap-3 text-xl font-bold text-ifsc-green dark:text-emerald-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 4h16"></path>
+                                    <path d="M4 8h16"></path>
+                                    <path d="M4 12h16"></path>
+                                    <path d="M8 16h8"></path>
+                                    <path d="M10 20h4"></path>
+                                </svg>
+                                Entrada de dados e conversões necessárias
+                            </h2>
+                            <p class="leading-relaxed text-gray-700 dark:text-slate-200">Programas interativos recebem dados com <code>input()</code>. Essa função sempre devolve texto, por isso precisamos convertê-lo quando desejamos operar numericamente.</p>
+                        </div>
+                        <div class="grid gap-6 lg:grid-cols-2">
+                            <div class="code-block">
+                                <pre><code class="language-python">cidade = input("Digite o nome da sua cidade: ")
+print(f"Você mora em {cidade}")
+
+valor1 = input("Primeiro número: ")
+valor2 = input("Segundo número: ")
+
+# Atenção: aqui ainda são strings!
+soma_errada = valor1 + valor2
+print(soma_errada)  # '105' se a pessoa digitar 10 e 5</code></pre>
+                            </div>
+                            <div class="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/50">
+                                <h3 class="mb-3 flex items-center gap-2 text-lg font-semibold text-slate-800 dark:text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M4 7h16"></path>
+                                        <path d="M4 12h16"></path>
+                                        <path d="M4 17h16"></path>
+                                        <path d="M9 4v3"></path>
+                                        <path d="M15 4v3"></path>
+                                    </svg>
+                                    Conversão explícita salva o resultado
+                                </h3>
+                                <p class="text-sm text-gray-700 dark:text-slate-300">Transforme para inteiro ou decimal antes de calcular:</p>
+                                <div class="mt-4 code-block">
+                                    <pre><code class="language-python">valor1 = int(input("Primeiro número: "))
+valor2 = int(input("Segundo número: "))
+
+soma = valor1 + valor2
+print(f"Resultado correto: {soma}")
+
+idade = int(input("Sua idade: "))
+altura = float(input("Altura em metros: "))</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section data-toc="section" data-toc-title="Operadores" class="space-y-6">
+                        <div class="rounded-2xl border-l-4 border-ifsc-green bg-white px-6 py-6 shadow-sm dark:border-emerald-500 dark:bg-slate-900/60">
+                            <h2 class="flex items-center gap-3 text-xl font-bold text-ifsc-green dark:text-emerald-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 5v14"></path>
+                                    <path d="M5 12h14"></path>
+                                    <path d="M19 5l-7 14"></path>
+                                    <path d="M5 5l7 14"></path>
+                                </svg>
+                                Operadores aritméticos no dia a dia
+                            </h2>
+                            <p class="leading-relaxed text-gray-700 dark:text-slate-200">Somar, subtrair, multiplicar e dividir funcionam como você espera. A tabela resume os principais símbolos:</p>
+                        </div>
+                        <div class="overflow-x-auto rounded-2xl border border-slate-200 bg-white/80 shadow-sm dark:border-slate-700 dark:bg-slate-900/50">
+                            <table class="min-w-full text-left text-sm text-gray-700 dark:text-slate-200">
+                                <thead class="bg-slate-100/80 text-xs uppercase tracking-wide text-slate-500 dark:bg-slate-800/80 dark:text-slate-300">
+                                    <tr>
+                                        <th class="px-4 py-3">Operador</th>
+                                        <th class="px-4 py-3">Descrição</th>
+                                        <th class="px-4 py-3">Exemplo</th>
+                                        <th class="px-4 py-3">Resultado</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+                                    <tr>
+                                        <td class="px-4 py-3 font-mono text-sm">+</td>
+                                        <td class="px-4 py-3">Adição</td>
+                                        <td class="px-4 py-3">5 + 3</td>
+                                        <td class="px-4 py-3">8</td>
+                                    </tr>
+                                    <tr class="bg-slate-50/70 dark:bg-slate-800/40">
+                                        <td class="px-4 py-3 font-mono text-sm">-</td>
+                                        <td class="px-4 py-3">Subtração</td>
+                                        <td class="px-4 py-3">5 - 3</td>
+                                        <td class="px-4 py-3">2</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 font-mono text-sm">*</td>
+                                        <td class="px-4 py-3">Multiplicação</td>
+                                        <td class="px-4 py-3">5 * 3</td>
+                                        <td class="px-4 py-3">15</td>
+                                    </tr>
+                                    <tr class="bg-slate-50/70 dark:bg-slate-800/40">
+                                        <td class="px-4 py-3 font-mono text-sm">/</td>
+                                        <td class="px-4 py-3">Divisão (sempre float)</td>
+                                        <td class="px-4 py-3">10 / 2</td>
+                                        <td class="px-4 py-3">5.0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 font-mono text-sm">//</td>
+                                        <td class="px-4 py-3">Divisão inteira (quociente)</td>
+                                        <td class="px-4 py-3">10 // 3</td>
+                                        <td class="px-4 py-3">3</td>
+                                    </tr>
+                                    <tr class="bg-slate-50/70 dark:bg-slate-800/40">
+                                        <td class="px-4 py-3 font-mono text-sm">%</td>
+                                        <td class="px-4 py-3">Resto da divisão</td>
+                                        <td class="px-4 py-3">10 % 3</td>
+                                        <td class="px-4 py-3">1</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 font-mono text-sm">**</td>
+                                        <td class="px-4 py-3">Exponenciação</td>
+                                        <td class="px-4 py-3">2 ** 3</td>
+                                        <td class="px-4 py-3">8</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="grid gap-6 lg:grid-cols-2">
+                            <div class="code-block">
+                                <pre><code class="language-python">resultado_errado = 10 + 20 / 2  # Divisão acontece primeiro
+print(f"Resultado errado: {resultado_errado}")
+
+resultado_correto = (10 + 20) / 2  # Forçando a soma vir antes
+print(f"Resultado correto: {resultado_correto}")
+</code></pre>
+                            </div>
+                            <div class="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/50">
+                                <h3 class="mb-2 flex items-center gap-2 text-lg font-semibold text-slate-800 dark:text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M12 20h9"></path>
+                                        <path d="m19 10-7 7-7-7"></path>
+                                        <path d="M12 4v12"></path>
+                                    </svg>
+                                    Curiosidade
+                                </h3>
+                                <p class="text-sm text-gray-700 dark:text-slate-300">Em Python, o operador <code>//</code> sempre arredonda para baixo. Em trabalhos com coordenadas, use-o para converter segundos em graus inteiros.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section data-toc="section" data-toc-title="f-strings" class="space-y-6">
+                        <div class="rounded-2xl border-l-4 border-ifsc-green bg-white px-6 py-6 shadow-sm dark:border-emerald-500 dark:bg-slate-900/60">
+                            <h2 class="flex items-center gap-3 text-xl font-bold text-ifsc-green dark:text-emerald-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 19.5V8l8-4 8 4v11.5"></path>
+                                    <path d="M8 21l8-4 8 4"></path>
+                                    <path d="M8 13l8 4"></path>
+                                </svg>
+                                Formatação elegante com f-strings
+                            </h2>
+                            <p class="leading-relaxed text-gray-700 dark:text-slate-200">As f-strings dão clareza às mensagens e evitam concatenações confusas:</p>
+                        </div>
+                        <div class="grid gap-6 lg:grid-cols-2">
+                            <div class="code-block">
+                                <pre><code class="language-python">proprietario = "Ana"
+area = 450.753
+lote = "A-15"
+
+print(f"O lote {lote}, pertencente a {proprietario}, possui {area:.2f} m².")
+print(f"Geocódigo: {lote.lower()}-{area:.0f}")</code></pre>
+                            </div>
+                            <div class="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/50">
+                                <p class="text-sm text-gray-700 dark:text-slate-300">Dentro das chaves, você pode colocar expressões, aplicar filtros de formatação (<code>:.2f</code> para duas casas decimais) e até chamar funções. Aproveite para padronizar unidades e mensagens.</p>
+                            </div>
+                        </div>
+                        <details class="group rounded-2xl border border-slate-200 bg-white/80 p-6 text-sm text-gray-700 shadow-sm dark:border-slate-700 dark:bg-slate-900/50 dark:text-slate-300">
+                            <summary class="flex cursor-pointer items-center gap-2 font-semibold text-ifsc-green dark:text-emerald-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 3v18"></path>
+                                    <path d="M5 12h14"></path>
+                                    <path d="m5 19 14-14"></path>
+                                </svg>
+                                Exemplo avançado: interpolando funções
+                            </summary>
+                            <div class="mt-4 code-block">
+                                <pre><code class="language-python">def formatar_endereco(rua, numero, cidade):
+    return f"{rua}, {numero} - {cidade.upper()}"
+print(formatar_endereco("Rua das Acácias", 120, "Florianópolis"))</code></pre>
+                            </div>
+                        </details>
+                    </section>
+
+                    <section data-toc="section" data-toc-title="Exercício rápido" class="space-y-6">
+                        <div class="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/50">
+                            <h2 class="flex items-center gap-3 text-xl font-bold text-ifsc-green dark:text-emerald-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m8 6 4-4 4 4"></path>
+                                    <path d="M12 2v20"></path>
+                                    <path d="m8 18 4 4 4-4"></path>
+                                </svg>
+                                Exercício rápido
+                            </h2>
+                            <ol class="list-decimal space-y-3 pl-5 text-sm text-gray-700 dark:text-slate-300">
+                                <li>Crie três variáveis para armazenar: nome de um bairro, número de domicílios e densidade populacional (float).</li>
+                                <li>Peça para a pessoa usuária digitar a área do bairro (em km²) e calcule a densidade automaticamente.</li>
+                                <li>Mostre o resultado em uma frase usando f-string, com a densidade formatada com duas casas decimais.</li>
+                            </ol>
+                            <p class="mt-4 text-xs text-gray-500 dark:text-slate-400">Sugestão: compartilhe sua solução no fórum da turma para comparar abordagens.</p>
+                        </div>
+                    </section>
+
+                    <section data-toc="section" data-toc-title="Conclusão" class="space-y-6">
+                        <div class="rounded-2xl border-l-4 border-ifsc-green bg-white px-6 py-6 shadow-sm dark:border-emerald-500 dark:bg-slate-900/60">
+                            <h2 class="flex items-center gap-3 text-xl font-bold text-ifsc-green dark:text-emerald-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M10 2h4"></path>
+                                    <path d="M12 2v20"></path>
+                                    <path d="M18 6H6"></path>
+                                    <path d="M16 10H8"></path>
+                                    <path d="M14 14h-4"></path>
+                                </svg>
+                                Conclusão e próximos passos
+                            </h2>
+                            <p class="leading-relaxed text-gray-700 dark:text-slate-200">Você agora entende como o Python armazena e manipula informações fundamentais:</p>
+                            <ul class="space-y-2 text-sm text-gray-700 dark:text-slate-300">
+                                <li>Variáveis como rótulos para a memória do computador.</li>
+                                <li>Tipos primitivos (string, int, float, bool) e seus usos.</li>
+                                <li>Como nomear variáveis com clareza e coerência.</li>
+                                <li>O papel de <code>input()</code> e das conversões para inteiros e decimais.</li>
+                                <li>Operadores matemáticos e f-strings para exibir resultados profissionais.</li>
+                            </ul>
+                            <p class="leading-relaxed text-gray-700 dark:text-slate-200">Na próxima etapa, vamos reunir várias “caixinhas” em estruturas mais poderosas, como listas e dicionários, preparando o terreno para manipular dados geoespaciais reais.</p>
+                        </div>
+                    </section>
+
+                    <nav aria-label="Navegação entre capítulos" class="flex flex-col gap-4 rounded-2xl border border-slate-200/80 bg-white/90 p-6 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/70">
+                        <p class="text-sm font-semibold uppercase tracking-wide text-ifsc-green dark:text-emerald-300">Continue sua jornada</p>
+                        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                            <a href="Página principal.html#capitulos" class="group inline-flex items-center gap-2 rounded-xl border border-slate-200 px-4 py-3 text-sm font-medium text-slate-600 transition hover:border-ifsc-green hover:text-ifsc-green dark:border-slate-600 dark:text-slate-200 dark:hover:border-emerald-500 dark:hover:text-emerald-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition group-hover:-translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m15 18-6-6 6-6"></path>
+                                </svg>
+                                <span>Voltar aos capítulos</span>
+                            </a>
+                            <a href="Estruturas_de_Dados_Essenciais.html" class="group inline-flex items-center gap-2 rounded-xl border border-ifsc-green px-4 py-3 text-sm font-semibold text-ifsc-green transition hover:bg-ifsc-green hover:text-white dark:border-emerald-400 dark:text-emerald-200 dark:hover:bg-emerald-500/80 dark:hover:text-white">
+                                <span>Ir para o próximo capítulo</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m9 18 6-6-6-6"></path>
+                                </svg>
+                            </a>
+                        </div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Capítulo 2 será publicado em breve. Volte à seção de capítulos para acompanhar as atualizações e acessar materiais complementares.</p>
+                    </nav>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <footer class="mt-8 bg-white shadow-inner dark:bg-slate-900/90">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-600 dark:text-slate-300">
+            <p class="text-base font-semibold text-ifsc-green">PAG014903 - PROGRAMAÇÃO APLICADA AO GEOPROCESSAMENTO</p>
+            <p class="text-sm">Curso Técnico em Geoprocessamento · DACC - IFSC Florianópolis</p>
+            <p class="text-sm">Professor responsável: Arthur Berbert</p>
+            <p class="text-xs text-gray-400 mt-2">Versão 2025-2</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="main.v2.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

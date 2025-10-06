@@ -1,0 +1,490 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#1B5E20">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="imagens/logotipos/logo_IFSC.png">
+    <title>Dando Inteligência ao Código — Decisões e Loops — IFSC Digital Book</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'ifsc-green': '#1B5E20',
+                        'ifsc-gray': '#374151',
+                        'ifsc-soft': '#E6F4EA'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'Segoe UI', 'sans-serif']
+                    },
+                    maxWidth: {
+                        prose: '70ch'
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="estilos.v2.css">
+</head>
+<body class="bg-slate-50 text-ifsc-gray antialiased dark:bg-slate-950 dark:text-slate-100">
+    <div id="reading-progress" class="fixed top-0 left-0 h-1 w-full bg-ifsc-green/80 scale-x-0 transition-transform duration-200 origin-left z-50"></div>
+    <header class="bg-white/95 backdrop-blur shadow-md sticky top-0 z-40 dark:bg-slate-900/90">
+        <div class="border-b border-slate-200/60 dark:border-slate-700/60">
+            <div class="container mx-auto px-6 py-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                <div class="flex flex-wrap items-center justify-center gap-4 md:justify-start">
+                    <img src="imagens/logotipos/logo_IFSC.png" alt="Logotipo do IFSC" class="h-10 w-auto object-contain opacity-80 drop-shadow-sm dark:opacity-90" loading="lazy" onerror="this.style.display='none'">
+                    <img src="imagens/logotipos/logo_DACC.jpg" alt="Logotipo do DACC" class="h-10 w-auto object-contain opacity-80 drop-shadow-sm dark:opacity-90" loading="lazy" onerror="this.style.display='none'">
+                    <img src="imagens/logotipos/Logo_Curso_Geoprocessamento.jpg" alt="Logotipo do Curso de Geoprocessamento" class="h-10 w-auto object-contain opacity-80 drop-shadow-sm dark:opacity-90" loading="lazy" onerror="this.style.display='none'">
+                    <img src="imagens/logotipos/logo_Disciplina.png" alt="Logotipo da disciplina PAG014903" class="h-16 w-auto object-contain ring-2 ring-ifsc-green rounded-md shadow-md" loading="lazy" onerror="this.style.display='none'">
+                </div>
+                <div class="flex items-center gap-3 justify-center md:justify-end">
+                    <div class="text-center md:text-right">
+                        <p class="text-lg font-semibold text-ifsc-green dark:text-emerald-300">Fundamentos de Programação em Python</p>
+                        <p class="text-xs text-gray-500 dark:text-slate-300/80">v0.0.1</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="font-size-widget" role="group" aria-label="Controle de tamanho do texto">
+                            <button id="font-decrease" type="button" aria-label="Diminuir tamanho do texto">A-</button>
+                            <span class="font-size-widget-divider" aria-hidden="true"></span>
+                            <button id="font-increase" type="button" aria-label="Aumentar tamanho do texto">A+</button>
+                            <span class="font-size-widget-label" data-font-label aria-live="polite">Padrão</span>
+                        </div>
+                        <button id="theme-toggle" type="button" class="theme-toggle" aria-pressed="false" aria-label="Alternar tema">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                            </svg>
+                            <span data-mode-text>LIGHT</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center text-sm font-medium">
+            <a href="Página principal.html#capitulos" class="text-gray-600 hover:text-ifsc-green transition-colors dark:text-slate-300/80">&larr; Capítulos</a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="Página principal.html" class="py-2 px-3 text-gray-700 hover:text-ifsc-green transition-colors dark:text-slate-200">Início</a>
+                <a href="Página principal.html#capitulos" class="py-2 px-3 text-gray-700 hover:text-ifsc-green transition-colors dark:text-slate-200">Capítulos</a>
+                <a href="Página principal.html#sobre" class="py-2 px-3 text-gray-700 hover:text-ifsc-green transition-colors dark:text-slate-200">Sobre</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <div class="flex flex-col gap-10 lg:grid lg:grid-cols-[280px_minmax(0,1fr)]">
+
+        <aside class="order-2 lg:order-1">
+            <div class="sticky top-32 space-y-6 rounded-3xl border border-slate-200/70 bg-white/70 p-6 shadow-md backdrop-blur dark:border-slate-700/60 dark:bg-slate-900/60">
+                <h2 class="flex items-center gap-3 text-lg font-semibold text-ifsc-green dark:text-emerald-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 6v6l3 3" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                    Navegue pelo conteúdo
+                </h2>
+                <p class="text-sm text-gray-600 dark:text-slate-300/80">Acompanhe os blocos temáticos e avance no seu ritmo. Clique em um tópico para ir direto ao ponto.</p>
+                <nav>
+                    <ul id="toc-list" class="space-y-2 text-sm">
+                        <li class="text-slate-400">Carregando seções...</li>
+                    </ul>
+                </nav>
+                <div class="rounded-xl bg-ifsc-soft/70 p-4 text-xs text-ifsc-gray dark:bg-emerald-900/40 dark:text-emerald-100">
+                    <strong>Dica:</strong> pressione <span class="rounded bg-white px-1 py-0.5 font-mono text-[0.65rem] shadow-sm">Ctrl</span> + <span class="rounded bg-white px-1 py-0.5 font-mono text-[0.65rem] shadow-sm">L</span> para focar o endereço e retornar rapidamente ao sumário.
+                </div>
+            </div>
+        </aside>
+
+
+        <article class="order-1 lg:order-2 rounded-3xl border border-slate-200/80 bg-white/95 shadow-xl backdrop-blur dark:border-slate-700/60 dark:bg-slate-900/80">
+            <div class="space-y-12 p-6 md:p-10">
+                <header class="space-y-6">
+                    <nav class="flex flex-wrap items-center gap-3 text-sm font-medium text-ifsc-green transition-colors hover:text-ifsc-green/80 dark:text-emerald-300">
+                        <a href="Página principal.html#capitulos" class="inline-flex items-center gap-2">
+                            <span aria-hidden="true">&larr;</span>
+                            <span>Voltar aos capítulos</span>
+                        </a>
+                        <span class="hidden md:inline-block text-gray-300 dark:text-slate-500">·</span>
+                        <a href="Estruturas_de_Dados_Essenciais.html" class="inline-flex items-center gap-2">
+                            <span aria-hidden="true">&#x2190;</span>
+                            <span>Capítulo anterior</span>
+                        </a>
+                    </nav>
+                    <div class="space-y-4">
+                        <h1 class="flex flex-wrap items-center gap-3 text-3xl font-extrabold text-slate-800 dark:text-white md:text-4xl">
+                            <span class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-ifsc-soft text-ifsc-green shadow-inner dark:bg-emerald-900/40 dark:text-emerald-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 12h-6"></path>
+                                    <path d="M15 12L18 9"></path>
+                                    <path d="M15 12l3 3"></path>
+                                    <path d="M3 12h6"></path>
+                                    <path d="M9 12l-3 3"></path>
+                                    <path d="M9 12L6 9"></path>
+                                </svg>
+                            </span>
+                            <span>Dando Inteligência ao Código — Decisões e Loops</span>
+                        </h1>
+                        <p class="max-w-prose text-lg leading-relaxed text-gray-600 dark:text-slate-300">Transforme scripts lineares em sistemas que tomam decisões, repetem tarefas automaticamente e respondem a cenários complexos.</p>
+                    </div>
+                    <div class="space-y-4 rounded-2xl border border-ifsc-green/20 bg-ifsc-soft/60 p-6 dark:border-emerald-500/30 dark:bg-emerald-900/20">
+                        <div class="space-y-2">
+                            <p class="text-sm font-semibold uppercase tracking-wide text-ifsc-green dark:text-emerald-300">Você vai aprender a</p>
+                            <ul class="space-y-2 text-sm text-ifsc-gray dark:text-slate-200">
+                                <li class="flex gap-2"><span class="mt-0.5">▹</span><span>Configurar blocos <code>if/elif/else</code> para controlar o fluxo.</span></li>
+                                <li class="flex gap-2"><span class="mt-0.5">▹</span><span>Automatizar tarefas com laços <code>for</code> e <code>while</code>.</span></li>
+                                <li class="flex gap-2"><span class="mt-0.5">▹</span><span>Usar <code>break</code> e <code>continue</code> para refinar algoritmos.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </header>
+                                            <section class="prose max-w-none lg:prose-xl">
+                                                <section id="introducao" data-toc="section" data-toc-title="Introdução">
+                                                    <h2>3.1 Introdução: Deixando o Código "Pensar"</h2>
+                                                    <p>Até aqui, nossos programas seguiram uma sequência rígida de instruções, executando tudo em linha reta. A verdadeira força da programação, porém, surge quando permitimos que o código reaja aos dados, tome decisões e repita ações automaticamente.</p>
+                                                    <p>Neste capítulo, exploramos as duas estruturas que dão essa inteligência ao Python:</p>
+                                                    <ul>
+                                                        <li><strong>Blocos de decisão (<code>if</code>)</strong>: escolhem caminhos diferentes com base em condições.</li>
+                                                        <li><strong>Laços de repetição (<em>loops</em>)</strong>: repetem tarefas sem esforço manual.</li>
+                                                    </ul>
+                                                    <p>Com elas, nossa “estrada reta” passa a ter desvios, cruzamentos e retornos controlados, permitindo construir soluções autônomas e robustas.</p>
+                                                </section>
+
+                                                <section id="estruturas-decisao" data-toc="section" data-toc-title="Estruturas de decisão">
+                                                    <h2>3.2 Estruturas de Decisão: Aprofundando no <code>if</code></h2>
+                                                    <p>O bloco <code>if/elif/else</code> funciona como um guarda de trânsito, direcionando o fluxo conforme os dados. Para isso, ele depende de operadores de comparação que retornam valores booleanos (<code>True</code> ou <code>False</code>).</p>
+
+                                                    <h3>Operadores de Comparação</h3>
+                                                    <div class="overflow-x-auto">
+                                                        <table class="w-full text-sm border border-slate-200 shadow-sm">
+                                                            <thead class="bg-slate-100 text-slate-600 uppercase tracking-wide text-xs">
+                                                                <tr>
+                                                                    <th class="px-4 py-3 text-left">Operador</th>
+                                                                    <th class="px-4 py-3 text-left">Descrição</th>
+                                                                    <th class="px-4 py-3 text-left">Exemplo (a = 5)</th>
+                                                                    <th class="px-4 py-3 text-left">Resultado</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody class="divide-y divide-slate-200">
+                                                                <tr>
+                                                                    <td class="px-4 py-2 font-mono">==</td>
+                                                                    <td class="px-4 py-2">É igual a?</td>
+                                                                    <td class="px-4 py-2 font-mono">a == 5</td>
+                                                                    <td class="px-4 py-2 font-semibold text-ifsc-green">True</td>
+                                                                </tr>
+                                                                <tr class="bg-slate-50">
+                                                                    <td class="px-4 py-2 font-mono">!=</td>
+                                                                    <td class="px-4 py-2">É diferente de?</td>
+                                                                    <td class="px-4 py-2 font-mono">a != 3</td>
+                                                                    <td class="px-4 py-2 font-semibold text-ifsc-green">True</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="px-4 py-2 font-mono">&gt;</td>
+                                                                    <td class="px-4 py-2">É maior que?</td>
+                                                                    <td class="px-4 py-2 font-mono">a &gt; 4</td>
+                                                                    <td class="px-4 py-2 font-semibold text-ifsc-green">True</td>
+                                                                </tr>
+                                                                <tr class="bg-slate-50">
+                                                                    <td class="px-4 py-2 font-mono">&lt;</td>
+                                                                    <td class="px-4 py-2">É menor que?</td>
+                                                                    <td class="px-4 py-2 font-mono">a &lt; 5</td>
+                                                                    <td class="px-4 py-2 font-semibold text-rose-500">False</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="px-4 py-2 font-mono">&gt;=</td>
+                                                                    <td class="px-4 py-2">É maior ou igual a?</td>
+                                                                    <td class="px-4 py-2 font-mono">a &gt;= 5</td>
+                                                                    <td class="px-4 py-2 font-semibold text-ifsc-green">True</td>
+                                                                </tr>
+                                                                <tr class="bg-slate-50">
+                                                                    <td class="px-4 py-2 font-mono">&lt;=</td>
+                                                                    <td class="px-4 py-2">É menor ou igual a?</td>
+                                                                    <td class="px-4 py-2 font-mono">a &lt;= 4</td>
+                                                                    <td class="px-4 py-2 font-semibold text-rose-500">False</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </section>
+
+                                                <section id="tipos-de-if">
+                                                    <h3>3.2.1 Do <code>if</code> Simples ao <code>if/elif/else</code></h3>
+                                                    <ol class="list-decimal list-inside space-y-4">
+                                                        <li>
+                                                            <p><strong><code>if</code> simples</strong>: executa o bloco apenas quando a condição é verdadeira.</p>
+                                                            <div class="code-container">
+                                                                <pre><code class="language-python"># Exemplo: Classificação de Risco Geológico
+                                declividade = 35  # em graus
+
+                                # Apenas executa a ação se a declividade for considerada de risco
+                                if declividade &gt; 30:
+                                    print("Alerta: Risco alto de deslizamento devido à declividade acentuada.")</code></pre>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <p><strong><code>if</code>/<code>else</code></strong>: oferece um caminho alternativo quando a condição inicial é falsa.</p>
+                                                            <div class="code-container">
+                                                                <pre><code class="language-python"># Exemplo: Verificação de balneabilidade de uma praia
+                                situacao_da_praia = "Regular"
+
+                                if situacao_da_praia == "Boa":
+                                    print("Status: Praia liberada para banho.")
+                                else:
+                                    print("Status: Praia com restrições. Verifique a qualidade da água.")</code></pre>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <p><strong><code>if</code>/<code>elif</code>/<code>else</code></strong>: avalia múltiplas possibilidades sem repetir comparações.</p>
+                                                            <div class="code-container">
+                                                                <pre><code class="language-python"># Exemplo: Simbolização de um mapa de declividade
+                                declividade = 12  # em graus
+                                simbologia = ""  # Inicializa a variável
+
+                                if declividade &lt; 5:
+                                    simbologia = "Verde (Plano)"
+                                elif declividade &lt; 20:  # Só é testado se o primeiro if for falso
+                                    simbologia = "Amarelo (Suavemente Ondulado)"
+                                elif declividade &lt; 45:  # Só é testado se os anteriores forem falsos
+                                    simbologia = "Laranja (Ondulado)"
+                                else:  # Se nenhuma das condições acima for atendida
+                                    simbologia = "Vermelho (Forte Ondulado/Montanhoso)"
+
+                                print(f"A simbologia para a declividade de {declividade}° é: {simbologia}")</code></pre>
+                                                            </div>
+                                                        </li>
+                                                    </ol>
+                                                </section>
+
+                                                <section id="operadores-logicos">
+                                                    <h3>3.2.2 Combinando Condições com Operadores Lógicos</h3>
+                                                    <p>Quando uma decisão depende de vários fatores, use <code>and</code>, <code>or</code> e <code>not</code> para construir filtros mais precisos.</p>
+                                                    <ul>
+                                                        <li><code>and</code> exige que todas as condições sejam verdadeiras.</li>
+                                                        <li><code>or</code> aceita que uma condição verdadeira já satisfaça o teste.</li>
+                                                        <li><code>not</code> inverte o resultado, útil para checar ausências.</li>
+                                                    </ul>
+                                                    <div class="code-container">
+                                                        <pre><code class="language-python">altura_do_poste = 10.5
+                                material = "Madeira"
+                                necessita_reparo = False
+
+                                # Exemplo com 'and': ambas as condições precisam ser verdadeiras
+                                if altura_do_poste &gt; 9.0 and material == "Madeira":
+                                    print("Alerta: Poste de madeira alto. Prioridade máxima para substituição!")
+
+                                # Exemplo com 'or': basta uma condição verdadeira
+                                if altura_do_poste &gt; 10.0 or necessita_reparo:
+                                    print("Ação necessária: Enviar equipe de manutenção para inspeção.")
+
+                                # Exemplo com 'not': executa quando a condição é falsa
+                                if not necessita_reparo:
+                                    print("Status do poste: Operacional, nenhum reparo necessário no momento.")</code></pre>
+                                                    </div>
+                                                </section>
+
+                                                <section id="ifs-aninhados">
+                                                    <h3>3.2.3 <code>if</code>s Aninhados: Uma Decisão Dentro da Outra</h3>
+                                                    <p>Estruturas aninhadas permitem criar funis de decisão, analisando primeiro um cenário geral e, em seguida, detalhes específicos.</p>
+                                                    <div class="code-container">
+                                                        <pre><code class="language-python"># Exemplo: Análise de uso do solo em uma área de preservação
+                                bioma = "Mata Atlântica"
+                                nivel_regeneracao = "Avançado"
+
+                                if bioma == "Mata Atlântica":
+                                    print("Analisando área dentro da Mata Atlântica.")
+    
+                                    # Este 'if' aninhado só é verificado se o primeiro for verdadeiro
+                                    if nivel_regeneracao == "Avançado":
+                                        print("-> Ação: Área prioritária para conservação integral.")
+                                    elif nivel_regeneracao == "Inicial":
+                                        print("-> Ação: Área elegível para projetos de restauração.")
+                                    else:
+                                        print("-> Ação: Monitorar e avaliar.")
+                                else:
+                                    print("Área fora do bioma de interesse para este projeto.")</code></pre>
+                                                    </div>
+                                                </section>
+
+                                                <section id="ternario">
+                                                    <h3>3.2.4 <code>if</code> de Uma Linha (Operador Ternário)</h3>
+                                                    <p>Para atribuições simples, utilize a forma resumida <code>valor_if if condição else valor_else</code>, mantendo o código enxuto e legível.</p>
+                                                    <div class="code-container">
+                                                        <pre><code class="language-python">temperatura = 28
+                                altitude = 1200
+
+                                # Atribui "Ensolarado" se a temperatura for maior que 25, senão "Ameno"
+                                clima = "Ensolarado" if temperatura &gt; 25 else "Ameno"
+                                risco = "Alto" if altitude &gt; 1000 else "Baixo"
+
+                                print(f"O clima está: {clima}")
+                                print(f"O risco de deslizamento é considerado: {risco}")</code></pre>
+                                                    </div>
+                                                </section>
+
+                                                <section id="loops" data-toc="section" data-toc-title="Estruturas de repetição">
+                                                    <h2>3.3 Estruturas de Repetição: Automatizando Tarefas com Loops</h2>
+                                                    <p>Loops poupam esforço repetitivo, permitindo processar milhares de arquivos, linhas ou feições com poucas linhas de código.</p>
+                                                </section>
+
+                                                <section id="loop-for" data-toc="section" data-toc-title="Laço for">
+                                                    <h3>3.3.1 O Laço <code>for</code>: Percorrendo Sequências</h3>
+                                                    <p>O <code>for</code> é a ferramenta padrão para iterar sobre listas, tuplas, dicionários e outros iteráveis. Ele cuida do contador internamente, reduzindo erros e tornando o código mais claro.</p>
+
+                                                    <h4>For básico: percorrendo uma lista</h4>
+                                                    <div class="code-container">
+                                                        <pre><code class="language-python"># Lista com nomes de arquivos raster a serem processados
+                                arquivos_raster = ["imagem_2022.tif", "imagem_2023.tif", "imagem_2024.tif"]
+
+                                print("Iniciando o processamento de imagens...")
+                                for nome_do_arquivo in arquivos_raster:
+                                    print(f"- Processando o arquivo: {nome_do_arquivo}")
+                                    # Aqui entraria o código para abrir, reclassificar ou salvar o raster
+                                print("Processamento concluído.")</code></pre>
+                                                    </div>
+
+                                                    <h4>Repetindo um número fixo de vezes com <code>range()</code></h4>
+                                                    <div class="code-container">
+                                                        <pre><code class="language-python"># Exemplo 1: Contagem regressiva
+                                print("Contagem regressiva para lançamento do satélite:")
+                                for i in range(5, 0, -1):  # Começa em 5, termina em 1
+                                    print(i)
+
+                                # Exemplo 2: Gerando múltiplos buffers
+                                print("\nGerando buffers com diferentes distâncias:")
+                                for distancia in range(50, 501, 50):  # De 50 a 500, de 50 em 50 metros
+                                    print(f"- Criando buffer de {distancia} metros.")</code></pre>
+                                                    </div>
+
+                                                    <h4>Obtendo o índice e o valor com <code>enumerate()</code></h4>
+                                                    <div class="code-container">
+                                                        <pre><code class="language-python"># Lista de vértices de um polígono
+                                vertices = [(-48.5, -27.1), (-48.4, -27.1), (-48.4, -27.0)]
+
+                                for indice, coordenada in enumerate(vertices):
+                                    print(f"Vértice {indice}: Coordenadas {coordenada}")</code></pre>
+                                                    </div>
+
+                                                    <h4>Percorrendo dicionários com <code>.items()</code></h4>
+                                                    <div class="code-container">
+                                                        <pre><code class="language-python"># Dicionário com metadados de uma imagem de satélite
+                                metadados = {
+                                    "satelite": "Landsat 9",
+                                    "data_captura": "2024-10-26",
+                                    "resolucao_m": 30
+                                }
+
+                                print("Metadados da Imagem:")
+                                for chave, valor in metadados.items():
+                                    print(f"- {chave.replace('_', ' ').capitalize()}: {valor}")</code></pre>
+                                                    </div>
+                                                </section>
+
+                                                <section id="loop-while" data-toc="section" data-toc-title="Laço while">
+                                                    <h3>3.3.2 O Laço <code>while</code>: Enquanto a condição for verdadeira</h3>
+                                                    <p>Use <code>while</code> quando não souber quantas repetições serão necessárias, mas conhecer a condição de permanência. Lembre-se de atualizar essa condição dentro do loop para evitar laços infinitos.</p>
+
+                                                    <h4>Validação de entrada de dados</h4>
+                                                    <div class="code-container">
+                                                        <pre><code class="language-python"># Exemplo: Validando a entrada de uma altitude positiva
+                                while True:  # Inicia um loop aparentemente infinito
+                                    entrada = input("Digite uma altitude (em metros): ")
+                                    try:
+                                        altitude = float(entrada)
+                                        if altitude &gt; 0:
+                                            break  # Sai do loop se a verificação der certo
+                                        else:
+                                            print("Erro: A altitude deve ser um número positivo.")
+                                    except ValueError:
+                                        print("Erro: Entrada inválida. Por favor, digite um número.")
+
+                                print(f"Altitude válida inserida: {altitude}m")</code></pre>
+                                                    </div>
+
+                                                    <h4>Simulação operacional</h4>
+                                                    <div class="code-container">
+                                                        <pre><code class="language-python"># Exemplo: Simulação de bateria de um drone em campo
+                                bateria_restante = 100
+                                uso_por_hora = 15
+                                horas_de_voo = 0
+
+                                print("Iniciando operação do drone...")
+                                while bateria_restante &gt; 20:  # Condição de parada
+                                    print(f"Hora {horas_de_voo}: Bateria em {bateria_restante}%. Operando normalmente.")
+                                    bateria_restante -= uso_por_hora  # Atualiza a condição!
+                                    horas_de_voo += 1
+
+                                print(f"Fim da operação na hora {horas_de_voo}. Bateria em {bateria_restante}%. Nível crítico. Retornando para a base.")</code></pre>
+                                                    </div>
+                                                </section>
+
+                                                <section id="controle-loops" data-toc="section" data-toc-title="Break e continue">
+                                                    <h3>3.3.3 Controlando o Fluxo dos Loops: <code>break</code> e <code>continue</code></h3>
+                                                    <p>Essas palavras-chave permitem interromper um loop ou pular a iteração atual, dando mais controle sobre a execução.</p>
+
+                                                    <h4><code>break</code>: Saída de emergência</h4>
+                                                    <div class="code-container">
+                                                        <pre><code class="language-python"># Procurando pelo primeiro setor censitário com população acima de 1000
+                                setores = [
+                                    {"id": "A", "pop": 750},
+                                    {"id": "B", "pop": 1200},
+                                    {"id": "C", "pop": 900},
+                                ]
+
+                                for setor in setores:
+                                    print(f"Analisando setor {setor['id']}...")
+                                    if setor['pop'] &gt; 1000:
+                                        print(f"Encontrado! O setor {setor['id']} tem população de {setor['pop']}.")
+                                        break  # Para o loop assim que o primeiro for encontrado</code></pre>
+                                                    </div>
+
+                                                    <h4><code>continue</code>: Pulando para o próximo item</h4>
+                                                    <div class="code-container">
+                                                        <pre><code class="language-python"># Processando uma lista de arquivos, mas ignorando os que não são shapefiles
+                                arquivos = ["dados.shp", "relatorio.txt", "mapa.shp", "backup.zip"]
+
+                                for arquivo in arquivos:
+                                    if not arquivo.endswith(".shp"):
+                                        continue  # Pula para o próximo arquivo
+
+                                    # Este código só será executado para os arquivos .shp
+                                    print(f"Processando o shapefile: {arquivo}")</code></pre>
+                                                    </div>
+                                                </section>
+
+                                                <section id="conclusao" data-toc="section" data-toc-title="Conclusão">
+                                                    <h2>3.4 Conclusão</h2>
+                                                    <p>Com estruturas de decisão e repetição, seu código ganha autonomia: analisa cenários, reage a dados e executa rotinas extensas com poucos comandos. Esses recursos são a base para criar pipelines inteligentes de análise espacial, processamento de imagens e integração com APIs.</p>
+                                                    <p>No próximo capítulo, combinaremos coleções, decisões e loops com funções para modularizar scripts e construir ferramentas reutilizáveis.</p>
+                                                </section>
+                                            </section>
+                            </div>
+        
+            </div>
+        </article>
+
+        </div>
+    </main>
+
+
+
+    <footer class="mt-8 bg-white shadow-inner dark:bg-slate-900/90">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-600 dark:text-slate-300">
+            <p class="text-base font-semibold text-ifsc-green">PAG014903 - PROGRAMAÇÃO APLICADA AO GEOPROCESSAMENTO</p>
+            <p class="text-sm">Curso Técnico em Geoprocessamento · DACC - IFSC Florianópolis</p>
+            <p class="text-sm">Professor responsável: Arthur Berbert</p>
+            <p class="text-xs text-gray-400 mt-2">Versão 2025-2</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="main.v2.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

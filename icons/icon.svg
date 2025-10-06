@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">IFSC Digital Book</title>
+  <desc id="desc">Ícone verde com elementos geométricos representando o livro digital do IFSC.</desc>
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1B5E20" />
+      <stop offset="100%" stop-color="#2E7D32" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#grad)" />
+  <g fill="#E6F4EA">
+    <path d="M144 132c-17.673 0-32 14.327-32 32v184c0 21.539 17.461 39 39 39h98v-32h-94c-6.627 0-12-5.373-12-12V176c0-6.627 5.373-12 12-12h94v-32H144z" />
+    <path d="M368 132H240v32h112c6.627 0 12 5.373 12 12v167.785L326.5 308l-33.5 20.868V256h-32v116.132L326.5 336l65.5 39.868V176c0-24.301-19.699-44-44-44z" />
+  </g>
+</svg>
