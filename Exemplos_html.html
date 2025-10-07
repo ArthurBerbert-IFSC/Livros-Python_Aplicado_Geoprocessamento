@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -94,7 +94,250 @@
              <p class="text-center text-xs text-slate-500 mt-4"><strong>Uso ideal:</strong> Para "chamadas para ação", como exercícios, dicas de estudo ou pontos de contacto.</p>
         </div>
 
-    </div>
+        <section class="space-y-6">
+            <h2 class="text-2xl font-bold text-slate-800 dark:text-white">Capítulo 7: Conectando com o Brasil - A API de Serviços do IBGE</h2>
+            <p class="text-slate-700 dark:text-slate-300">Olá! Até agora, trabalhamos com dados que nós mesmos criamos ou que estavam em arquivos locais (como os arquivos CSV). Mas e se precisássemos de dados atualizados sobre a população de todos os municípios de Santa Catarina? Ou o formato vetorial (a &quot;malha&quot;) de uma cidade específica? Manter esses dados atualizados manualmente seria impossível.</p>
+            <p class="text-slate-700 dark:text-slate-300">É aqui que entram as APIs (Interfaces de Programação de Aplicativos). Pense em uma API como um &quot;portal de atendimento&quot; online para um grande banco de dados. Em vez de baixar um gigantesco arquivo com todos os dados do Brasil, nós, através do nosso código Python, fazemos uma &quot;pergunta&quot; (uma requisição) a esse portal, pedindo apenas os dados que nos interessam. O portal (a API) então nos devolve uma &quot;resposta&quot; estruturada, geralmente no formato JSON, contendo exatamente a informação que pedimos.</p>
+            <p class="text-slate-700 dark:text-slate-300">A API de Serviços do IBGE é um desses portais, mantido pelo Instituto Brasileiro de Geografia e Estatística. Ela nos dá acesso programático a uma vasta gama de dados públicos, oficiais e atualizados sobre o Brasil, incluindo:</p>
+            <ul class="list-disc space-y-2 pl-6 text-slate-700 dark:text-slate-300">
+                <li><strong>Malhas Territoriais:</strong> Os limites vetoriais de estados, municípios, distritos, etc.</li>
+                <li><strong>Localidades:</strong> Listas de todos os estados, municípios, seus nomes e códigos.</li>
+                <li><strong>Dados Estatísticos:</strong> Informações de pesquisas como o Censo (população, domicílios, etc.).</li>
+                <li><strong>Rede Geodésica:</strong> A localização e os dados das estações GNSS de referência no Brasil.</li>
+            </ul>
+            <p class="text-slate-700 dark:text-slate-300">Neste capítulo, vamos aprender a &quot;conversar&quot; com a API do IBGE para buscar esses dados e integrá-los em nossos projetos.</p>
+            <div class="space-y-4">
+                <h3 class="text-xl font-semibold text-slate-700 dark:text-slate-300">2. A Ferramenta Essencial: A Biblioteca <code>requests</code></h3>
+                <p class="text-slate-700 dark:text-slate-300">Para fazer requisições a uma API (ou a qualquer outro recurso na internet), usamos uma biblioteca Python chamada <code>requests</code>. Ela simplifica enormemente o processo de comunicação via HTTP, o protocolo padrão da web.</p>
+                <p class="text-slate-700 dark:text-slate-300"><strong>Passo 1:</strong> Instalar a biblioteca <code>requests</code></p>
+                <p class="text-slate-700 dark:text-slate-300">Se você ainda não a tem, abra o terminal do seu VS Code e digite:</p>
+                <pre class="bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-sm"><code class="language-bash">pip install requests</code></pre>
+                <p class="text-slate-700 dark:text-slate-300"><strong>Passo 2:</strong> Sua primeira requisição</p>
+                <p class="text-slate-700 dark:text-slate-300">Vamos fazer um teste simples: buscar a lista de todos os estados do Brasil. A URL (o &quot;endereço&quot; do serviço que queremos acessar) para isso é <a class="text-blue-600 underline hover:text-blue-500" href="https://servicodados.ibge.gov.br/api/v1/localidades/estados" target="_blank" rel="noopener">https://servicodados.ibge.gov.br/api/v1/localidades/estados</a>.</p>
+                <pre class="bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-sm"><code class="language-python">import requests
+
+# 1. Definir a URL do servi&#231;o (endpoint)
+url_estados = &quot;https://servicodados.ibge.gov.br/api/v1/localidades/estados&quot;
+
+print(&quot;Fazendo a requisi&#231;&#227;o para a API do IBGE...&quot;)
+try:
+    # 2. Fazer a requisi&#231;&#227;o GET
+    response = requests.get(url_estados)
+    response.raise_for_status()  # Lan&#231;a um erro se a requisi&#231;&#227;o falhou (ex: erro 404, 500)
+
+    # 3. Converter a resposta para o formato JSON
+    dados = response.json()
+
+    # 4. Explorar os dados recebidos
+    print(f&quot;A requisi&#231;&#227;o foi um sucesso! Foram encontrados {len(dados)} estados.&quot;)
+
+    # Vamos imprimir o nome e a sigla dos 5 primeiros estados
+    print(&quot;\nOs 5 primeiros estados na lista s&#227;o:&quot;)
+    for estado in dados[:5]:
+        print(f&quot;- {estado[&#39;nome&#39;]} ({estado[&#39;sigla&#39;]})&quot;)
+
+except requests.exceptions.RequestException as e:
+    print(f&quot;Ocorreu um erro na requisi&#231;&#227;o: {e}&quot;)</code></pre>
+                <p class="text-slate-700 dark:text-slate-300">O que este código faz?</p>
+                <ul class="list-disc space-y-2 pl-6 text-slate-700 dark:text-slate-300">
+                    <li><code>requests.get(url)</code>: envia uma requisição HTTP do tipo GET para a URL especificada. É como digitar o endereço no seu navegador e apertar Enter.</li>
+                    <li><code>response.raise_for_status()</code>: linha de segurança que interrompe o programa caso o servidor retorne um código de erro.</li>
+                    <li><code>response.json()</code>: converte o texto da resposta (em JSON) diretamente para uma estrutura Python pronta para uso.</li>
+                </ul>
+            </div>
+            <div class="space-y-5">
+                <h3 class="text-xl font-semibold text-slate-700 dark:text-slate-300">3. Explorando os Serviços (Endpoints) da API</h3>
+                <p class="text-slate-700 dark:text-slate-300">Agora que sabemos como fazer uma requisição, vamos explorar os serviços mais úteis para o geoprocessamento.</p>
+                <div class="space-y-3">
+                    <h4 class="text-lg font-semibold text-slate-700 dark:text-slate-300">3.1. Nomes e Códigos de Cidades (Localidades)</h4>
+                    <p class="text-slate-700 dark:text-slate-300">Um passo fundamental em muitos fluxos de trabalho é obter o código oficial de um município, pois ele é usado para buscar outros dados, como sua malha ou estatísticas.</p>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-sm"><code class="language-python">import requests
+
+# URL para buscar os munic&#237;pios de um estado (UF). 42 &#233; o c&#243;digo de Santa Catarina.
+# Para outros estados, troque o c&#243;digo. Ex: SP = 35, RJ = 33.
+uf_code = &quot;42&quot;  # C&#243;digo de Santa Catarina
+url_municipios_sc = f&quot;https://servicodados.ibge.gov.br/api/v1/localidades/estados/{uf_code}/municipios&quot;
+
+response = requests.get(url_municipios_sc)
+municipios = response.json()
+
+print(f&quot;Encontrados {len(municipios)} munic&#237;pios em Santa Catarina.&quot;)
+
+# Vamos encontrar o c&#243;digo de Florian&#243;polis
+for municipio in municipios:
+    if municipio[&#39;nome&#39;] == &quot;Florian&#243;polis&quot;:
+        codigo_floripa = municipio[&#39;id&#39;]
+        print(f&quot;\nO c&#243;digo IBGE de Florian&#243;polis &#233;: {codigo_floripa}&quot;)
+        break</code></pre>
+                </div>
+                <div class="space-y-3">
+                    <h4 class="text-lg font-semibold text-slate-700 dark:text-slate-300">3.2. Malhas Territoriais (Limites Vetoriais)</h4>
+                    <p class="text-slate-700 dark:text-slate-300">A API pode fornecer o limite vetorial de qualquer localidade em formatos como GeoJSON, que podemos usar diretamente em bibliotecas como o Folium.</p>
+                    <p class="text-slate-700 dark:text-slate-300">O formato da URL é <code>https://servicodados.ibge.gov.br/api/v3/malhas/municipios/{codigo_municipio}</code>.</p>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-sm"><code class="language-python">import requests
+import folium
+
+# Usando o c&#243;digo de Florian&#243;polis que encontramos: 4205407
+codigo_municipio = &quot;4205407&quot;
+url_malha = f&quot;https://servicodados.ibge.gov.br/api/v3/malhas/municipios/{codigo_municipio}&quot;
+
+# Par&#226;metros para pedir o formato GeoJSON e a resolu&#231;&#227;o m&#225;xima
+params = {&#39;formato&#39;: &#39;application/vnd.geo+json&#39;, &#39;resolucao&#39;: &#39;5&#39;}
+
+print(&quot;Buscando a malha municipal de Florian&#243;polis...&quot;)
+response = requests.get(url_malha, params=params)
+malha_geojson = response.json()
+
+print(&quot;Malha recebida! Criando o mapa...&quot;)
+
+# --- Criando um mapa com a malha ---
+# Vamos centralizar o mapa na primeira coordenada da malha
+coords_exemplo = malha_geojson[&#39;features&#39;][0][&#39;geometry&#39;][&#39;coordinates&#39;][0][0]
+mapa_malha = folium.Map(location=[coords_exemplo[1], coords_exemplo[0]], zoom_start=10)
+
+# Adicionando a malha GeoJSON ao mapa
+folium.GeoJson(
+    malha_geojson,
+    name=&#39;Limite Municipal&#39;
+).add_to(mapa_malha)
+
+folium.LayerControl().add_to(mapa_malha)
+mapa_malha.save(&quot;mapa_com_malha_floripa.html&quot;)
+print(&quot;Mapa &#39;mapa_com_malha_floripa.html&#39; salvo com sucesso!&quot;)</code></pre>
+                </div>
+                <div class="space-y-3">
+                    <h4 class="text-lg font-semibold text-slate-700 dark:text-slate-300">3.3. Dados Estatísticos (Agregados da Pesquisa)</h4>
+                    <p class="text-slate-700 dark:text-slate-300">A API do IBGE também dá acesso a dados de pesquisas, como o Censo, por meio do sistema SIDRA. Para buscar essas informações precisamos conhecer o código da tabela, das variáveis e dos níveis geográficos.</p>
+                    <p class="text-slate-700 dark:text-slate-300">Vamos buscar um dado econômico relevante: o PIB per capita dos municípios.</p>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-sm"><code class="language-python">import requests
+import pandas as pd
+
+# C&#243;digo de Santa Catarina
+uf_code = &quot;42&quot;
+# Tabela de &#39;Produto Interno Bruto dos Munic&#237;pios&#39;
+tabela = &quot;5938&quot;
+# Vari&#225;vel &#39;Produto Interno Bruto per capita, a pre&#231;os correntes&#39;
+variavel = &quot;37&quot;
+
+# A URL &#233; montada para o SIDRA
+url_pib = f&quot;https://servicodados.ibge.gov.br/api/v3/agregados/{tabela}/periodos/2021/variaveis/{variavel}?localidades=N6[N3[{uf_code}]]&amp;classificacao=2[all]&quot;
+
+response = requests.get(url_pib)
+dados_pib = response.json()
+
+# --- Processando os resultados do SIDRA ---
+# A resposta do SIDRA &#233; uma lista; vamos pegar o primeiro item
+dados_variavel = dados_pib[0]
+
+# Os resultados v&#234;m em um dicion&#225;rio onde a chave &#233; o c&#243;digo do munic&#237;pio
+resultados = dados_variavel[&#39;resultados&#39;][0][&#39;series&#39;][0][&#39;serie&#39;]
+
+# Vamos transformar isso em uma tabela mais amig&#225;vel com Pandas
+lista_para_df = []
+for codigo_municipio, valor in resultados.items():
+    lista_para_df.append({&#39;codigo_municipio&#39;: codigo_municipio, &#39;pib_per_capita_2021&#39;: valor})
+
+df_pib = pd.DataFrame(lista_para_df)
+
+print(&quot;PIB per capita dos 5 primeiros munic&#237;pios de SC em 2021:&quot;)
+print(df_pib.head())</code></pre>
+                </div>
+                <div class="space-y-3">
+                    <h4 class="text-lg font-semibold text-slate-700 dark:text-slate-300">3.4. Rede Geodésica (Bases GNSS)</h4>
+                    <p class="text-slate-700 dark:text-slate-300">A API de Geodésia permite consultar as estações da Rede Geodésica Brasileira, pontos de referência para levantamentos de alta precisão.</p>
+                    <pre class="bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-sm"><code class="language-python">import requests
+
+# URL para buscar todas as esta&#231;&#245;es de Santa Catarina
+url_gnss = &quot;https://servicodados.ibge.gov.br/api/v1/geodesia/estacoes?uf=SC&quot;
+
+response = requests.get(url_gnss)
+estacoes = response.json()
+
+print(f&quot;Encontradas {len(estacoes)} esta&#231;&#245;es da Rede Geod&#233;sica em Santa Catarina.&quot;)
+
+# Vamos imprimir os detalhes das 3 primeiras esta&#231;&#245;es
+print(&quot;\nDetalhes das 3 primeiras esta&#231;&#245;es:&quot;)
+for estacao in estacoes[:3]:
+    print(f&quot;  - Identificador: {estacao[&#39;identificador&#39;]}&quot;)
+    print(f&quot;    Nome: {estacao[&#39;nome&#39;]}&quot;)
+    print(f&quot;    Coordenadas: Lat {estacao[&#39;latitude&#39;]}, Lon {estacao[&#39;longitude&#39;]}&quot;)
+    print(f&quot;    Situa&#231;&#227;o: {estacao[&#39;situacao&#39;]}&quot;)</code></pre>
+                </div>
+            </div>
+            <div class="space-y-4">
+                <h3 class="text-xl font-semibold text-slate-700 dark:text-slate-300">4. Laboratório Prático: Mapa Completo de um Município</h3>
+                <p class="text-slate-700 dark:text-slate-300">Vamos juntar tudo em um script final! O objetivo é criar um mapa de um município que mostre sua malha territorial, as estações da rede geodésica dentro ou próximas a ele e um marcador no centroide com o PIB per capita.</p>
+                <pre class="bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-sm"><code class="language-python">import requests
+import folium
+import pandas as pd
+
+# --- PAR&#194;METROS ---
+NOME_MUNICIPIO = &quot;Joinville&quot;
+UF_CODE = &quot;42&quot;  # Santa Catarina
+
+# --- 1. BUSCAR C&#211;DIGO DO MUNIC&#205;PIO ---
+url_municipios = f&quot;https://servicodados.ibge.gov.br/api/v1/localidades/estados/{UF_CODE}/municipios&quot;
+response_municipios = requests.get(url_municipios)
+municipios_sc = response_municipios.json()
+codigo_municipio = None
+for municipio in municipios_sc:
+    if municipio[&#39;nome&#39;] == NOME_MUNICIPIO:
+        codigo_municipio = municipio[&#39;id&#39;]
+        break
+if not codigo_municipio:
+    raise Exception(f&quot;Munic&#237;pio &#39;{NOME_MUNICIPIO}&#39; n&#227;o encontrado.&quot;)
+
+print(f&quot;C&#243;digo IBGE de {NOME_MUNICIPIO}: {codigo_municipio}&quot;)
+
+# --- 2. BUSCAR MALHA MUNICIPAL (GEOJSON) ---
+url_malha = f&quot;https://servicodados.ibge.gov.br/api/v3/malhas/municipios/{codigo_municipio}&quot;
+params = {&#39;formato&#39;: &#39;application/vnd.geo+json&#39;}
+response_malha = requests.get(url_malha, params=params)
+malha_geojson = response_malha.json()
+print(&quot;Malha municipal obtida.&quot;)
+
+# --- 3. BUSCAR DADO DE PIB PER CAPITA ---
+url_pib = f&quot;https://servicodados.ibge.gov.br/api/v3/agregados/5938/periodos/2021/variaveis/37?localidades=N6[{codigo_municipio}]&quot;
+response_pib = requests.get(url_pib)
+pib_data = response_pib.json()[0][&#39;resultados&#39;][0][&#39;series&#39;][0][&#39;serie&#39;][&#39;2021&#39;]
+print(f&quot;PIB per capita (2021): R$ {pib_data}&quot;)
+
+# --- 4. BUSCAR ESTA&#199;&#213;ES GNSS ---
+url_gnss = &quot;https://servicodados.ibge.gov.br/api/v1/geodesia/estacoes?uf=SC&quot;
+response_gnss = requests.get(url_gnss)
+estacoes_sc = response_gnss.json()
+print(f&quot;Encontradas {len(estacoes_sc)} esta&#231;&#245;es GNSS em SC.&quot;)
+
+# --- 5. CRIAR O MAPA ---
+# Centralizar o mapa no centroide do munic&#237;pio
+centroide = malha_geojson[&#39;features&#39;][0][&#39;properties&#39;][&#39;centroide&#39;]
+mapa_final = folium.Map(location=[centroide[1], centroide[0]], zoom_start=10)
+
+# Adicionar a malha
+folium.GeoJson(malha_geojson, name=f&quot;Limite de {NOME_MUNICIPIO}&quot;).add_to(mapa_final)
+
+# Adicionar marcador com o PIB
+folium.Marker(
+    location=[centroide[1], centroide[0]],
+    popup=f&quot;&lt;strong&gt;{NOME_MUNICIPIO}&lt;/strong&gt;&lt;br&gt;PIB per capita (2021): R$ {pib_data}&quot;,
+    icon=folium.Icon(color=&#39;blue&#39;, icon=&#39;info-sign&#39;)
+).add_to(mapa_final)
+
+# Adicionar marcadores para as esta&#231;&#245;es GNSS
+for estacao in estacoes_sc:
+    folium.Marker(
+        location=[estacao[&#39;latitude&#39;], estacao[&#39;longitude&#39;]],
+        popup=f&quot;&lt;strong&gt;{estacao[&#39;identificador&#39;]}&lt;/strong&gt;&lt;br&gt;{estacao[&#39;nome&#39;]}&lt;br&gt;Situa&#231;&#227;o: {estacao[&#39;situacao&#39;]}&quot;,
+        tooltip=estacao[&#39;identificador&#39;],
+        icon=folium.Icon(color=&#39;green&#39;, icon=&#39;signal&#39;, prefix=&#39;fa&#39;)
+    ).add_to(mapa_final)
+
+folium.LayerControl().add_to(mapa_final)
+mapa_final.save(&quot;mapa_completo_municipio.html&quot;)
+print(&quot;\nMapa &#39;mapa_completo_municipio.html&#39; salvo com sucesso!&quot;)</code></pre>
+                <p class="text-slate-700 dark:text-salte-300">Esse fluxo integra dados administrativos, espaciais e econômicos em um único produto interativo, pronto para ser compartilhado.</p>
+            </div>
+        </section>    </div>
 
 </body>
 </html>

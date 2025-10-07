@@ -20,6 +20,10 @@ const THEME_MODES = ['light', 'dark', 'system'];
 let activeThemeMode = localStorage.getItem(THEME_STORAGE_KEY) || 'light';
 let systemThemeMediaQuery = null;
 
+const PWA_OVERLAY_DISMISSED_KEY = 'ifsc-digital-book-pwa-overlay-dismissed-v1';
+let deferredPwaInstallPrompt = null;
+let pwaOverlayState = null;
+
 function applyTheme(mode) {
   const root = document.documentElement;
   let resolvedMode = mode;
@@ -326,6 +330,152 @@ function setupShrinkableHeader() {
   window.addEventListener('scroll', onScroll, { passive: true });
 }
 
+function hidePwaInstallOverlay(persist = true) {
+  if (!pwaOverlayState) {
+    return;
+  }
+
+  const { overlay, actionButton } = pwaOverlayState;
+  if (!overlay || overlay.hasAttribute('hidden')) {
+    return;
+  }
+
+  overlay.setAttribute('hidden', '');
+  overlay.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('pwa-install-visible');
+
+  if (actionButton) {
+    actionButton.disabled = false;
+    actionButton.dataset.installMode = '';
+    actionButton.textContent = 'Instalar agora';
+  }
+
+  if (persist) {
+    localStorage.setItem(PWA_OVERLAY_DISMISSED_KEY, 'true');
+  }
+}
+
+function showPwaInstallOverlay({ withInstallPrompt = false } = {}) {
+  if (!pwaOverlayState) {
+    return;
+  }
+
+  const { overlay, dialog, actionButton, status, hint } = pwaOverlayState;
+  if (!overlay) {
+    return;
+  }
+
+  overlay.removeAttribute('hidden');
+  overlay.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('pwa-install-visible');
+
+  if (actionButton) {
+    actionButton.disabled = false;
+    actionButton.dataset.installMode = withInstallPrompt ? 'prompt' : 'manual';
+    actionButton.textContent = withInstallPrompt ? 'Instalar agora' : 'Como instalar no Android';
+  }
+
+  if (status) {
+    status.textContent = withInstallPrompt
+      ? 'Toque no botão abaixo para instalar o app diretamente no seu dispositivo.'
+      : 'Siga o passo a passo para adicionar este app à tela inicial.';
+  }
+
+  if (hint) {
+    hint.textContent = withInstallPrompt
+      ? 'O navegador exibirá uma confirmação rápida logo após o toque.'
+      : 'O botão acima reforça o guia para quando o aviso automático não aparecer.';
+  }
+
+  if (dialog) {
+    dialog.focus({ preventScroll: true });
+  }
+}
+
+function initializePwaInstallOverlay() {
+  const overlay = document.getElementById('pwa-install-overlay');
+  if (!overlay) {
+    return;
+  }
+
+  const dialog = overlay.querySelector('.pwa-install-dialog');
+  const actionButton = overlay.querySelector('[data-pwa-install]');
+  const closeButtons = overlay.querySelectorAll('[data-pwa-close]');
+  const laterButton = overlay.querySelector('[data-pwa-later]');
+  const status = overlay.querySelector('[data-pwa-status]');
+  const hint = overlay.querySelector('[data-pwa-hint]');
+
+  pwaOverlayState = { overlay, dialog, actionButton, status, hint };
+
+  const requestHide = (persist = true) => hidePwaInstallOverlay(persist);
+
+  closeButtons.forEach((button) => {
+    button.addEventListener('click', () => requestHide(true));
+  });
+
+  if (laterButton) {
+    laterButton.addEventListener('click', () => requestHide(true));
+  }
+
+  overlay.addEventListener('click', (event) => {
+    if (event.target === overlay) {
+      requestHide(false);
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !overlay.hasAttribute('hidden')) {
+      requestHide(false);
+    }
+  });
+
+  if (actionButton) {
+    actionButton.addEventListener('click', async () => {
+      const mode = actionButton.dataset.installMode;
+
+      if (mode === 'prompt' && deferredPwaInstallPrompt) {
+        actionButton.disabled = true;
+        actionButton.textContent = 'Instalando...';
+        try {
+          deferredPwaInstallPrompt.prompt();
+          const choice = await deferredPwaInstallPrompt.userChoice;
+          if (choice.outcome === 'accepted') {
+            actionButton.textContent = 'Instalado!';
+            hidePwaInstallOverlay(true);
+          } else {
+            actionButton.textContent = 'Instalar agora';
+            actionButton.disabled = false;
+          }
+        } catch (error) {
+          console.error('Falha ao solicitar instalação PWA:', error);
+          actionButton.textContent = 'Tentar novamente';
+          actionButton.disabled = false;
+        }
+      } else {
+        actionButton.textContent = 'Ver instruções abaixo';
+        actionButton.disabled = true;
+        if (status) {
+          status.textContent = 'Abra o menu ⋮ do navegador e toque em “Adicionar à tela inicial”.';
+        }
+        if (hint) {
+          hint.textContent = 'No iOS, use o ícone de compartilhar e selecione “Adicionar à Tela de Início”.';
+        }
+        setTimeout(() => {
+          actionButton.disabled = false;
+          actionButton.textContent = 'Como instalar no Android';
+        }, 3200);
+      }
+    });
+  }
+
+  if (!localStorage.getItem(PWA_OVERLAY_DISMISSED_KEY)) {
+    setTimeout(() => {
+      const hasPrompt = Boolean(deferredPwaInstallPrompt);
+      showPwaInstallOverlay({ withInstallPrompt: hasPrompt });
+    }, 1400);
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   setupFontControls();
   setupThemeToggle();
@@ -334,6 +484,7 @@ document.addEventListener('DOMContentLoaded', () => {
   buildDynamicToc();
   collapseLogoWrapperIfNeeded();
   setupShrinkableHeader();
+  initializePwaInstallOverlay();
 });
 
 if ('serviceWorker' in navigator) {
@@ -344,3 +495,24 @@ if ('serviceWorker' in navigator) {
     });
   });
 }
+
+window.addEventListener('beforeinstallprompt', (event) => {
+  event.preventDefault();
+  deferredPwaInstallPrompt = event;
+
+  if (pwaOverlayState?.actionButton) {
+    pwaOverlayState.actionButton.dataset.installMode = 'prompt';
+    pwaOverlayState.actionButton.disabled = false;
+    pwaOverlayState.actionButton.textContent = 'Instalar agora';
+  }
+
+  if (!localStorage.getItem(PWA_OVERLAY_DISMISSED_KEY)) {
+    showPwaInstallOverlay({ withInstallPrompt: true });
+  }
+});
+
+window.addEventListener('appinstalled', () => {
+  localStorage.setItem(PWA_OVERLAY_DISMISSED_KEY, 'installed');
+  hidePwaInstallOverlay(true);
+  deferredPwaInstallPrompt = null;
+});
