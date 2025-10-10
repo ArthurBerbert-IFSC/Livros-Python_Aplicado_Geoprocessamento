@@ -330,6 +330,42 @@ function setupShrinkableHeader() {
   window.addEventListener('scroll', onScroll, { passive: true });
 }
 
+function setupMobileMenuToggle() {
+  const toggle = document.querySelector('[data-menu-toggle]');
+  const menu = document.getElementById('primary-menu');
+
+  if (!toggle || !menu) {
+    return;
+  }
+
+  const closeMenu = () => {
+    menu.setAttribute('hidden', '');
+    toggle.setAttribute('aria-expanded', 'false');
+  };
+
+  toggle.addEventListener('click', () => {
+    const isHidden = menu.hasAttribute('hidden');
+    if (isHidden) {
+      menu.removeAttribute('hidden');
+      toggle.setAttribute('aria-expanded', 'true');
+    } else {
+      closeMenu();
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.matchMedia('(min-width: 768px)').matches) {
+      closeMenu();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeMenu();
+    }
+  });
+}
+
 function hidePwaInstallOverlay(persist = true) {
   if (!pwaOverlayState) {
     return;
@@ -484,6 +520,7 @@ document.addEventListener('DOMContentLoaded', () => {
   buildDynamicToc();
   collapseLogoWrapperIfNeeded();
   setupShrinkableHeader();
+  setupMobileMenuToggle();
   initializePwaInstallOverlay();
 });
 

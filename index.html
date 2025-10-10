@@ -34,35 +34,52 @@
 
     <header class="bg-white/95 backdrop-blur shadow-md sticky top-0 z-40 dark:bg-slate-900/90">
         <div class="border-b border-slate-200/60 dark:border-slate-700/60">
-            <div class="container mx-auto px-6 py-4 flex flex-col items-center gap-5 md:flex-row md:items-center md:justify-between">
-                <div class="flex justify-center md:justify-start">
-                    <img src="imagens/logotipos/logo_Disciplina.png" alt="Logotipo da disciplina PAG014903" class="h-16 w-auto ring-2 ring-ifsc-green rounded-md shadow-md" loading="lazy" onerror="this.style.display='none'">
-                </div>
-                <div class="text-center md:text-left">
-                    <p class="text-lg font-semibold text-ifsc-green dark:text-emerald-300">Fundamentos de Programação em Python</p>
-                    <p class="text-xs text-gray-500 dark:text-slate-300/80">v0.0.1</p>
-                </div>
-                <div class="w-full md:w-auto flex flex-col items-center gap-3 sm:flex-row sm:justify-center md:justify-end md:gap-4">
-                    <div class="font-size-widget" role="group" aria-label="Controle de tamanho do texto">
-                        <button id="font-decrease" type="button" aria-label="Diminuir tamanho do texto">A-</button>
-                        <span class="font-size-widget-divider" aria-hidden="true"></span>
-                        <button id="font-increase" type="button" aria-label="Aumentar tamanho do texto">A+</button>
-                        <span class="font-size-widget-label" data-font-label aria-live="polite">Padrão</span>
+            <div class="container mx-auto px-4 py-2 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                <div class="flex items-center justify-between gap-3">
+                    <div class="flex items-center gap-3">
+                        <img src="imagens/logotipos/logo_Disciplina.png" alt="Logotipo da disciplina PAG014903" class="h-12 w-auto ring-2 ring-ifsc-green rounded-md shadow-md md:h-16" loading="lazy" onerror="this.style.display='none'">
+                        <div>
+                            <p class="text-base font-semibold text-ifsc-green dark:text-emerald-300 md:text-lg">Fundamentos de Programação em Python</p>
+                            <p class="text-[11px] text-gray-500 dark:text-slate-300/80 md:text-xs">v0.0.1</p>
+                        </div>
                     </div>
-                    <button id="theme-toggle" type="button" class="theme-toggle" aria-pressed="false" aria-label="Alternar tema">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    <button type="button" class="inline-flex items-center justify-center rounded-md border border-slate-200 px-2.5 py-2 text-sm text-ifsc-gray shadow-sm transition hover:border-ifsc-green hover:text-ifsc-green dark:border-slate-700 dark:text-slate-200 dark:hover:border-emerald-400 md:hidden" aria-controls="primary-menu" aria-expanded="false" data-menu-toggle>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                            <path d="M4 6h16"></path>
+                            <path d="M4 12h16"></path>
+                            <path d="M4 18h16"></path>
                         </svg>
-                        <span data-mode-text>LIGHT</span>
+                        <span class="sr-only">Abrir menu</span>
                     </button>
+                </div>
+                <div class="flex w-full items-center justify-between gap-3 md:w-auto md:justify-end">
+                    <div class="hidden text-sm font-medium text-gray-600 md:flex md:items-center md:gap-6">
+                        <a href="#apresentacao" class="hover:text-ifsc-green transition-colors">Início</a>
+                        <a href="#capitulos" class="hover:text-ifsc-green transition-colors">Capítulos</a>
+                        <a href="#sobre" class="hover:text-ifsc-green transition-colors">Sobre</a>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="font-size-widget" role="group" aria-label="Controle de tamanho do texto">
+                            <button id="font-decrease" type="button" aria-label="Diminuir tamanho do texto">A-</button>
+                            <span class="font-size-widget-divider" aria-hidden="true"></span>
+                            <button id="font-increase" type="button" aria-label="Aumentar tamanho do texto">A+</button>
+                            <span class="font-size-widget-label" data-font-label aria-live="polite">Padrão</span>
+                        </div>
+                        <button id="theme-toggle" type="button" class="theme-toggle" aria-pressed="false" aria-label="Alternar tema">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                            </svg>
+                            <span data-mode-text>LIGHT</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-        <nav class="container mx-auto px-6 py-3 flex justify-between items-center text-sm font-medium">
-            <a href="#apresentacao" class="text-gray-600 hover:text-ifsc-green transition-colors">Início</a>
-            <div class="flex items-center gap-6">
-                <a href="#capitulos" class="text-gray-700 hover:text-ifsc-green transition-colors">Capítulos</a>
-                <a href="#sobre" class="text-gray-700 hover:text-ifsc-green transition-colors">Sobre</a>
+        <nav id="primary-menu" class="border-b border-slate-200/60 bg-white/95 px-4 py-2 text-sm font-medium dark:border-slate-700/60 dark:bg-slate-900/90 md:hidden" hidden>
+            <div class="flex flex-col gap-2">
+                <a href="#apresentacao" class="rounded-lg px-3 py-2 text-gray-700 transition hover:bg-ifsc-soft/70 hover:text-ifsc-green dark:text-slate-200 dark:hover:bg-slate-800">Início</a>
+                <a href="#capitulos" class="rounded-lg px-3 py-2 text-gray-700 transition hover:bg-ifsc-soft/70 hover:text-ifsc-green dark:text-slate-200 dark:hover:bg-slate-800">Capítulos</a>
+                <a href="#sobre" class="rounded-lg px-3 py-2 text-gray-700 transition hover:bg-ifsc-soft/70 hover:text-ifsc-green dark:text-slate-200 dark:hover:bg-slate-800">Sobre</a>
             </div>
         </nav>
     </header>
