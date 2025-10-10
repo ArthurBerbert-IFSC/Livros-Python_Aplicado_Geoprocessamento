@@ -1,0 +1,1087 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#1B5E20">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="imagens/logotipos/logo_IFSC.png">
+    <title>Manipulação de Dados com Pandas e GeoPandas — IFSC Digital Book</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'ifsc-green': '#1B5E20',
+                        'ifsc-gray': '#374151',
+                        'ifsc-soft': '#E6F4EA'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'Segoe UI', 'sans-serif']
+                    },
+                    maxWidth: {
+                        prose: '70ch'
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="estilos.v2.css">
+</head>
+<body class="bg-slate-50 text-ifsc-gray antialiased dark:bg-slate-950 dark:text-slate-100">
+    <div id="reading-progress" class="fixed top-0 left-0 h-1 w-full bg-ifsc-green/80 scale-x-0 transition-transform duration-200 origin-left z-50"></div>
+                    <header class="bg-white/95 backdrop-blur shadow-md sticky top-0 z-40 dark:bg-slate-900/90">
+        <div class="border-b border-slate-200/60 dark:border-slate-700/60">
+            <div class="container mx-auto px-6 py-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                <div class="flex flex-wrap items-center justify-center gap-4 md:justify-start">
+                    <img src="imagens/logotipos/logo_IFSC.png" alt="Logotipo do IFSC" class="h-10 w-auto object-contain opacity-80 drop-shadow-sm dark:opacity-90" loading="lazy" onerror="this.style.display='none'">
+                    <img src="imagens/logotipos/logo_DACC.jpg" alt="Logotipo do DACC" class="h-10 w-auto object-contain opacity-80 drop-shadow-sm dark:opacity-90" loading="lazy" onerror="this.style.display='none'">
+                    <img src="imagens/logotipos/Logo_Curso_Geoprocessamento.jpg" alt="Logotipo do Curso de Geoprocessamento" class="h-10 w-auto object-contain opacity-80 drop-shadow-sm dark:opacity-90" loading="lazy" onerror="this.style.display='none'">
+                    <img src="imagens/logotipos/logo_Disciplina.png" alt="Logotipo da disciplina PAG014903" class="h-16 w-auto object-contain ring-2 ring-ifsc-green rounded-md shadow-md" loading="lazy" onerror="this.style.display='none'">
+                </div>
+                <div class="flex items-center gap-3 justify-center md:justify-end">
+                    <div class="text-center md:text-right">
+                        <p class="text-lg font-semibold text-ifsc-green dark:text-emerald-300">Fundamentos de Programação em Python</p>
+                        <p class="text-xs text-gray-500 dark:text-slate-300/80">v0.0.1</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="font-size-widget" role="group" aria-label="Controle de tamanho do texto">
+                            <button id="font-decrease" type="button" aria-label="Diminuir tamanho do texto">A-</button>
+                            <span class="font-size-widget-divider" aria-hidden="true"></span>
+                            <button id="font-increase" type="button" aria-label="Aumentar tamanho do texto">A+</button>
+                            <span class="font-size-widget-label" data-font-label aria-live="polite">Padrão</span>
+                        </div>
+                        <button id="theme-toggle" type="button" class="theme-toggle" aria-pressed="false" aria-label="Alternar tema">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                            </svg>
+                            <span data-mode-text>LIGHT</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center text-sm font-medium">
+            <a href="index.html#capitulos" class="text-gray-600 hover:text-ifsc-green transition-colors dark:text-slate-300/80">&larr; Capítulos</a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="index.html" class="py-2 px-3 text-gray-700 hover:text-ifsc-green transition-colors dark:text-slate-200">Início</a>
+                <a href="index.html#capitulos" class="py-2 px-3 text-gray-700 hover:text-ifsc-green transition-colors dark:text-slate-200">Capítulos</a>
+                <a href="index.html#sobre" class="py-2 px-3 text-gray-700 hover:text-ifsc-green transition-colors dark:text-slate-200">Sobre</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <div class="flex flex-col gap-10 lg:grid lg:grid-cols-[280px_minmax(0,1fr)]">
+
+        <aside class="order-2 lg:order-1">
+            <div class="sticky top-32 space-y-6 rounded-3xl border border-slate-200/70 bg-white/70 p-6 shadow-md backdrop-blur dark:border-slate-700/60 dark:bg-slate-900/60">
+                <h2 class="flex items-center gap-3 text-lg font-semibold text-ifsc-green dark:text-emerald-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 6v6l3 3" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                    Navegue pelo conteúdo
+                </h2>
+                <p class="text-sm text-gray-600 dark:text-slate-300/80">Acompanhe os blocos temáticos e avance no seu ritmo. Clique em um tópico para ir direto ao ponto.</p>
+                <nav>
+                    <ul id="toc-list" class="space-y-2 text-sm">
+                        <li class="text-slate-400">Carregando seções...</li>
+                    </ul>
+                </nav>
+                <div class="rounded-xl bg-ifsc-soft/70 p-4 text-xs text-ifsc-gray dark:bg-emerald-900/40 dark:text-emerald-100">
+                    <strong>Dica:</strong> pressione <span class="rounded bg-white px-1 py-0.5 font-mono text-[0.65rem] shadow-sm">Ctrl</span> + <span class="rounded bg-white px-1 py-0.5 font-mono text-[0.65rem] shadow-sm">L</span> para focar o endereço e retornar rapidamente ao sumário.
+                </div>
+            </div>
+        </aside>
+
+
+        <article class="order-1 lg:order-2 rounded-3xl border border-slate-200/80 bg-white/95 shadow-xl backdrop-blur dark:border-slate-700/60 dark:bg-slate-900/80">
+            <div class="space-y-12 p-6 md:p-10">
+                <header class="space-y-6">
+                    <nav class="flex flex-wrap items-center gap-3 text-sm font-medium text-ifsc-green transition-colors hover:text-ifsc-green/80 dark:text-emerald-300">
+                        <a href="index.html#capitulos" class="inline-flex items-center gap-2">
+                            <span aria-hidden="true">&larr;</span>
+                            <span>Voltar aos capítulos</span>
+                        </a>
+                        <span class="hidden md:inline-block text-gray-300 dark:text-slate-500">·</span>
+                        <a href="Capítulo 05 - Organizando o Código – Funções, Módulos e Classes.html" class="inline-flex items-center gap-2">
+                            <span aria-hidden="true">&#x2190;</span>
+                            <span>Capítulo anterior</span>
+                        </a>
+                        <span class="hidden md:inline-block text-gray-300 dark:text-slate-500">·</span>
+                        <a href="Capítulo 07 - Do Endereço ao Mapa - Geocodificação com Geopy.html" class="inline-flex items-center gap-2">
+                            <span aria-hidden="true">&#x2192;</span>
+                            <span>Próximo capítulo</span>
+                        </a>
+                    </nav>
+                    <div class="space-y-4">
+                        <h1 class="flex flex-wrap items-center gap-3 text-3xl font-extrabold text-slate-800 dark:text-white md:text-4xl">
+                            <span class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-ifsc-soft text-ifsc-green shadow-inner dark:bg-emerald-900/40 dark:text-emerald-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 3h7v7H3z"></path>
+                                    <path d="M14 3h7v7h-7z"></path>
+                                    <path d="M14 14h7v7h-7z"></path>
+                                    <path d="M3 14h7v7H3z"></path>
+                                </svg>
+                            </span>
+                            <span>Manipulação de Dados com Pandas e GeoPandas</span>
+                        </h1>
+                        <p class="max-w-prose text-lg leading-relaxed text-gray-600 dark:text-slate-300">Saia das estruturas básicas e explore bibliotecas poderosas para ler, limpar e analisar dados tabulares e geoespaciais antes de visualizá-los em mapas interativos.</p>
+                    </div>
+                    <div class="space-y-4 rounded-2xl border border-ifsc-green/20 bg-ifsc-soft/60 p-6 dark:border-emerald-500/30 dark:bg-emerald-900/20">
+                        <div class="space-y-2">
+                            <p class="text-sm font-semibold uppercase tracking-wide text-ifsc-green dark:text-emerald-300">Você vai aprender a</p>
+                            <ul class="space-y-2 text-sm text-ifsc-gray dark:text-slate-200">
+                                <li class="flex gap-2"><span class="mt-0.5">▹</span><span>Ler e explorar arquivos CSV com o Pandas.</span></li>
+                                <li class="flex gap-2"><span class="mt-0.5">▹</span><span>Converter e reprojetar dados espaciais com GeoPandas.</span></li>
+                                <li class="flex gap-2"><span class="mt-0.5">▹</span><span>Executar consultas espaciais para responder perguntas de localização.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </header>
+                                            <section class="prose max-w-none lg:prose-xl">
+                                                <section id="arquivos" data-toc="section" data-toc-title="Arquivos necessários">
+                                                    <h2 class="text-2xl font-semibold text-ifsc-green dark:text-emerald-200">Arquivos necessários para acompanhar a aula</h2>
+                                                    <div class="space-y-4 leading-relaxed text-gray-700 dark:text-slate-300">
+                                                        <p>Para reproduzir os exemplos desta aula, utilize a planilha <code>Pontos.csv</code> com dados fictícios de balneabilidade das praias de Florianópolis. Baixe o arquivo e mantenha-o na pasta <code>arquivos/</code> do projeto para que os scripts encontrem o caminho corretamente.</p>
+                                                        <div class="flex flex-col gap-3 rounded-2xl border border-ifsc-green/30 bg-ifsc-soft/70 p-5 dark:border-emerald-500/40 dark:bg-emerald-900/20 md:flex-row md:items-center md:gap-6">
+                                                            <div class="space-y-1 md:basis-3/4 md:flex-1">
+                                                                <p class="text-sm font-semibold uppercase tracking-wide text-ifsc-green dark:text-emerald-300">Dataset de referência</p>
+                                                                <p class="text-sm text-gray-600 dark:text-slate-300">Inclui nome da praia, latitude, longitude e situação da balneabilidade para consultas com Pandas e GeoPandas.</p>
+                                                            </div>
+                                                            <a href="arquivos/Pontos.csv" download class="group inline-flex items-center gap-2 rounded-xl border border-ifsc-green/60 bg-white px-4 py-2 text-sm font-semibold text-ifsc-green shadow-sm transition hover:bg-ifsc-green hover:text-white dark:border-emerald-400/70 dark:bg-slate-900/70 dark:text-emerald-200 dark:hover:bg-emerald-400 dark:hover:text-slate-900 md:basis-1/4 md:flex-none md:justify-center">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition group-hover:translate-y-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                                                    <path d="M7 10l5 5 5-5"></path>
+                                                                    <path d="M12 15V3"></path>
+                                                                </svg>
+                                                                <span>Baixar Pontos.csv</span>
+                                                            </a>
+                                                        </div>
+                                                        <div class="flex flex-col gap-3 rounded-2xl border border-sky-400/40 bg-sky-50/80 p-5 dark:border-sky-400/50 dark:bg-sky-900/20 md:flex-row md:items-center md:gap-6">
+                                                            <div class="space-y-3 md:basis-3/4 md:flex-1">
+                                                                <p class="text-sm font-semibold uppercase tracking-wide text-sky-700 dark:text-sky-200">Shapefile oficial do IBGE</p>
+                                                                <p class="text-sm text-gray-600 dark:text-slate-300">Arquivo <code>SC_Municipios_2022</code> com as geometrias municipais atualizadas. O download ocorre a partir dos servidores públicos do IBGE.</p>
+                                                                <div class="rounded-xl border-l-4 border-amber-400 bg-amber-50/90 px-4 py-3 text-xs text-amber-800 shadow-sm dark:border-amber-300 dark:bg-amber-900/30 dark:text-amber-100">
+                                                                    Após baixar o pacote ZIP, extraia todos os componentes do shapefile (<code>.shp</code>, <code>.dbf</code>, <code>.shx</code>, <code>.prj</code> etc.) para uma pasta local, como <code>arquivos/SC_Municipios_2022/</code>. Mantenha os nomes originais para que o GeoPandas reconheça o conjunto completo.
+                                                                </div>
+                                                            </div>
+                                                            <a href="https://geoftp.ibge.gov.br/organizacao_do_territorio/malhas_territoriais/malhas_municipais/municipio_2022/UFs/SC/SC_Municipios_2022.zip" target="_blank" rel="noopener" class="group inline-flex items-center gap-2 rounded-xl border border-sky-500/70 bg-white px-4 py-2 text-sm font-semibold text-sky-700 shadow-sm transition hover:bg-sky-500 hover:text-white dark:border-sky-400/70 dark:bg-slate-900/70 dark:text-sky-200 dark:hover:bg-sky-400 dark:hover:text-slate-900 md:basis-1/4 md:flex-none md:justify-center">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition group-hover:translate-y-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                                                    <path d="M7 10l5 5 5-5"></path>
+                                                                    <path d="M12 15V3"></path>
+                                                                </svg>
+                                                                <span>Baixar SC_Municipios_2022.zip</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </section>
+                                                <section id="introducao" data-toc="section" data-toc-title="Por que Pandas e GeoPandas">
+                                                    <h2 class="text-2xl font-semibold text-ifsc-green dark:text-emerald-200">1. Introdução: Por que precisamos de mais que listas e dicionários?</h2>
+                                                    <div class="space-y-4 leading-relaxed text-gray-700 dark:text-slate-300">
+                                                        <p>Listas e dicionários nos ajudaram a organizar dados básicos em Python, como uma coleção de praias com seus atributos.</p>
+                                                        <div class="code-container">
+                                                        <pre><code class="language-python">dados_praias = [
+    {"Praia": "Praia da Barra", "Longitude": -48.573928, "Latitude": -27.600218, "Situação": "Boa"},
+    {"Praia": "Praia Brava", "Longitude": -48.574293, "Latitude": -27.600404, "Situação": "Boa"},
+    # ... e assim por diante
+]</code></pre>
+                                                        </div>
+                                                        <p>No entanto, quando precisamos calcular médias, filtrar milhares de registros ou ler arquivos externos, o trabalho manual cresce rapidamente. Para escalar essas tarefas, recorremos a ferramentas feitas sob medida para análise de dados: <strong>Pandas</strong> para tabelas e <strong>GeoPandas</strong> para dados espaciais.</p>
+                                                    </div>
+                                                </section>
+
+                                                <section id="instalacao" data-toc="section" data-toc-title="Instalação das bibliotecas">
+                                                    <h2 class="text-2xl font-semibold text-ifsc-green dark:text-emerald-200">2. Instalação das bibliotecas necessárias</h2>
+                                                    <div class="space-y-4 leading-relaxed text-gray-700 dark:text-slate-300">
+                                                        <p>Antes de trabalhar com dados tabulares e espaciais, precisamos instalar as bibliotecas Pandas e GeoPandas. Vamos usar o <strong>pip</strong>, que é o gerenciador de pacotes oficial do Python.</p>
+                                                        
+                                                        <aside class="rounded-2xl border border-sky-400/40 bg-sky-50/80 p-5 dark:border-sky-400/50 dark:bg-sky-900/20">
+                                                            <div class="flex items-start gap-3">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mt-0.5 text-sky-700 dark:text-sky-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                                                    <circle cx="12" cy="12" r="10"></circle>
+                                                                    <path d="M12 16v-4"></path>
+                                                                    <path d="M12 8h.01"></path>
+                                                                </svg>
+                                                                <div>
+                                                                    <p class="font-semibold text-sky-700 dark:text-sky-200 text-sm">O que é o pip?</p>
+                                                                    <p class="text-sm text-gray-700 dark:text-slate-300">O pip (Pip Installs Packages) é uma ferramenta de linha de comando que baixa e instala bibliotecas Python diretamente do PyPI (Python Package Index). Ele já vem instalado com o Python moderno.</p>
+                                                                </div>
+                                                            </div>
+                                                        </aside>
+
+                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">2.1 Instalando o Pandas</h3>
+                                                        <p>O Pandas é relativamente simples de instalar. Abra o terminal (ou prompt de comando) e execute:</p>
+                                                        
+                                                        <aside class="rounded-lg border border-blue-300 bg-blue-50 p-4 dark:border-blue-600 dark:bg-blue-900/20 mb-4">
+                                                            <div class="flex items-start gap-3">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mt-0.5 text-blue-600 dark:text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                                                    <circle cx="12" cy="12" r="10"></circle>
+                                                                    <path d="M12 16v-4"></path>
+                                                                    <path d="M12 8h.01"></path>
+                                                                </svg>
+                                                                <div>
+                                                                    <p class="font-semibold text-blue-700 dark:text-blue-300 text-sm">💡 Terminal vs Editor de Código</p>
+                                                                    <p class="text-sm text-blue-700 dark:text-blue-300">O <strong>terminal</strong> é a janela preta/escura onde executamos comandos do sistema (como instalar bibliotecas). Não confunda com o <strong>editor de código</strong> onde escrevemos Python! No VS Code, o terminal fica na parte inferior da tela.</p>
+                                                                </div>
+                                                            </div>
+                                                        </aside>
+                                                        
+                                                        <div class="code-container">
+                                                            <pre><code class="language-bash">pip install pandas</code></pre>
+                                                        </div>
+
+                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">2.2 Instalando o GeoPandas</h3>
+                                                        <p>O GeoPandas depende de várias bibliotecas geoespaciais. A instalação pode ser feita de duas formas:</p>
+                                                        
+                                                        <div class="space-y-4">
+                                                            <div class="rounded-xl border border-emerald-200 bg-emerald-50/80 p-4 dark:border-emerald-500/30 dark:bg-emerald-900/20">
+                                                                <p class="font-semibold text-emerald-800 dark:text-emerald-200 text-sm mb-2">Opção 1: Instalação direta (recomendada)</p>
+                                                                <div class="code-container">
+                                                                    <pre><code class="language-bash">pip install geopandas</code></pre>
+                                                                </div>
+                                                                <p class="text-sm text-emerald-700 dark:text-emerald-300 mt-2">Esta opção instala automaticamente todas as dependências necessárias.</p>
+                                                            </div>
+
+                                                            <div class="rounded-xl border border-amber-200 bg-amber-50/80 p-4 dark:border-amber-500/30 dark:bg-amber-900/20">
+                                                                <p class="font-semibold text-amber-800 dark:text-amber-200 text-sm mb-2">Opção 2: Se houver problemas de dependência</p>
+                                                                <div class="code-container">
+                                                                    <pre><code class="language-bash">pip install fiona shapely pyproj matplotlib
+pip install geopandas</code></pre>
+                                                                </div>
+                                                                <p class="text-sm text-amber-700 dark:text-amber-300 mt-2">Instala as dependências principais (incluindo matplotlib para gráficos) primeiro, depois o GeoPandas.</p>
+                                                            </div>
+                                                        </div>
+
+                                                        <aside class="rounded-xl border border-purple-300 bg-purple-50/80 p-4 dark:border-purple-500/30 dark:bg-purple-900/20 mt-6">
+                                                            <details class="group">
+                                                                <summary class="flex items-center justify-between cursor-pointer list-none">
+                                                                    <div class="flex items-start gap-3">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mt-0.5 text-purple-600 dark:text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                                                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2Z"></path>
+                                                                        </svg>
+                                                                        <div>
+                                                                            <p class="font-semibold text-purple-700 dark:text-purple-300 text-sm">🎓 Dica avançada: Ambientes virtuais (opcional)</p>
+                                                                            <p class="text-sm text-purple-700 dark:text-purple-300">Para projetos profissionais, isole suas dependências criando ambientes virtuais</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-purple-600 dark:text-purple-400 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                                                        <path d="M6 9l6 6 6-6"></path>
+                                                                    </svg>
+                                                                </summary>
+                                                                <div class="mt-4 space-y-3 border-t border-purple-200 pt-4 dark:border-purple-500/30">
+                                                                    <p class="text-sm text-purple-700 dark:text-purple-300">O <strong>venv</strong> já vem incluído no Python (versão 3.3+), então não precisa instalar nada extra. Ambientes virtuais evitam conflitos entre versões de bibliotecas em diferentes projetos.</p>
+                                                                    
+                                                                    <div class="space-y-2">
+                                                                        <p class="text-sm font-semibold text-purple-700 dark:text-purple-300">1. Criar ambiente virtual:</p>
+                                                                        <div class="code-container text-xs">
+                                                                            <pre><code class="language-bash">python -m venv meu_projeto_geo</code></pre>
+                                                                        </div>
+                                                                    </div>
+                                                                    
+                                                                    <div class="space-y-2">
+                                                                        <p class="text-sm font-semibold text-purple-700 dark:text-purple-300">2. Ativar ambiente (Windows):</p>
+                                                                        <div class="code-container text-xs">
+                                                                            <pre><code class="language-bash">meu_projeto_geo\Scripts\activate</code></pre>
+                                                                        </div>
+                                                                    </div>
+                                                                    
+                                                                    <div class="space-y-2">
+                                                                        <p class="text-sm font-semibold text-purple-700 dark:text-purple-300">3. Instalar bibliotecas (com ambiente ativo):</p>
+                                                                        <div class="code-container text-xs">
+                                                                            <pre><code class="language-bash">pip install pandas geopandas matplotlib</code></pre>
+                                                                        </div>
+                                                                    </div>
+                                                                    
+                                                                    <div class="rounded-lg border border-purple-200 bg-purple-100/50 p-3 dark:border-purple-500/40 dark:bg-purple-800/20">
+                                                                        <p class="text-xs text-purple-700 dark:text-purple-300"><strong>💡 Quando usar:</strong> Recomendado para projetos profissionais ou quando você trabalha com múltiplos projetos Python. Para aprender e projetos simples, pode instalar direto no sistema.</p>
+                                                                    </div>
+                                                                </div>
+                                                            </details>
+                                                        </aside>
+
+                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">2.3 Verificando a instalação</h3>
+                                                        <p>Para confirmar que tudo foi instalado corretamente, teste as importações:</p>
+                                                        <div class="code-container">
+                                                            <pre><code class="language-python">import pandas as pd
+import geopandas as gpd
+
+print(f"Pandas versão: {pd.__version__}")
+print(f"GeoPandas versão: {gpd.__version__}")
+print("✅ Todas as bibliotecas instaladas com sucesso!")</code></pre>
+                                                        </div>
+                                                    </div>
+                                                </section>
+
+                                                <section id="pandas" data-toc="section" data-toc-title="Pandas">
+                                                    <h2 class="text-2xl font-semibold text-ifsc-green dark:text-emerald-200">3. Pandas: Sua planilha superpoderosa no Python</h2>
+                                                    <div class="space-y-4 leading-relaxed text-gray-700 dark:text-slate-300">
+                                                        <p>Pandas é como uma planilha programável: lê CSVs, organiza colunas com tipos específicos e facilita a exploração de grandes conjuntos de dados.</p>
+                                                    </div>
+
+                                                    <section id="pandas-dataframe">
+                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">3.1 A estrutura principal: o <code>DataFrame</code></h3>
+                                                        <p class="leading-relaxed text-gray-700 dark:text-slate-300">O <code>DataFrame</code> organiza os dados em linhas e colunas. Cada coluna possui um rótulo e um tipo apropriado (texto, número, data).</p>
+                                                    </section>
+
+                                                    <section id="pandas-csv" data-toc="section" data-toc-title="Leitura de CSV">
+                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">3.2 Lendo dados de um arquivo CSV</h3>
+                                                        <div class="space-y-4 leading-relaxed text-gray-700 dark:text-slate-300">
+                                                            <p>Carregar dados tabulares é simples com <code>pd.read_csv()</code>. Utilize o mesmo arquivo <code>Pontos.csv</code> que também servirá para projetos com Folium.</p>
+                                                            <div class="code-container">
+                                                            <pre><code class="language-python"># 1. Importar a biblioteca pandas
+import pandas as pd  # "pd" é o apelido padrão
+
+# 2. Ler o arquivo CSV e carregar os dados em um DataFrame
+try:
+    df_praias = pd.read_csv('arquivos/Pontos.csv')
+
+    # 3. Explorar os dados que foram carregados
+    print("--- As 5 primeiras linhas do nosso DataFrame ---")
+    print(df_praias.head())  # .head() mostra as primeiras 5 linhas
+
+    print("\n--- Informações sobre as colunas e os tipos de dados ---")
+    print(df_praias.info())  # .info() resume a estrutura do DataFrame
+
+except FileNotFoundError:
+    print("Erro: O arquivo 'arquivos/Pontos.csv' não foi encontrado.")
+    print("Certifique-se de que ele está na pasta 'arquivos/' do seu projeto.")</code></pre>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+
+                                                    <section id="pandas-operacoes" data-toc="section" data-toc-title="Operações básicas">
+                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">3.3 Operações básicas com DataFrames</h3>
+                                                        <div class="space-y-4 leading-relaxed text-gray-700 dark:text-slate-300">
+                                                            <p>Depois de carregar os dados, o Pandas simplifica consultas, cálculos e filtragens que antes exigiriam muitos laços <code>for</code>.</p>
+                                                            <div class="code-container">
+                                                            <pre><code class="language-python">import pandas as pd
+
+try:
+    df_praias = pd.read_csv('arquivos/Pontos.csv')
+
+    # a) Selecionar uma coluna específica (retorna uma Series)
+    nomes_das_praias = df_praias['Praia']
+    print("--- Nomes de todas as praias ---")
+    print(nomes_das_praias)
+
+    # b) Calcular estatísticas básicas de uma coluna numérica
+    latitude_media = df_praias['Latitude'].mean()
+    print(f"\n--- A latitude média é: {latitude_media:.4f} ---")
+
+    # c) Filtrar o DataFrame pela Situação
+    praias_ruins = df_praias[df_praias['Situação'] == 'Ruim']
+    print("\n--- Praias com situação 'Ruim' ---")
+    print(praias_ruins)
+
+except FileNotFoundError:
+    print("Erro: O arquivo 'arquivos/Pontos.csv' não foi encontrado.")</code></pre>
+                                                            </div>
+                                                            <p>Note como cálculos e filtros robustos cabem em poucas linhas, liberando tempo para análises mais profundas.</p>
+                                                        </div>
+                                                    </section>
+                                                </section>
+
+                                                <section id="geopandas" data-toc="section" data-toc-title="GeoPandas">
+                                                    <h2 class="text-2xl font-semibold text-ifsc-green dark:text-emerald-200">4. GeoPandas: adicionando inteligência geográfica</h2>
+                                                    <div class="space-y-4 leading-relaxed text-gray-700 dark:text-slate-300">
+                                                        <p>GeoPandas expande o Pandas para entender colunas com latitudes e longitudes como geometrias reais. Tudo isso apoiado pela biblioteca <code>pyproj</code> para transformações de coordenadas.</p>
+                                                    </div>
+
+                                                    <section id="geopandas-shapefile" data-toc="section" data-toc-title="Leitura de Shapefile">
+                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">4.1 Lendo um arquivo Shapefile</h3>
+                                                        <div class="space-y-4 leading-relaxed text-gray-700 dark:text-slate-300">
+                                                            <p>Shapefiles são formatos clássicos do geoprocessamento, contendo atributos e geometria. GeoPandas lê essas estruturas com <code>read_file()</code>.</p>
+                                                            <div class="code-container">
+                                                            <pre><code class="language-python">import geopandas as gpd
+
+# Caminho para o arquivo .shp (extraído do ZIP do IBGE)
+caminho_shapefile = 'arquivos/SC_Municipios_2022/SC_Municipios_2022.shp'
+
+try:
+    gdf_municipios = gpd.read_file(caminho_shapefile)
+
+    print("--- As 5 primeiras linhas do nosso GeoDataFrame ---")
+    print(gdf_municipios.head())
+
+    print("\n--- Informações sobre o GeoDataFrame ---")
+    gdf_municipios.info()
+    # Repare na coluna "geometry", exclusiva dos GeoDataFrames
+
+except Exception as e:
+    print(f"Não foi possível ler o arquivo Shapefile: {e}")
+    print("Verifique se o caminho está correto e se o arquivo não está corrompido.")</code></pre>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+
+                                                    <section id="geopandas-plot" data-toc="section" data-toc-title="Visualização rápida">
+                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">4.2 Visualização rápida</h3>
+                                                        <div class="space-y-4 leading-relaxed text-gray-700 dark:text-slate-300">
+                                                            <p>Com a geometria carregada, um mapa inicial surge com <code>.plot()</code>, ideal para conferência visual.</p>
+                                                            <div class="code-container">
+                                                            <pre><code class="language-python">import geopandas as gpd
+import matplotlib.pyplot as plt
+
+caminho_shapefile = 'arquivos/SC_Municipios_2022/SC_Municipios_2022.shp'
+
+try:
+    gdf_municipios = gpd.read_file(caminho_shapefile)
+
+    print("Gerando um mapa simples dos municípios...")
+    gdf_municipios.plot()
+
+    plt.title("Municípios de Santa Catarina")
+    plt.xlabel("Longitude")
+    plt.ylabel("Latitude")
+    plt.show()
+
+except Exception as e:
+    print(f"Não foi possível gerar o mapa: {e}")</code></pre>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+
+                                                    <section id="geopandas-conversao" data-toc="section" data-toc-title="Conversão de formatos">
+                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">4.3 Manipulação e conversão de formatos</h3>
+                                                        <div class="space-y-4 leading-relaxed text-gray-700 dark:text-slate-300">
+                                                            <p>GeoPandas também funciona como um tradutor entre formatos espaciais. Converter Shapefile para GeoJSON, por exemplo, é direto.</p>
+                                                            <div class="code-container">
+                                                            <pre><code class="language-python">import geopandas as gpd
+
+caminho_shapefile = 'arquivos/SC_Municipios_2022/SC_Municipios_2022.shp'
+caminho_saida_geojson = 'saidas/municipios_sc.geojson'
+
+try:
+    print(f"Lendo o arquivo: {caminho_shapefile}...")
+    gdf_municipios = gpd.read_file(caminho_shapefile)
+    print("Leitura concluída com sucesso!")
+
+    print(f"Convertendo para GeoJSON: {caminho_saida_geojson}...")
+    gdf_municipios.to_file(caminho_saida_geojson, driver='GeoJSON')
+    print("Conversão finalizada com sucesso!")
+
+except Exception as e:
+    print(f"Ocorreu um erro durante o processo: {e}")</code></pre>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+
+                                                    <section id="geopandas-crs" data-toc="section" data-toc-title="Reprojeção">
+                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">4.4 Transformando sistemas de coordenadas</h3>
+                                                        <div class="space-y-4 leading-relaxed text-gray-700 dark:text-slate-300">
+                                                            <p>Converter entre sistemas geográficos (graus) e projetados (metros) é essencial para cálculos de área e distância. GeoPandas simplifica a reprojeção via <code>.to_crs()</code>.</p>
+                                                            <div class="code-container">
+                                                            <pre><code class="language-python">import geopandas as gpd
+
+caminho_shapefile = 'arquivos/SC_Municipios_2022/SC_Municipios_2022.shp'
+
+try:
+    gdf_municipios = gpd.read_file(caminho_shapefile)
+
+    # 1. Verificar o CRS atual
+    print(f"CRS Original: {gdf_municipios.crs}")
+
+    # 2. Reprojetar para SIRGAS 2000 / UTM zone 22S (EPSG:31982)
+    print("Reprojetando para UTM (EPSG:31982)...")
+    gdf_utm = gdf_municipios.to_crs("EPSG:31982")
+
+    # 3. Conferir o resultado
+    print(f"Novo CRS: {gdf_utm.crs}")
+    print("\n--- Geometrias após a conversão para UTM (coordenadas em metros) ---")
+    print(gdf_utm.head())
+
+except Exception as e:
+    print(f"Ocorreu um erro durante a reprojeção: {e}")</code></pre>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+
+                                                    <section id="pandas-to-geopandas" data-toc="section" data-toc-title="DataFrame para GeoDataFrame">
+                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">4.5 Transformando DataFrame em GeoDataFrame</h3>
+                                                        <div class="space-y-4 leading-relaxed text-gray-700 dark:text-slate-300">
+                                                            <p>Uma das tarefas mais comuns é converter um DataFrame do Pandas (que possui colunas de latitude e longitude) em um GeoDataFrame espacial. Isso permite aplicar todas as operações geográficas que vimos anteriormente.</p>
+                                                            <div class="code-container">
+                                                            <pre><code class="language-python">import pandas as pd
+import geopandas as gpd
+from shapely.geometry import Point
+
+try:
+    # 1. Carregar os dados do CSV
+    df_praias = pd.read_csv('arquivos/Pontos.csv')
+    print("--- DataFrame original (Pandas) ---")
+    print(df_praias.head())
+
+    # 2. Criar objetos Point a partir das coordenadas
+    geometry = [Point(xy) for xy in zip(df_praias['Longitude'], df_praias['Latitude'])]
+
+    # 3. Transformar em GeoDataFrame
+    gdf_praias = gpd.GeoDataFrame(df_praias, geometry=geometry, crs='EPSG:4326')
+    
+    print("\n--- GeoDataFrame espacial ---")
+    print(gdf_praias.head())
+    print(f"\nSistema de coordenadas: {gdf_praias.crs}")
+    
+    # 4. Agora podemos usar métodos espaciais
+    print(f"\nÁrea total do bounding box: {gdf_praias.total_bounds}")
+
+except Exception as e:
+    print(f"Erro ao converter DataFrame para GeoDataFrame: {e}")</code></pre>
+                                                            </div>
+                                                            <aside class="rounded-2xl border border-ifsc-green/30 bg-ifsc-soft/70 p-5 dark:border-emerald-500/40 dark:bg-emerald-900/20">
+                                                                <div class="flex items-start gap-3">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mt-0.5 text-ifsc-green dark:text-emerald-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                                                        <circle cx="12" cy="12" r="10"></circle>
+                                                                        <path d="M12 16v-4"></path>
+                                                                        <path d="M12 8h.01"></path>
+                                                                    </svg>
+                                                                    <div>
+                                                                        <p class="font-semibold text-ifsc-green dark:text-emerald-300 text-sm">Dica importante</p>
+                                                                        <p class="text-sm text-gray-700 dark:text-slate-300">Sempre especifique o CRS (sistema de coordenadas) ao criar um GeoDataFrame. Para dados em graus decimais (lat/lon), use <code>crs='EPSG:4326'</code>.</p>
+                                                                    </div>
+                                                                </div>
+                                                            </aside>
+                                                        </div>
+                                                    </section>
+
+                                                    <section id="spatial-joins" data-toc="section" data-toc-title="Junções espaciais">
+                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">4.6 Spatial Joins (Junções Espaciais)</h3>
+                                                        <div class="space-y-4 leading-relaxed text-gray-700 dark:text-slate-300">
+                                                            <p>As junções espaciais permitem cruzar dados de pontos com polígonos, respondendo perguntas como "a qual município pertence cada praia?" ou "quantas praias estão em cada cidade?". É uma operação fundamental no geoprocessamento.</p>
+                                                            <div class="code-container">
+                                                            <pre><code class="language-python">import pandas as pd
+import geopandas as gpd
+from shapely.geometry import Point
+
+try:
+    # 1. Criar GeoDataFrame das praias
+    df_praias = pd.read_csv('arquivos/Pontos.csv')
+    geometry_praias = [Point(xy) for xy in zip(df_praias['Longitude'], df_praias['Latitude'])]
+    gdf_praias = gpd.GeoDataFrame(df_praias, geometry=geometry_praias, crs='EPSG:4326')
+
+    # 2. Carregar shapefile dos municípios
+    gdf_municipios = gpd.read_file('arquivos/SC_Municipios_2022/SC_Municipios_2022.shp')
+
+    # 3. Realizar a junção espacial
+    # Cada praia será associada ao município que a contém
+    praias_com_municipio = gpd.sjoin(gdf_praias, gdf_municipios, how='left', predicate='within')
+
+    print("--- Praias com informações do município ---")
+    print(praias_com_municipio[['Praia', 'Situação', 'NM_MUN']].head())
+
+    # 4. Análise: quantas praias por município?
+    contagem_por_municipio = praias_com_municipio.groupby('NM_MUN').size()
+    print(f"\n--- Praias por município ---")
+    print(contagem_por_municipio)
+
+    # 5. Análise: situação das praias por município
+    situacao_por_municipio = praias_com_municipio.groupby(['NM_MUN', 'Situação']).size().unstack(fill_value=0)
+    print(f"\n--- Situação das praias por município ---")
+    print(situacao_por_municipio)
+
+except Exception as e:
+    print(f"Erro na junção espacial: {e}")</code></pre>
+                                                            </div>
+                                                            <aside class="rounded-2xl border border-sky-400/40 bg-sky-50/80 p-5 dark:border-sky-400/50 dark:bg-sky-900/20">
+                                                                <div class="flex items-start gap-3">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mt-0.5 text-sky-700 dark:text-sky-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                                                        <path d="M9 11l3 3L22 4"></path>
+                                                                        <path d="M2 20h6"></path>
+                                                                        <path d="M9 20h13"></path>
+                                                                        <path d="M2 14h6"></path>
+                                                                        <path d="M9 14h13"></path>
+                                                                    </svg>
+                                                                    <div>
+                                                                        <p class="font-semibold text-sky-700 dark:text-sky-200 text-sm">Tipos de junção</p>
+                                                                        <p class="text-sm text-gray-700 dark:text-slate-300">Use <code>predicate='within'</code> para pontos que estão dentro de polígonos, <code>predicate='intersects'</code> para qualquer tipo de toque ou sobreposição (o mais comum), e <code>predicate='contains'</code> para polígonos que contêm completamente outro objeto.</p>
+                                                                    </div>
+                                                                </div>
+                                                            </aside>
+                                                        </div>
+                                                    </section>
+
+                                                    <section id="geometric-operations" data-toc="section" data-toc-title="Operações geométricas">
+                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">4.7 Operações geométricas: criando buffers</h3>
+                                                        <div class="space-y-4 leading-relaxed text-gray-700 dark:text-slate-300">
+                                                            <p>Buffers são áreas de influência ao redor de geometrias. São úteis para análises de proximidade, como "quais praias estão a menos de 500 metros de uma escola?" ou "qual a área de impacto de um empreendimento?".</p>
+                                                            <div class="code-container">
+                                                            <pre><code class="language-python">import pandas as pd
+import geopandas as gpd
+from shapely.geometry import Point
+import matplotlib.pyplot as plt
+
+try:
+    # 1. Criar GeoDataFrame das praias
+    df_praias = pd.read_csv('arquivos/Pontos.csv')
+    geometry_praias = [Point(xy) for xy in zip(df_praias['Longitude'], df_praias['Latitude'])]
+    gdf_praias = gpd.GeoDataFrame(df_praias, geometry=geometry_praias, crs='EPSG:4326')
+
+    # 2. Reprojetar para um sistema em metros (necessário para buffers em metros)
+    gdf_praias_utm = gdf_praias.to_crs('EPSG:31982')  # UTM Zone 22S
+
+    # 3. Criar buffers de 500 metros ao redor de cada praia
+    gdf_praias_utm['buffer_500m'] = gdf_praias_utm.geometry.buffer(500)
+
+    # 4. Criar um novo GeoDataFrame só com os buffers
+    gdf_buffers = gdf_praias_utm.copy()
+    gdf_buffers['geometry'] = gdf_buffers['buffer_500m']
+    gdf_buffers = gdf_buffers.drop('buffer_500m', axis=1)
+
+    # 5. Reprojetar de volta para visualização
+    gdf_praias_plot = gdf_praias_utm.to_crs('EPSG:4326')
+    gdf_buffers_plot = gdf_buffers.to_crs('EPSG:4326')
+
+    print(f"Criados {len(gdf_buffers)} buffers de 500m")
+    
+    # 6. Visualizar (opcional)
+    fig, ax = plt.subplots(figsize=(12, 8))
+    gdf_buffers_plot.plot(ax=ax, color='lightblue', alpha=0.5, label='Buffer 500m')
+    gdf_praias_plot.plot(ax=ax, color='red', markersize=50, label='Praias')
+    ax.set_title('Praias e suas áreas de influência (500m)')
+    ax.legend()
+    plt.show()
+
+    # 7. Calcular área total dos buffers
+    area_total_buffers = gdf_buffers.geometry.area.sum()
+    print(f"Área total dos buffers: {area_total_buffers:.2f} m²")
+
+except Exception as e:
+    print(f"Erro ao criar buffers: {e}")</code></pre>
+                                                            </div>
+                                                            <aside class="rounded-2xl border border-amber-400/40 bg-amber-50/80 p-5 dark:border-amber-400/50 dark:bg-amber-900/20">
+                                                                <div class="flex items-start gap-3">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mt-0.5 text-amber-700 dark:text-amber-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                                                        <path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"></path>
+                                                                    </svg>
+                                                                    <div>
+                                                                        <p class="font-semibold text-amber-700 dark:text-amber-200 text-sm">Atenção ao sistema de coordenadas</p>
+                                                                        <p class="text-sm text-gray-700 dark:text-slate-300">Para criar buffers em metros, sempre projete para um sistema de coordenadas em metros (como UTM). Buffers em graus decimais não fazem sentido geográfico.</p>
+                                                                    </div>
+                                                                </div>
+                                                            </aside>
+                                                        </div>
+                                                    </section>
+
+                                                    <section id="geopandas-topologia" data-toc="section" data-toc-title="Consultas espaciais">
+                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">4.8 Introdução a relações topológicas (consultas espaciais)</h3>
+                                                        <div class="space-y-4 leading-relaxed text-gray-700 dark:text-slate-300">
+                                                            <p>Consultas espaciais respondem perguntas sobre interseções, contenções e vizinhança entre objetos geográficos. GeoPandas usa internamente a biblioteca Shapely para esses cálculos.</p>
+                                                            <div class="code-container">
+                                                            <pre><code class="language-python">import geopandas as gpd
+from shapely.geometry import Point
+
+caminho_shapefile = 'arquivos/SC_Municipios_2022/SC_Municipios_2022.shp'
+
+try:
+    gdf_municipios = gpd.read_file(caminho_shapefile)
+
+    # 1. Criar um ponto para o IFSC (longitude, latitude)
+    ponto_ifsc = Point(-48.54235, -27.59397)
+
+    # 2. Consulta espacial: qual município contém o ponto?
+    municipio_ifsc = gdf_municipios[gdf_municipios.contains(ponto_ifsc)]
+
+    # 3. Exibir o resultado
+    if not municipio_ifsc.empty:
+        nome_municipio = municipio_ifsc['NM_MUN'].iloc[0]
+        print(f"O ponto do IFSC está localizado no município de: {nome_municipio}")
+    else:
+        print("Não foi encontrado nenhum município contendo o ponto especificado.")
+
+except Exception as e:
+    print(f"Ocorreu um erro durante a consulta espacial: {e}")</code></pre>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+
+                                                    <section id="overlay" data-toc="section" data-toc-title="Operações de overlay">
+                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">4.9 Operações de Sobreposição (Overlay)</h3>
+                                                        <div class="space-y-4 leading-relaxed text-gray-700 dark:text-slate-300">
+                                                            <p>Enquanto as junções espaciais (<code>sjoin</code>) enriquecem os atributos de uma camada com base na relação espacial com outra, as operações de sobreposição (<code>overlay</code>) criam novas geometrias a partir da interação entre as camadas.</p>
+                                                            <p>Imagine combinar municípios e áreas de preservação ambiental. Com <code>overlay</code>, você responde perguntas como:</p>
+                                                            <ul class="list-disc pl-5 space-y-2">
+                                                                <li><strong>Interseção (<code>intersection</code>)</strong>: Quais porções de cada área de preservação estão dentro de um município? O resultado gera novos polígonos apenas nas áreas de sobreposição.</li>
+                                                                <li><strong>União (<code>union</code>)</strong>: Qual geometria representa a combinação de municípios e áreas preservadas? O resultado funde as duas camadas em uma única malha.</li>
+                                                                <li><strong>Diferença (<code>difference</code>)</strong>: Qual parte do município fica fora das áreas de preservação? O resultado mantém a primeira camada com as regiões da segunda "subtraídas".</li>
+                                                            </ul>
+                                                            <p>Essas operações são a base de análises espaciais mais complexas e estão disponíveis no GeoPandas por meio da função <code>gpd.overlay()</code>. Basta indicar as duas camadas, escolher o parâmetro <code>how</code> (como <code>'intersection'</code>, <code>'union'</code> ou <code>'difference'</code>) e garantir que ambas estejam no mesmo CRS.</p>
+                                                        </div>
+                                                    </section>
+                                                </section>
+
+                                                <section id="laboratorio-pratico" data-toc="section" data-toc-title="Laboratório prático">
+                                                    <h2 class="text-2xl font-semibold text-ifsc-green dark:text-emerald-200">5. Laboratório prático: Consolidando múltiplos shapefiles em GeoPackage</h2>
+                                                    <div class="space-y-4 leading-relaxed text-gray-700 dark:text-slate-300">
+                                                        <p>Neste laboratório, vamos criar um fluxo completo que simula uma situação real: você recebeu múltiplos shapefiles de diferentes regiões e precisa consolidá-los em um único arquivo GeoPackage (.gpkg) padronizado, incluindo reprojeção para UTM.</p>
+                                                        
+                                                        <aside class="rounded-2xl border border-emerald-400/40 bg-emerald-50/80 p-5 dark:border-emerald-400/50 dark:bg-emerald-900/20">
+                                                            <div class="flex items-start gap-3">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mt-0.5 text-emerald-700 dark:text-emerald-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2Z"></path>
+                                                                </svg>
+                                                                <div>
+                                                                    <p class="font-semibold text-emerald-700 dark:text-emerald-200 text-sm">Por que GeoPackage?</p>
+                                                                    <p class="text-sm text-gray-700 dark:text-slate-300">O GeoPackage (.gpkg) é um formato moderno baseado em SQLite que armazena múltiplas camadas em um único arquivo, suporta índices espaciais e é compatível com praticamente todos os softwares GIS.</p>
+                                                                </div>
+                                                            </div>
+                                                        </aside>
+
+                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">5.1 Preparação do ambiente</h3>
+                                                        <p>Primeiro, vamos organizar nossa estrutura de pastas e preparar alguns dados de exemplo:</p>
+                                                        
+                                                        <div class="code-container">
+                                                            <pre><code class="language-bash"># Estrutura de pastas recomendada
+projeto_geo/
+├── arquivos/
+│   ├── shapefiles_originais/
+│   │   ├── municipios_SC/
+│   │   ├── municipios_PR/
+│   │   └── municipios_RS/
+│   └── dados_processados/
+├── saidas/
+└── scripts/</code></pre>
+                                                        </div>
+
+                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">5.2 Script principal do laboratório</h3>
+                                                        <p>Vamos criar um script que automatiza todo o processo de consolidação:</p>
+                                                        
+                                                        <div class="code-container">
+                                                            <pre><code class="language-python">import geopandas as gpd
+import pandas as pd
+import os
+from pathlib import Path
+import warnings
+warnings.filterwarnings('ignore')
+
+def consolidar_shapefiles_para_geopackage():
+    """
+    Consolida múltiplos shapefiles em um único GeoPackage
+    com reprojeção padronizada para UTM
+    """
+    
+    # === CONFIGURAÇÃO INICIAL ===
+    pasta_shapefiles = Path('arquivos/shapefiles_originais')
+    arquivo_saida = Path('saidas/dados_consolidados.gpkg')
+    crs_destino = 'EPSG:31982'  # SIRGAS 2000 / UTM zone 22S
+    
+    # Criar pasta de saída se não existir
+    arquivo_saida.parent.mkdir(parents=True, exist_ok=True)
+    
+    print("🚀 Iniciando consolidação de shapefiles...")
+    print(f"📁 Pasta de origem: {pasta_shapefiles}")
+    print(f"📦 Arquivo de destino: {arquivo_saida}")
+    print(f"🗺️  Sistema de coordenadas destino: {crs_destino}")
+    print("-" * 50)
+    
+    # === DESCOBRIR TODOS OS SHAPEFILES ===
+    shapefiles_encontrados = []
+    
+    # Procurar recursivamente por arquivos .shp
+    for arquivo_shp in pasta_shapefiles.rglob('*.shp'):
+        shapefiles_encontrados.append(arquivo_shp)
+    
+    if not shapefiles_encontrados:
+        print("❌ Nenhum shapefile encontrado na pasta especificada!")
+        return
+    
+    print(f"📋 Encontrados {len(shapefiles_encontrados)} shapefiles:")
+    for i, arquivo in enumerate(shapefiles_encontrados, 1):
+        print(f"   {i}. {arquivo.name} ({arquivo.parent.name})")
+    print("-" * 50)
+    
+    # === PROCESSAR CADA SHAPEFILE ===
+    dados_consolidados = []
+    log_processamento = []
+    
+    for i, arquivo_shp in enumerate(shapefiles_encontrados, 1):
+        try:
+            print(f"⚙️  Processando {i}/{len(shapefiles_encontrados)}: {arquivo_shp.name}")
+            
+            # Carregar o shapefile
+            gdf = gpd.read_file(arquivo_shp)
+            
+            # Informações básicas
+            crs_original = gdf.crs
+            num_features = len(gdf)
+            
+            print(f"    📊 Features: {num_features}")
+            print(f"    🗺️  CRS original: {crs_original}")
+            
+            # Reprojetar se necessário
+            if gdf.crs != crs_destino:
+                print(f"    🔄 Reprojetando para {crs_destino}...")
+                gdf = gdf.to_crs(crs_destino)
+            
+            # Adicionar metadados de origem
+            gdf['arquivo_origem'] = arquivo_shp.name
+            gdf['pasta_origem'] = arquivo_shp.parent.name
+            gdf['data_processamento'] = pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')
+            
+            # Adicionar à lista de dados consolidados
+            dados_consolidados.append(gdf)
+            
+            # Log do processamento
+            log_processamento.append({
+                'arquivo': arquivo_shp.name,
+                'pasta': arquivo_shp.parent.name,
+                'crs_original': str(crs_original),
+                'num_features': num_features,
+                'status': 'sucesso'
+            })
+            
+            print(f"    ✅ Processado com sucesso!")
+            
+        except Exception as e:
+            print(f"    ❌ Erro ao processar: {e}")
+            log_processamento.append({
+                'arquivo': arquivo_shp.name,
+                'pasta': arquivo_shp.parent.name,
+                'crs_original': 'erro',
+                'num_features': 0,
+                'status': f'erro: {str(e)}'
+            })
+    
+    if not dados_consolidados:
+        print("❌ Nenhum shapefile foi processado com sucesso!")
+        return
+    
+    print("-" * 50)
+    print("🔗 Consolidando dados...")
+    
+    # === CONSOLIDAR TODOS OS DADOS ===
+    try:
+        # Concatenar todos os GeoDataFrames
+        gdf_final = gpd.GeoDataFrame(pd.concat(dados_consolidados, ignore_index=True))
+        
+        # Garantir que o CRS está correto
+        gdf_final.crs = crs_destino
+        
+        # Estatísticas finais
+        total_features = len(gdf_final)
+        arquivos_processados = len([log for log in log_processamento if log['status'] == 'sucesso'])
+        
+        print(f"📊 Resultado da consolidação:")
+        print(f"    ✅ Arquivos processados: {arquivos_processados}/{len(shapefiles_encontrados)}")
+        print(f"    📈 Total de features: {total_features}")
+        print(f"    🗺️  CRS final: {gdf_final.crs}")
+        print(f"    📐 Extent (bounds): {gdf_final.total_bounds}")
+        
+        # === SALVAR NO GEOPACKAGE ===
+        print("-" * 50)
+        print("💾 Salvando no GeoPackage...")
+        
+        # Salvar dados principais
+        gdf_final.to_file(arquivo_saida, layer='dados_consolidados', driver='GPKG')
+        
+        # Criar DataFrame com log de processamento
+        df_log = pd.DataFrame(log_processamento)
+        
+        # Salvar log como tabela adicional (sem geometria)
+        # Converter para GeoDataFrame vazio apenas para usar to_file
+        gdf_log = gpd.GeoDataFrame(df_log)
+        gdf_log.to_file(arquivo_saida, layer='log_processamento', driver='GPKG')
+        
+        print(f"✅ Dados salvos com sucesso em: {arquivo_saida}")
+        print(f"📋 Camadas criadas:")
+        print(f"    • dados_consolidados: {total_features} features")
+        print(f"    • log_processamento: relatório de processamento")
+        
+        # === VERIFICAÇÃO FINAL ===
+        print("-" * 50)
+        print("🔍 Verificação final...")
+        
+        # Ler de volta para confirmar
+        gdf_verificacao = gpd.read_file(arquivo_saida, layer='dados_consolidados')
+        print(f"✅ Verificação: {len(gdf_verificacao)} features lidas do GeoPackage")
+        
+        return gdf_final, df_log
+        
+    except Exception as e:
+        print(f"❌ Erro durante a consolidação: {e}")
+        return None, None
+
+# === FUNÇÃO AUXILIAR PARA ANÁLISE ===
+def analisar_geopackage(arquivo_gpkg):
+    """
+    Analisa o conteúdo de um GeoPackage gerado
+    """
+    try:
+        # Listar camadas disponíveis
+        import fiona
+        with fiona.open(arquivo_gpkg) as f:
+            camadas = fiona.listlayers(arquivo_gpkg)
+        
+        print(f"📦 Análise do GeoPackage: {arquivo_gpkg}")
+        print(f"🗂️  Camadas disponíveis: {camadas}")
+        
+        for camada in camadas:
+            try:
+                if camada == 'dados_consolidados':
+                    gdf = gpd.read_file(arquivo_gpkg, layer=camada)
+                    print(f"\n📊 Camada '{camada}':")
+                    print(f"    📈 Features: {len(gdf)}")
+                    print(f"    🗺️  CRS: {gdf.crs}")
+                    print(f"    📋 Colunas: {list(gdf.columns)}")
+                    print(f"    📐 Bounds: {gdf.total_bounds}")
+                    
+                    # Análise por arquivo de origem
+                    if 'arquivo_origem' in gdf.columns:
+                        contagem = gdf['arquivo_origem'].value_counts()
+                        print(f"    📁 Features por arquivo:")
+                        for arquivo, count in contagem.items():
+                            print(f"        {arquivo}: {count}")
+                            
+            except Exception as e:
+                print(f"    ❌ Erro ao analisar camada {camada}: {e}")
+                
+    except Exception as e:
+        print(f"❌ Erro ao analisar GeoPackage: {e}")
+
+# === EXECUTAR O LABORATÓRIO ===
+if __name__ == "__main__":
+    # Executar consolidação
+    gdf_resultado, df_log = consolidar_shapefiles_para_geopackage()
+    
+    if gdf_resultado is not None:
+        print("\n" + "="*50)
+        print("🎉 LABORATÓRIO CONCLUÍDO COM SUCESSO!")
+        print("="*50)
+        
+        # Análise do resultado
+        analisar_geopackage('saidas/dados_consolidados.gpkg')
+        
+        print("\n💡 Próximos passos sugeridos:")
+        print("   1. Abra o arquivo .gpkg no QGIS para visualização")
+        print("   2. Use o GeoDataFrame resultado para análises espaciais")
+        print("   3. Experimente diferentes projeções conforme sua área de estudo")
+    
+    else:
+        print("\n❌ Laboratório não foi concluído. Verifique os erros acima.")</code></pre>
+                                                        </div>
+
+                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">5.3 Como executar o laboratório</h3>
+                                                        <div class="space-y-4">
+                                                            <p><strong>Passo 1:</strong> Organize seus shapefiles na estrutura de pastas sugerida</p>
+                                                            <p><strong>Passo 2:</strong> Salve o script acima como <code>scripts/consolidar_shapefiles.py</code></p>
+                                                            <p><strong>Passo 3:</strong> Execute o script a partir da raiz do projeto</p>
+                                                            
+                                                            <div class="code-container">
+                                                                <pre><code class="language-bash">cd projeto_geo
+python scripts/consolidar_shapefiles.py</code></pre>
+                                                            </div>
+                                                        </div>
+
+                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">5.4 Resultados esperados</h3>
+                                                        <div class="space-y-4">
+                                                            <p>Após a execução bem-sucedida, você terá:</p>
+                                                            <ul class="space-y-2 list-disc pl-5 marker:text-ifsc-green dark:marker:text-emerald-300">
+                                                                <li><strong>Um arquivo GeoPackage unificado</strong> em <code>saidas/dados_consolidados.gpkg</code></li>
+                                                                <li><strong>Todas as geometrias reprojetadas</strong> para o sistema UTM especificado</li>
+                                                                <li><strong>Metadados de origem</strong> preservados em cada feature</li>
+                                                                <li><strong>Log de processamento</strong> como camada adicional no GeoPackage</li>
+                                                                <li><strong>Relatório detalhado</strong> no console sobre todo o processo</li>
+                                                            </ul>
+                                                        </div>
+
+                                                        <aside class="rounded-2xl border border-violet-400/40 bg-violet-50/80 p-5 dark:border-violet-400/50 dark:bg-violet-900/20">
+                                                            <div class="flex items-start gap-3">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mt-0.5 text-violet-700 dark:text-violet-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                                                    <path d="M9 11l3 3L22 4"></path>
+                                                                    <path d="M2 20h6"></path>
+                                                                    <path d="M9 20h13"></path>
+                                                                    <path d="M2 14h6"></path>
+                                                                    <path d="M9 14h13"></path>
+                                                                </svg>
+                                                                <div>
+                                                                    <p class="font-semibold text-violet-700 dark:text-violet-200 text-sm">Desafio extra</p>
+                                                                    <p class="text-sm text-gray-700 dark:text-slate-300">Modifique o script para adicionar uma análise de qualidade dos dados (geometrias inválidas, atributos nulos, sobreposições) e gere um relatório automatizado em CSV com as estatísticas encontradas.</p>
+                                                                </div>
+                                                            </div>
+                                                        </aside>
+                                                    </div>
+                                                </section>
+
+                                                <section id="conclusao" data-toc="section" data-toc-title="Conclusão">
+                                                    <h2 class="text-2xl font-semibold text-ifsc-green dark:text-emerald-200">6. Conclusão e próximos passos</h2>
+                                                    <div class="space-y-4 leading-relaxed text-gray-700 dark:text-slate-300">
+                                                        <p>Este capítulo forneceu uma base sólida para trabalhar com dados tabulares e geoespaciais em Python. Com Pandas e GeoPandas você agora domina:</p>
+                                                        <ul class="space-y-2 list-disc pl-5 marker:text-ifsc-green dark:marker:text-emerald-300">
+                                                            <li><strong>Instalação e configuração</strong> das bibliotecas essenciais usando pip</li>
+                                                            <li><strong>Leitura e manipulação</strong> de dados tabulares sem escrever laços repetitivos</li>
+                                                            <li><strong>Trabalho com arquivos espaciais</strong>, conversão de formatos e reprojeção de coordenadas</li>
+                                                            <li><strong>Transformação de DataFrames</strong> em GeoDataFrames espaciais a partir de coordenadas</li>
+                                                            <li><strong>Junções espaciais</strong> para cruzar dados de pontos com polígonos</li>
+                                                            <li><strong>Operações geométricas</strong> como buffers para análises de proximidade</li>
+                                                            <li><strong>Fluxos automatizados</strong> de consolidação de múltiplos arquivos espaciais</li>
+                                                            <li><strong>Boas práticas</strong> de organização de projetos com estrutura de pastas padronizada</li>
+                                                        </ul>
+                                                        <p>O laboratório prático demonstrou como aplicar todos esses conceitos em um cenário real, consolidando múltiplos shapefiles em um formato moderno e eficiente. Essa habilidade é fundamental para projetos de geoprocessamento que lidam com dados de múltiplas fontes.</p>
+                                                        <p>No próximo capítulo, utilizaremos esses GeoDataFrames e dados processados para criar visualizações interativas com Folium, transformando análises em mapas navegáveis que comunicam resultados de forma efetiva.</p>
+                                                        
+                                                        <aside class="rounded-2xl border border-ifsc-green/30 bg-ifsc-soft/70 p-5 dark:border-emerald-500/40 dark:bg-emerald-900/20">
+                                                            <div class="flex items-start gap-3">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mt-0.5 text-ifsc-green dark:text-emerald-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2Z"></path>
+                                                                </svg>
+                                                                <div>
+                                                                    <p class="font-semibold text-ifsc-green dark:text-emerald-300 text-sm">Exercício integrador recomendado</p>
+                                                                    <p class="text-sm text-gray-700 dark:text-slate-300">Use o laboratório como base para criar seu próprio fluxo: carregue CSVs de diferentes cidades, transforme em GeoDataFrames, faça junções espaciais com limites municipais, crie buffers de interesse e consolide tudo em um GeoPackage temático. Este exercício integra todo o conhecimento adquirido.</p>
+                                                                </div>
+                                                            </div>
+                                                        </aside>
+                                                    </div>
+                                                </section>
+                                                <section id="navegacao" data-toc="section" data-toc-title="Navegação" class="mt-10">
+                                                    <nav aria-label="Navegação entre capítulos" class="flex flex-col gap-4 rounded-2xl border border-slate-200/80 bg-white/90 p-6 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/70">
+                                                        <p class="text-sm font-semibold uppercase tracking-wide text-ifsc-green dark:text-emerald-300">Continue sua jornada</p>
+                                                        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                                                            <a href="Capítulo 05 - Organizando o Código – Funções, Módulos e Classes.html" class="group inline-flex items-center gap-2 rounded-xl border border-slate-200 px-4 py-3 text-sm font-medium text-slate-600 transition hover:border-ifsc-green hover:text-ifsc-green dark:border-slate-700 dark:text-slate-200 dark:hover:border-emerald-400 dark:hover:text-emerald-300">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition group-hover:-translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path d="m15 18-6-6 6-6"></path>
+                                                                </svg>
+                                                                <span>Revisar capítulo anterior</span>
+                                                            </a>
+                                                            <a href="Capítulo 07 - Do Endereço ao Mapa - Geocodificação com Geopy.html" class="group inline-flex items-center gap-2 rounded-xl border border-ifsc-green px-4 py-3 text-sm font-semibold text-ifsc-green transition hover:bg-ifsc-green hover:text-white dark:border-emerald-400 dark:text-emerald-300 dark:hover:bg-emerald-400 dark:hover:text-slate-900">
+                                                                <span>Avançar para geocodificação</span>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path d="m9 18 6-6-6-6"></path>
+                                                                </svg>
+                                                            </a>
+                                                        </div>
+                                                        <p class="text-xs text-slate-500 dark:text-slate-300/80">No próximo capítulo, vamos transformar endereços em coordenadas usando Geopy e preparar dados para visualização.</p>
+                                                    </nav>
+                                                </section>
+                                            </section>
+                            </div>
+        
+            </div>
+        </article>
+
+        </div>
+    </main>
+
+    <footer class="mt-8 bg-white shadow-inner dark:bg-slate-900/90">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-600 dark:text-slate-300">
+            <p class="text-base font-semibold text-ifsc-green">PAG014903 - PROGRAMAÇÃO APLICADA AO GEOPROCESSAMENTO</p>
+            <p class="text-sm">Curso Técnico em Geoprocessamento · DACC - IFSC Florianópolis</p>
+            <p class="text-sm">Professor responsável: Arthur Berbert</p>
+            <p class="text-xs text-gray-400 mt-2">Versão 2025-2</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="main.v2.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
