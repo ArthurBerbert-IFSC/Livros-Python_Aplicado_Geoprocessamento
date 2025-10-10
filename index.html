@@ -34,32 +34,27 @@
 
     <header class="bg-white/95 backdrop-blur shadow-md sticky top-0 z-40 dark:bg-slate-900/90">
         <div class="border-b border-slate-200/60 dark:border-slate-700/60">
-            <div class="container mx-auto px-6 py-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                <div class="flex flex-wrap items-center justify-center gap-4 md:justify-start">
-                    <img src="imagens/logotipos/logo_IFSC.png" alt="Logotipo do IFSC" class="h-10 w-auto opacity-80" loading="lazy" onerror="this.style.display='none'">
-                    <img src="imagens/logotipos/logo_DACC.jpg" alt="Logotipo do DACC" class="h-10 w-auto opacity-80" loading="lazy" onerror="this.style.display='none'">
-                    <img src="imagens/logotipos/Logo_Curso_Geoprocessamento.jpg" alt="Logotipo do Curso de Geoprocessamento" class="h-10 w-auto opacity-80" loading="lazy" onerror="this.style.display='none'">
+            <div class="container mx-auto px-6 py-4 flex flex-col items-center gap-5 md:flex-row md:items-center md:justify-between">
+                <div class="flex justify-center md:justify-start">
                     <img src="imagens/logotipos/logo_Disciplina.png" alt="Logotipo da disciplina PAG014903" class="h-16 w-auto ring-2 ring-ifsc-green rounded-md shadow-md" loading="lazy" onerror="this.style.display='none'">
                 </div>
-                <div class="flex items-center gap-3 justify-center md:justify-end">
-                    <div class="text-center md:text-right">
-                        <p class="text-lg font-semibold text-ifsc-green dark:text-emerald-300">Fundamentos de Programação em Python</p>
-                        <p class="text-xs text-gray-500 dark:text-slate-300/80">v0.0.1</p>
+                <div class="text-center md:text-left">
+                    <p class="text-lg font-semibold text-ifsc-green dark:text-emerald-300">Fundamentos de Programação em Python</p>
+                    <p class="text-xs text-gray-500 dark:text-slate-300/80">v0.0.1</p>
+                </div>
+                <div class="w-full md:w-auto flex flex-col items-center gap-3 sm:flex-row sm:justify-center md:justify-end md:gap-4">
+                    <div class="font-size-widget" role="group" aria-label="Controle de tamanho do texto">
+                        <button id="font-decrease" type="button" aria-label="Diminuir tamanho do texto">A-</button>
+                        <span class="font-size-widget-divider" aria-hidden="true"></span>
+                        <button id="font-increase" type="button" aria-label="Aumentar tamanho do texto">A+</button>
+                        <span class="font-size-widget-label" data-font-label aria-live="polite">Padrão</span>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <div class="font-size-widget" role="group" aria-label="Controle de tamanho do texto">
-                            <button id="font-decrease" type="button" aria-label="Diminuir tamanho do texto">A-</button>
-                            <span class="font-size-widget-divider" aria-hidden="true"></span>
-                            <button id="font-increase" type="button" aria-label="Aumentar tamanho do texto">A+</button>
-                            <span class="font-size-widget-label" data-font-label aria-live="polite">Padrão</span>
-                        </div>
-                        <button id="theme-toggle" type="button" class="theme-toggle" aria-pressed="false" aria-label="Alternar tema">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
-                            </svg>
-                            <span data-mode-text>LIGHT</span>
-                        </button>
-                    </div>
+                    <button id="theme-toggle" type="button" class="theme-toggle" aria-pressed="false" aria-label="Alternar tema">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                        </svg>
+                        <span data-mode-text>LIGHT</span>
+                    </button>
                 </div>
             </div>
         </div>
