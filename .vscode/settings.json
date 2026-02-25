@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^\\.\\\\template-ifsc\\\\template\\.apply-to-book\\.ps1 -TargetBookPath \"\\.\" -DryRun$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}

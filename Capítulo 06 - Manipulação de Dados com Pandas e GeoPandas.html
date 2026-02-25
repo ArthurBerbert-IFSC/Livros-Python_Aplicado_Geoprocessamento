@@ -35,45 +35,58 @@
 <body class="bg-slate-50 text-ifsc-gray antialiased dark:bg-slate-950 dark:text-slate-100">
     <div id="reading-progress" class="fixed top-0 left-0 h-1 w-full bg-ifsc-green/80 scale-x-0 transition-transform duration-200 origin-left z-50"></div>
                     <header class="bg-white/95 backdrop-blur shadow-md sticky top-0 z-40 dark:bg-slate-900/90">
-        <div class="border-b border-slate-200/60 dark:border-slate-700/60">
-            <div class="container mx-auto px-6 py-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                <div class="flex flex-wrap items-center justify-center gap-4 md:justify-start">
-                    <img src="imagens/logotipos/logo_IFSC.png" alt="Logotipo do IFSC" class="h-10 w-auto object-contain opacity-80 drop-shadow-sm dark:opacity-90" loading="lazy" onerror="this.style.display='none'">
-                    <img src="imagens/logotipos/logo_DACC.jpg" alt="Logotipo do DACC" class="h-10 w-auto object-contain opacity-80 drop-shadow-sm dark:opacity-90" loading="lazy" onerror="this.style.display='none'">
-                    <img src="imagens/logotipos/Logo_Curso_Geoprocessamento.jpg" alt="Logotipo do Curso de Geoprocessamento" class="h-10 w-auto object-contain opacity-80 drop-shadow-sm dark:opacity-90" loading="lazy" onerror="this.style.display='none'">
-                    <img src="imagens/logotipos/logo_Disciplina.png" alt="Logotipo da disciplina PAG014903" class="h-16 w-auto object-contain ring-2 ring-ifsc-green rounded-md shadow-md" loading="lazy" onerror="this.style.display='none'">
-                </div>
-                <div class="flex items-center gap-3 justify-center md:justify-end">
-                    <div class="text-center md:text-right">
-                        <p class="text-lg font-semibold text-ifsc-green dark:text-emerald-300">Fundamentos de Programação em Python</p>
-                        <p class="text-xs text-gray-500 dark:text-slate-300/80">v0.0.1</p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="font-size-widget" role="group" aria-label="Controle de tamanho do texto">
-                            <button id="font-decrease" type="button" aria-label="Diminuir tamanho do texto">A-</button>
-                            <span class="font-size-widget-divider" aria-hidden="true"></span>
-                            <button id="font-increase" type="button" aria-label="Aumentar tamanho do texto">A+</button>
-                            <span class="font-size-widget-label" data-font-label aria-live="polite">Padrão</span>
+                        <div class="border-b border-slate-200/60 dark:border-slate-700/60">
+                            <div class="container mx-auto px-4 py-2 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                                <div class="flex items-center justify-between gap-3">
+                                    <div class="flex items-center gap-3">
+                                        <img src="imagens/logotipos/logo_Disciplina.png" alt="Logotipo da disciplina PAG014903" class="h-12 w-auto ring-2 ring-ifsc-green rounded-md shadow-md md:h-16" loading="lazy" onerror="this.style.display='none'">
+                                        <div>
+                                            <p class="text-base font-semibold text-ifsc-green dark:text-emerald-300 md:text-lg">Fundamentos de Programação em Python</p>
+                                            <p class="text-[11px] text-gray-500 dark:text-slate-300/80 md:text-xs">v0.0.2</p>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="inline-flex items-center justify-center rounded-md border border-slate-200 px-2.5 py-2 text-sm text-ifsc-gray shadow-sm transition hover:border-ifsc-green hover:text-ifsc-green dark:border-slate-700 dark:text-slate-200 dark:hover:border-emerald-400 md:hidden" aria-controls="primary-menu" aria-expanded="false" data-menu-toggle>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                                            <path d="M4 6h16"></path>
+                                            <path d="M4 12h16"></path>
+                                            <path d="M4 18h16"></path>
+                                        </svg>
+                                        <span class="sr-only">Abrir menu</span>
+                                    </button>
+                                </div>
+                                <div class="flex w-full items-center justify-between gap-3 md:w-auto md:justify-end">
+                                    <div class="hidden text-sm font-medium text-gray-600 md:flex md:items-center md:gap-6">
+                                        <a href="index.html#capitulos" class="hover:text-ifsc-green transition-colors">&larr; Capítulos</a>
+                                        <a href="index.html" class="hover:text-ifsc-green transition-colors">Início</a>
+                                        <a href="index.html#capitulos" class="hover:text-ifsc-green transition-colors">Capítulos</a>
+                                        <a href="index.html#sobre" class="hover:text-ifsc-green transition-colors">Sobre</a>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <div class="font-size-widget" role="group" aria-label="Controle de tamanho do texto">
+                                            <button id="font-decrease" type="button" aria-label="Diminuir tamanho do texto">A-</button>
+                                            <span class="font-size-widget-divider" aria-hidden="true"></span>
+                                            <button id="font-increase" type="button" aria-label="Aumentar tamanho do texto">A+</button>
+                                            <span class="font-size-widget-label" data-font-label aria-live="polite">Padrão</span>
+                                        </div>
+                                        <button id="theme-toggle" type="button" class="theme-toggle" aria-pressed="false" aria-label="Alternar tema">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                                            </svg>
+                                            <span data-mode-text>LIGHT</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <button id="theme-toggle" type="button" class="theme-toggle" aria-pressed="false" aria-label="Alternar tema">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
-                            </svg>
-                            <span data-mode-text>LIGHT</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <nav class="container mx-auto px-6 py-3 flex justify-between items-center text-sm font-medium">
-            <a href="index.html#capitulos" class="text-gray-600 hover:text-ifsc-green transition-colors dark:text-slate-300/80">&larr; Capítulos</a>
-            <div class="hidden md:flex items-center space-x-6">
-                <a href="index.html" class="py-2 px-3 text-gray-700 hover:text-ifsc-green transition-colors dark:text-slate-200">Início</a>
-                <a href="index.html#capitulos" class="py-2 px-3 text-gray-700 hover:text-ifsc-green transition-colors dark:text-slate-200">Capítulos</a>
-                <a href="index.html#sobre" class="py-2 px-3 text-gray-700 hover:text-ifsc-green transition-colors dark:text-slate-200">Sobre</a>
-            </div>
-        </nav>
-    </header>
+                        <nav id="primary-menu" class="border-b border-slate-200/60 bg-white/95 px-4 py-2 text-sm font-medium dark:border-slate-700/60 dark:bg-slate-900/90 md:hidden" hidden aria-hidden="true">
+                            <div class="flex flex-col gap-2">
+                                <a href="index.html#capitulos" class="rounded-lg px-3 py-2 text-gray-700 transition hover:bg-ifsc-soft/70 hover:text-ifsc-green dark:text-slate-200 dark:hover:bg-slate-800">&larr; Capítulos</a>
+                                <a href="index.html" class="rounded-lg px-3 py-2 text-gray-700 transition hover:bg-ifsc-soft/70 hover:text-ifsc-green dark:text-slate-200 dark:hover:bg-slate-800">Início</a>
+                                <a href="index.html#capitulos" class="rounded-lg px-3 py-2 text-gray-700 transition hover:bg-ifsc-soft/70 hover:text-ifsc-green dark:text-slate-200 dark:hover:bg-slate-800">Capítulos</a>
+                                <a href="index.html#sobre" class="rounded-lg px-3 py-2 text-gray-700 transition hover:bg-ifsc-soft/70 hover:text-ifsc-green dark:text-slate-200 dark:hover:bg-slate-800">Sobre</a>
+                            </div>
+                        </nav>
+                    </header>
 
     <main class="container mx-auto px-6 py-12">
         <div class="flex flex-col gap-10 lg:grid lg:grid-cols-[280px_minmax(0,1fr)]">
@@ -196,7 +209,7 @@
     # ... e assim por diante
 ]</code></pre>
                                                         </div>
-                                                        <p>No entanto, quando precisamos calcular médias, filtrar milhares de registros ou ler arquivos externos, o trabalho manual cresce rapidamente. Para escalar essas tarefas, recorremos a ferramentas feitas sob medida para análise de dados: <strong>Pandas</strong> para tabelas e <strong>GeoPandas</strong> para dados espaciais.</p>
+                                                        <p>Lembre-se da nossa analogia das "caixinhas" para variáveis. Listas e dicionários nos permitem organizar várias delas, mas carregar cada caixinha individualmente se torna impossível quando lidamos com milhares de registros. Precisamos de ferramentas melhores: um carrinho para transportar dezenas de caixas de uma vez, ou uma empilhadeira para organizar um armazém inteiro. Para escalar o trabalho com dados, o princípio é o mesmo. Recorremos a ferramentas feitas sob medida para análise de dados: <strong>Pandas</strong> funciona como nosso carrinho de mão superpoderoso para tabelas, e <strong>GeoPandas</strong> é a nossa empilhadeira especializada para dados espaciais.</p>
                                                     </div>
                                                 </section>
 
@@ -324,19 +337,73 @@ print("✅ Todas as bibliotecas instaladas com sucesso!")</code></pre>
 
                                                 <section id="pandas" data-toc="section" data-toc-title="Pandas">
                                                     <h2 class="text-2xl font-semibold text-ifsc-green dark:text-emerald-200">3. Pandas: Sua planilha superpoderosa no Python</h2>
-                                                    <div class="space-y-4 leading-relaxed text-gray-700 dark:text-slate-300">
-                                                        <p>Pandas é como uma planilha programável: lê CSVs, organiza colunas com tipos específicos e facilita a exploração de grandes conjuntos de dados.</p>
+                                                    <div class="space-y-6 leading-relaxed text-gray-700 dark:text-slate-300">
+                                                        <p>Pandas é a biblioteca central para manipular estruturas tabulares em Python. Ele concentra grandes volumes de dados em DataFrames, oferecendo operações vetorizadas eficientes. Se pensarmos rapidamente na analogia das caixinhas, ele agrupa e empilha essas unidades em um carrinho único, pronto para circular pelo fluxo de análise. Podemos enxergar o processo principal nestas três etapas:</p>
+                                                        <div class="grid gap-4 md:grid-cols-3">
+                                                            <div class="group relative overflow-hidden rounded-2xl border border-emerald-200/70 bg-emerald-50/80 p-5 shadow-sm transition dark:border-emerald-500/40 dark:bg-emerald-900/20">
+                                                                <div class="flex items-start gap-3">
+                                                                    <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/90 text-emerald-600 shadow-inner ring-1 ring-emerald-300/60 transition group-hover:scale-105 dark:bg-slate-900/70 dark:text-emerald-200 dark:ring-emerald-400/50">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                                                                            <path d="M3 16.5V8.7a2 2 0 0 1 1-1.73l7-3.9a2 2 0 0 1 2 0l7 3.9a2 2 0 0 1 1 1.73v7.8a2 2 0 0 1-1 1.73l-7 3.9a2 2 0 0 1-2 0l-7-3.9a2 2 0 0 1-1-1.73Z"></path>
+                                                                            <path d="M7.5 4.21L12 6.5l4.5-2.29"></path>
+                                                                        </svg>
+                                                                    </span>
+                                                                    <div>
+                                                                        <h4 class="font-semibold text-emerald-700 dark:text-emerald-200">Importar dados em lote</h4>
+                                                                        <p class="text-sm text-emerald-900/90 dark:text-emerald-100/90">Lê arquivos CSV, planilhas, bancos SQL e formatos columnar como Parquet, centralizando tudo em um DataFrame com colunas nomeadas e índices consistentes.</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="group relative overflow-hidden rounded-2xl border border-sky-200/70 bg-sky-50/80 p-5 shadow-sm transition dark:border-sky-500/40 dark:bg-sky-900/20">
+                                                                <div class="flex items-start gap-3">
+                                                                    <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/90 text-sky-600 shadow-inner ring-1 ring-sky-300/60 transition group-hover:scale-105 dark:bg-slate-900/70 dark:text-sky-200 dark:ring-sky-400/50">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                                                                            <path d="M4 4h16v16H4z"></path>
+                                                                            <path d="M4 9h16"></path>
+                                                                            <path d="M9 9v11"></path>
+                                                                        </svg>
+                                                                    </span>
+                                                                    <div>
+                                                                        <h4 class="font-semibold text-sky-700 dark:text-sky-200">Normalizar tipos e colunas</h4>
+                                                                        <p class="text-sm text-sky-900/90 dark:text-sky-100/90">Detecta automaticamente valores numéricos, categóricos ou temporais, permitindo conversões, limpeza e validação de dados com poucas linhas.</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="group relative overflow-hidden rounded-2xl border border-purple-200/70 bg-purple-50/80 p-5 shadow-sm transition dark:border-purple-500/40 dark:bg-purple-900/20">
+                                                                <div class="flex items-start gap-3">
+                                                                    <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/90 text-purple-600 shadow-inner ring-1 ring-purple-300/60 transition group-hover:scale-105 dark:bg-slate-900/70 dark:text-purple-200 dark:ring-purple-400/50">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                                                                            <path d="M10 13a5 5 0 1 0 7.54-6.59L21 3"></path>
+                                                                            <path d="M13 10a5 5 0 1 1-7.54 6.59L3 21"></path>
+                                                                        </svg>
+                                                                    </span>
+                                                                    <div>
+                                                                        <h4 class="font-semibold text-purple-700 dark:text-purple-200">Explorar e analisar rapidamente</h4>
+                                                                        <p class="text-sm text-purple-900/90 dark:text-purple-100/90">Filtra, agrupa, calcula estatísticas e integra com visualizações, respondendo perguntas analíticas de milhares de registros em segundos.</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <p>Em essência, o Pandas viabiliza pipelines de dados escaláveis, substituindo laços manuais por operações declarativas, legíveis e de alto desempenho.</p>
                                                     </div>
 
                                                     <section id="pandas-dataframe">
                                                         <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">3.1 A estrutura principal: o <code>DataFrame</code></h3>
-                                                        <p class="leading-relaxed text-gray-700 dark:text-slate-300">O <code>DataFrame</code> organiza os dados em linhas e colunas. Cada coluna possui um rótulo e um tipo apropriado (texto, número, data).</p>
+                                                        <p class="leading-relaxed text-gray-700 dark:text-slate-300">Imagine o DataFrame como a estrela do show no Pandas. A maneira mais fácil de entender essa estrutura é vê-la como uma tabela ou planilha digital superpoderosa.</p>
+                                                        <p class="leading-relaxed text-gray-700 dark:text-slate-300">Pense assim: cada DataFrame é como uma folha de Excel, mas que você controla com código! Ele organiza suas "caixinhas" de dados (suas variáveis) em duas dimensões perfeitas:</p>
+                                                        <ul class="space-y-2 text-gray-700 dark:text-slate-300">
+                                                            <li><strong>Linhas:</strong> cada linha é um registro completo. Pense nos dados de uma pessoa, um produto ou um evento. É o seu item individual.</li>
+                                                            <li><strong>Colunas:</strong> cada coluna é um tipo específico de informação. Por exemplo, uma coluna pode ser "Nome", outra "Idade", "Preço" ou "Data". É a categoria da sua informação.</li>
+                                                        </ul>
+                                                        <p class="leading-relaxed text-gray-700 dark:text-slate-300">O segredo das colunas está nos rótulos e nos tipos. Cada coluna tem um rótulo claro (o nome que você dá, como "Nome do Cliente" ou "Valor Total") e, o mais importante, armazena dados de um tipo apropriado.</p>
+                                                        <p class="leading-relaxed text-gray-700 dark:text-slate-300">Veja um exemplo: uma coluna "Idade" só terá números inteiros. Já uma coluna "Produto" terá textos, e "Data da Venda" terá o formato certinho de data.</p>
+                                                        <p class="leading-relaxed text-gray-700 dark:text-slate-300">Essa organização é crucial! Não só facilita a leitura e a interpretação dos dados, mas também garante que o Pandas realize operações corretamente. Afinal, você não tentaria somar um "nome" com um "preço", não é? O DataFrame cuida disso para você.</p>
                                                     </section>
 
                                                     <section id="pandas-csv" data-toc="section" data-toc-title="Leitura de CSV">
                                                         <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">3.2 Lendo dados de um arquivo CSV</h3>
                                                         <div class="space-y-4 leading-relaxed text-gray-700 dark:text-slate-300">
-                                                            <p>Carregar dados tabulares é simples com <code>pd.read_csv()</code>. Utilize o mesmo arquivo <code>Pontos.csv</code> que também servirá para projetos com Folium.</p>
+                                                            <p>Carregar dados tabulares é simples com <code>pd.read_csv()</code>. Para esta atividade, utilize o arquivo <code>Pontos.csv</code> que se encontra no início desta página.</p>
                                                             <div class="code-container">
                                                             <pre><code class="language-python"># 1. Importar a biblioteca pandas
 import pandas as pd  # "pd" é o apelido padrão
@@ -424,30 +491,121 @@ except Exception as e:
                                                         </div>
                                                     </section>
 
-                                                    <section id="geopandas-plot" data-toc="section" data-toc-title="Visualização rápida">
-                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">4.2 Visualização rápida</h3>
+                                                    <section id="geopandas-plot" data-toc="section" data-toc-title="Visualização rápida com .plot()">
+                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">4.2 Visualização rápida: a prova real do geoprocessamento</h3>
                                                         <div class="space-y-4 leading-relaxed text-gray-700 dark:text-slate-300">
-                                                            <p>Com a geometria carregada, um mapa inicial surge com <code>.plot()</code>, ideal para conferência visual.</p>
+                                                            <p>Depois de carregar ou criar um <code>GeoDataFrame</code>, nada melhor do que desenhar um mapa para validar se os dados fazem sentido. O método <code>.plot()</code> usa <strong>Matplotlib</strong> por trás dos panos e gera uma visualização estática imediata, perfeita para conferir o Sistema de Referência de Coordenadas (CRS), detectar geometrias distorcidas ou confirmar se o recorte espacial bate com o esperado.</p>
+                                                            <p>Começamos com o cenário mais simples: carregar o shapefile e chamar <code>plot()</code> sem ajustes extras. Ainda assim, vale sempre adicionar um título e rótulos nos eixos para contextualizar.</p>
                                                             <div class="code-container">
                                                             <pre><code class="language-python">import geopandas as gpd
 import matplotlib.pyplot as plt
 
-caminho_shapefile = 'arquivos/SC_Municipios_2022/SC_Municipios_2022.shp'
+caminho_shapefile = 'shapefiles/SC_Municipios_2022.shp'
 
 try:
+    # Carregar o shapefile usando GeoPandas
     gdf_municipios = gpd.read_file(caminho_shapefile)
 
-    print("Gerando um mapa simples dos municípios...")
+    # Plotar o mapa simples
     gdf_municipios.plot()
+    plt.title("Mapa Simples dos Municípios de SC")  # adicionar título
+    plt.xlabel("Longitude")                         # adicionar rótulo ao eixo x
+    plt.ylabel("Latitude")                          # adicionar rótulo ao eixo y
+    plt.show()                                       # exibir o gráfico
 
-    plt.title("Municípios de Santa Catarina")
-    plt.xlabel("Longitude")
-    plt.ylabel("Latitude")
+except Exception as e:
+    print(f"Ocorreu um erro ao plotar o mapa: {e}")</code></pre>
+                                                            </div>
+                                                            <p>Quando precisamos combinar camadas, podemos desenhar múltiplos GeoDataFrames no mesmo eixo (<code>ax</code>). Abaixo filtramos apenas o município de Florianópolis e sobrepomos os pontos de balneabilidade do arquivo <code>Pontos.csv</code>, todos convertidos para WGS84 (<code>EPSG:4326</code>) para garantir alinhamento.</p>
+                                                            <div class="code-container">
+                                                            <pre><code class="language-python">import geopandas as gpd
+import pandas as pd
+import matplotlib.pyplot as plt
+
+caminho_municipios = 'shapefiles/SC_Municipios_2022.shp'
+caminho_pontos = 'arquivos/Pontos.csv'
+
+try:
+    gdf_municipios = gpd.read_file(caminho_municipios)
+
+    # Filtrar apenas Florianópolis e garantir que esteja em WGS84
+    gdf_floripa = gdf_municipios[gdf_municipios['NM_MUN'] == 'Florianópolis']
+    if gdf_floripa.empty:
+        raise ValueError('Não há registros de Florianópolis na camada municipal.')
+    gdf_floripa = gdf_floripa.to_crs('EPSG:4326')
+
+    # Transformar o CSV em GeoDataFrame de pontos
+    df_pontos = pd.read_csv(caminho_pontos)
+    gdf_pontos = gpd.GeoDataFrame(
+        df_pontos,
+        geometry=gpd.points_from_xy(df_pontos['Longitude'], df_pontos['Latitude']),
+        crs='EPSG:4326'
+    )
+
+    fig, ax = plt.subplots(figsize=(9, 8))
+    gdf_floripa.plot(
+        ax=ax,
+        color='#bbf7d0',
+        edgecolor='#047857',
+        linewidth=0.8,
+        label='Florianópolis'
+    )
+
+    gdf_pontos.plot(
+        ax=ax,
+        color='#dc2626',
+        markersize=45,
+        marker='o',
+        label='Pontos monitorados',
+        alpha=0.85
+    )
+
+    ax.set_title('Pontos de balneabilidade dentro de Florianópolis', fontsize=15, fontweight='bold')
+    ax.set_xlabel('Longitude')
+    ax.set_ylabel('Latitude')
+    ax.legend()
+    ax.set_aspect('equal')
     plt.show()
 
 except Exception as e:
-    print(f"Não foi possível gerar o mapa: {e}")</code></pre>
+    print(f"Ocorreu um erro ao montar a figura: {e}")</code></pre>
                                                             </div>
+                                                            <h4 class="mt-6 text-lg font-semibold text-ifsc-green/80 dark:text-emerald-300">Customizando a visualização</h4>
+                                                            <p>O <code>.plot()</code> aceita parâmetros úteis para criar mapas temáticos simples direto no notebook ou no script.</p>
+                                                            <div class="grid gap-4 md:grid-cols-2">
+                                                                <div class="rounded-2xl border border-emerald-200/70 bg-emerald-50/70 p-4 shadow-sm dark:border-emerald-500/40 dark:bg-emerald-900/20">
+                                                                    <p class="font-semibold text-ifsc-green dark:text-emerald-200"><code>color</code> e <code>edgecolor</code></p>
+                                                                    <p class="text-sm text-gray-700 dark:text-slate-300">Controlam o preenchimento e o contorno dos polígonos.</p>
+                                                                </div>
+                                                                <div class="rounded-2xl border border-sky-200/70 bg-sky-50/70 p-4 shadow-sm dark:border-sky-500/40 dark:bg-sky-900/20">
+                                                                    <p class="font-semibold text-sky-700 dark:text-sky-200"><code>figsize</code></p>
+                                                                    <p class="text-sm text-gray-700 dark:text-slate-300">Define o tamanho da figura ao usar <code>plt.subplots()</code>.</p>
+                                                                </div>
+                                                                <div class="rounded-2xl border border-amber-200/70 bg-amber-50/70 p-4 shadow-sm dark:border-amber-500/40 dark:bg-amber-900/20">
+                                                                    <p class="font-semibold text-amber-700 dark:text-amber-200"><code>column</code></p>
+                                                                    <p class="text-sm text-gray-700 dark:text-slate-300">Aplica um coroplético simples com base nos valores de uma coluna.</p>
+                                                                </div>
+                                                                <div class="rounded-2xl border border-purple-200/70 bg-purple-50/70 p-4 shadow-sm dark:border-purple-500/40 dark:bg-purple-900/20">
+                                                                    <p class="font-semibold text-purple-700 dark:text-purple-200"><code>cmap</code></p>
+                                                                    <p class="text-sm text-gray-700 dark:text-slate-300">Escolhe a paleta de cores usada no coroplético.</p>
+                                                                </div>
+                                                                <div class="rounded-2xl border border-slate-200/70 bg-white/80 p-4 shadow-sm dark:border-slate-600/40 dark:bg-slate-900/30 md:col-span-2">
+                                                                    <p class="font-semibold text-ifsc-green dark:text-emerald-200"><code>legend</code></p>
+                                                                    <p class="text-sm text-gray-700 dark:text-slate-300">Mostra ou oculta a legenda quando usamos o parâmetro <code>column</code>.</p>
+                                                                </div>
+                                                            </div>
+                                                            <aside class="rounded-2xl border border-sky-400/40 bg-sky-50/80 p-5 dark:border-sky-400/50 dark:bg-sky-900/20 mt-6">
+                                                                <div class="flex items-start gap-3">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mt-0.5 text-sky-700 dark:text-sky-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                                                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2Z"></path>
+                                                                    </svg>
+                                                                    <div>
+                                                                        <p class="font-semibold text-sky-700 dark:text-sky-200 text-sm">Quando usar <code>.plot()</code> e quando usar Folium?</p>
+                                                                        <p class="text-sm text-gray-700 dark:text-slate-300">Reserve o <strong>.plot()</strong> para inspeções rápidas, análises exploratórias ou geração de imagens estáticas com controle preciso de títulos, eixos e fontes. Já o <strong>Folium</strong> (capítulo 8) entra em cena quando for preciso compartilhar um mapa interativo, com zoom, pop-ups e experiência web para o público final.</p>
+                                                                    </div>
+                                                                </div>
+                                                            </aside>
+                                                            <p>Na sequência, a seção 4.3 mostra como manipular e converter formatos a partir desses dados já conferidos. Se quiser ver um exemplo de sobreposição de camadas com pontos e polígonos, confira o bloco opcional ao final desta parte (seção 4.10).</p>
                                                         </div>
                                                     </section>
 
@@ -462,13 +620,9 @@ caminho_shapefile = 'arquivos/SC_Municipios_2022/SC_Municipios_2022.shp'
 caminho_saida_geojson = 'saidas/municipios_sc.geojson'
 
 try:
-    print(f"Lendo o arquivo: {caminho_shapefile}...")
     gdf_municipios = gpd.read_file(caminho_shapefile)
-    print("Leitura concluída com sucesso!")
-
-    print(f"Convertendo para GeoJSON: {caminho_saida_geojson}...")
     gdf_municipios.to_file(caminho_saida_geojson, driver='GeoJSON')
-    print("Conversão finalizada com sucesso!")
+    print(f"Arquivo GeoJSON salvo com sucesso em: {caminho_saida_geojson}")
 
 except Exception as e:
     print(f"Ocorreu um erro durante o processo: {e}")</code></pre>
@@ -483,22 +637,26 @@ except Exception as e:
                                                             <div class="code-container">
                                                             <pre><code class="language-python">import geopandas as gpd
 
-caminho_shapefile = 'arquivos/SC_Municipios_2022/SC_Municipios_2022.shp'
+caminho_shapefile = 'shapefiles/SC_Municipios_2022.shp'
 
 try:
+    # Carregar o shapefile usando GeoPandas
     gdf_municipios = gpd.read_file(caminho_shapefile)
+    gdf_utm = gdf_municipios  # ponto de partida caso o CRS já esteja correto
 
-    # 1. Verificar o CRS atual
-    print(f"CRS Original: {gdf_municipios.crs}")
+    # verificar se o CRS está definido
+    if gdf_municipios.crs is None:
+        # criar uma exceção caso o CRS não esteja definido
+        raise ValueError("O GeoDataFrame não possui um CRS definido. Por favor, defina o CRS antes de reprojetar.")
 
-    # 2. Reprojetar para SIRGAS 2000 / UTM zone 22S (EPSG:31982)
-    print("Reprojetando para UTM (EPSG:31982)...")
-    gdf_utm = gdf_municipios.to_crs("EPSG:31982")
+    # Reprojetar para UTM (EPSG:31982) se o CRS atual for diferente
+    elif gdf_municipios.crs.to_string() != "EPSG:31982":
+        print("Reprojetando para UTM (EPSG:31982)...")
+        gdf_utm = gdf_municipios.to_crs("EPSG:31982")
 
-    # 3. Conferir o resultado
-    print(f"Novo CRS: {gdf_utm.crs}")
+    # Conferir o resultado
     print("\n--- Geometrias após a conversão para UTM (coordenadas em metros) ---")
-    print(gdf_utm.head())
+    print(gdf_utm.head()) # exibir as primeiras linhas do GeoDataFrame reprojetado
 
 except Exception as e:
     print(f"Ocorreu um erro durante a reprojeção: {e}")</code></pre>
@@ -506,37 +664,85 @@ except Exception as e:
                                                         </div>
                                                     </section>
 
-                                                    <section id="pandas-to-geopandas" data-toc="section" data-toc-title="DataFrame para GeoDataFrame">
-                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">4.5 Transformando DataFrame em GeoDataFrame</h3>
+                                                    <section id="geopandas-gpkg" data-toc="section" data-toc-title="Exportando para GeoPackage">
+                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">4.5 Exportando para GeoPackage e padronizando o CRS</h3>
                                                         <div class="space-y-4 leading-relaxed text-gray-700 dark:text-slate-300">
-                                                            <p>Uma das tarefas mais comuns é converter um DataFrame do Pandas (que possui colunas de latitude e longitude) em um GeoDataFrame espacial. Isso permite aplicar todas as operações geográficas que vimos anteriormente.</p>
+                                                            <p>Uma vez que o CRS está conferido (seção 4.4), podemos entregar os dados em formatos modernos. O <strong>GeoPackage (.gpkg)</strong> guarda múltiplas camadas no mesmo arquivo e aceita geometrias em qualquer projeção. O snippet abaixo reprojeta tudo para <strong>SIRGAS 2000 / UTM zona 22S</strong> (EPSG:31982) e exporta cada camada definida em uma lista fixa.</p>
                                                             <div class="code-container">
-                                                            <pre><code class="language-python">import pandas as pd
+                                                            <pre><code class="language-python">import geopandas as gpd
+from pathlib import Path
+
+crs_destino = 'EPSG:31982'  # SIRGAS 2000 / UTM 22S
+destino_gpkg = Path('saidas/base_geoespacial.gpkg')
+
+camadas = [
+    {
+        'origem': 'arquivos/SC_Municipios_2022/SC_Municipios_2022.shp',
+        'layer': 'municipios_sc'
+    },
+    {
+        'origem': 'arquivos/exemplos/areas_preservacao.shp',
+        'layer': 'areas_preservacao'
+    }
+]
+
+destino_gpkg.parent.mkdir(parents=True, exist_ok=True)
+
+for item in camadas:
+    origem = Path(item['origem'])
+    layer = item['layer']
+
+    try:
+        gdf = gpd.read_file(origem)
+        gdf_utm = gdf.to_crs(crs_destino)
+        gdf_utm.to_file(destino_gpkg, layer=layer, driver='GPKG')
+        print(f"✅ Camada '{layer}' exportada para {destino_gpkg.name} em {crs_destino}")
+    except Exception as erro:
+        print(f"⚠️ Não foi possível processar {origem.name}: {erro}")</code></pre>
+                                                            </div>
+                                                            <p>Adapte a lista <code>camadas</code> aos arquivos do seu projeto — substitua, por exemplo, <code>arquivos/exemplos/areas_preservacao.shp</code> pelo caminho real da sua camada temática. O padrão é sempre ler, reprojetar e gravar no mesmo loop; assim o time economiza cliques e mantém todas as saídas alinhadas ao sistema oficial da disciplina.</p>
+                                                        </div>
+                                                    </section>
+
+                                                    <section id="pandas-to-geopandas" data-toc="section" data-toc-title="DataFrame para GeoDataFrame">
+                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">4.6 Transformando DataFrame em GeoDataFrame</h3>
+                                                        <div class="space-y-4 leading-relaxed text-gray-700 dark:text-slate-300">
+                                                            <h4 class="text-lg font-semibold text-ifsc-green/80 dark:text-emerald-300">Do CSV ao mapa: dando consciência espacial aos dados</h4>
+                                                            <p>Uma das tarefas mais corriqueiras do geoprocessamento é transformar dados tabulares em camadas espaciais. Planilhas de clientes, listas de ocorrências ou arquivos <code>.csv</code> exportados do GNSS chegam cheios de coordenadas, mas para o Pandas são apenas números. Para desbloquear cálculos de distância, buffers ou consultas espaciais, precisamos <strong>converter o DataFrame em GeoDataFrame</strong>, a estrutura que entende geometrias.</p>
+                                                            <p>Pense nesse processo como uma tradução em três atos:</p>
+                                                            <ol class="list-decimal space-y-2 pl-6">
+                                                                <li><strong>Carregar os dados tabulares:</strong> usamos o Pandas para organizar o arquivo em linhas e colunas.</li>
+                                                                <li><strong>Construir a geometria:</strong> a partir das colunas de coordenadas, geramos objetos <code>Point</code> que representam cada registro no espaço.</li>
+                                                                <li><strong>Criar o GeoDataFrame:</strong> combinamos dados e geometria e informamos o Sistema de Referência de Coordenadas (CRS) correto — etapa crucial para que os pontos apareçam no lugar certo do mundo.</li>
+                                                            </ol>
+                                                            <p>Imagine um arquivo <code>levantamento_rtk.csv</code>, exportado de um receptor Topcon após o trabalho de campo:</p>
+                                                            <div class="code-container">
+                                                                <pre><code class="language-text">Ponto,Leste(X),Norte(Y),Elevacao,Descricao
+P01,754231.56,6941234.89,12.34,Poste
+P02,754235.12,6941238.45,12.56,Meio-fio
+P03,754240.03,6941242.18,12.61,Esquina</code></pre>
+                                                            </div>
+                                                            <p>O GeoPandas oferece a função <code>points_from_xy()</code>, que lê diretamente as colunas de coordenadas e monta os pontos para nós. Em seguida, informamos que esses valores estão em <strong>SIRGAS 2000 / UTM zona 22S</strong> (EPSG:31982) e ganhamos uma camada espacial pronta para análise.</p>
+                                                            <div class="code-container">
+                                                                <pre><code class="language-python">import pandas as pd
 import geopandas as gpd
-from shapely.geometry import Point
 
 try:
-    # 1. Carregar os dados do CSV
-    df_praias = pd.read_csv('arquivos/Pontos.csv')
-    print("--- DataFrame original (Pandas) ---")
-    print(df_praias.head())
+    df = pd.read_csv('arquivos/levantamento_rtk.csv')
 
-    # 2. Criar objetos Point a partir das coordenadas
-    geometry = [Point(xy) for xy in zip(df_praias['Longitude'], df_praias['Latitude'])]
+    geometria = gpd.points_from_xy(df['Leste(X)'], df['Norte(Y)'])
+    gdf = gpd.GeoDataFrame(df, geometry=geometria, crs='EPSG:31982')
 
-    # 3. Transformar em GeoDataFrame
-    gdf_praias = gpd.GeoDataFrame(df_praias, geometry=geometry, crs='EPSG:4326')
-    
-    print("\n--- GeoDataFrame espacial ---")
-    print(gdf_praias.head())
-    print(f"\nSistema de coordenadas: {gdf_praias.crs}")
-    
-    # 4. Agora podemos usar métodos espaciais
-    print(f"\nÁrea total do bounding box: {gdf_praias.total_bounds}")
+    print('GeoDataFrame criado com sucesso!')
+    print(gdf.head())
+    print(f'CRS informado: {gdf.crs}')
 
-except Exception as e:
-    print(f"Erro ao converter DataFrame para GeoDataFrame: {e}")</code></pre>
+except FileNotFoundError:
+    print('Arquivo levantamento_rtk.csv não encontrado. Verifique o caminho.')
+except Exception as erro:
+    print(f'Erro ao criar o GeoDataFrame: {erro}')</code></pre>
                                                             </div>
+                                                            <p>A partir daqui, o conjunto está apto a receber buffers, participar de <code>spatial join</code>, ser visualizado com <code>.plot()</code> ou exportado para GeoPackage (seção 4.5). O segredo é garantir que o CRS esteja correto desde o início.</p>
                                                             <aside class="rounded-2xl border border-ifsc-green/30 bg-ifsc-soft/70 p-5 dark:border-emerald-500/40 dark:bg-emerald-900/20">
                                                                 <div class="flex items-start gap-3">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mt-0.5 text-ifsc-green dark:text-emerald-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
@@ -544,9 +750,13 @@ except Exception as e:
                                                                         <path d="M12 16v-4"></path>
                                                                         <path d="M12 8h.01"></path>
                                                                     </svg>
-                                                                    <div>
-                                                                        <p class="font-semibold text-ifsc-green dark:text-emerald-300 text-sm">Dica importante</p>
-                                                                        <p class="text-sm text-gray-700 dark:text-slate-300">Sempre especifique o CRS (sistema de coordenadas) ao criar um GeoDataFrame. Para dados em graus decimais (lat/lon), use <code>crs='EPSG:4326'</code>.</p>
+                                                                    <div class="space-y-2">
+                                                                        <p class="font-semibold text-ifsc-green dark:text-emerald-300 text-sm">Dica do professor: defina o CRS com precisão</p>
+                                                                        <ul class="list-disc pl-5 text-sm text-gray-700 dark:text-slate-300 space-y-1">
+                                                                            <li><strong>Coordenadas geográficas</strong> (Lat/Lon em graus decimais) ⇒ use <code>EPSG:4326</code>.</li>
+                                                                            <li><strong>Coordenadas projetadas</strong> (Leste/Norte em metros) ⇒ confirme a zona UTM do levantamento. Em Santa Catarina, adotamos <code>EPSG:31982</code>.</li>
+                                                                        </ul>
+                                                                        <p class="text-sm text-gray-700 dark:text-slate-300">Consulte sempre o receptor GNSS ou a documentação da fonte de dados. Um CRS errado desloca toda a análise para outro ponto do globo.</p>
                                                                     </div>
                                                                 </div>
                                                             </aside>
@@ -554,7 +764,7 @@ except Exception as e:
                                                     </section>
 
                                                     <section id="spatial-joins" data-toc="section" data-toc-title="Junções espaciais">
-                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">4.6 Spatial Joins (Junções Espaciais)</h3>
+                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">4.7 Spatial Joins (Junções Espaciais)</h3>
                                                         <div class="space-y-4 leading-relaxed text-gray-700 dark:text-slate-300">
                                                             <p>As junções espaciais permitem cruzar dados de pontos com polígonos, respondendo perguntas como "a qual município pertence cada praia?" ou "quantas praias estão em cada cidade?". É uma operação fundamental no geoprocessamento.</p>
                                                             <div class="code-container">
@@ -610,7 +820,7 @@ except Exception as e:
                                                     </section>
 
                                                     <section id="geometric-operations" data-toc="section" data-toc-title="Operações geométricas">
-                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">4.7 Operações geométricas: criando buffers</h3>
+                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">4.8 Operações geométricas: criando buffers</h3>
                                                         <div class="space-y-4 leading-relaxed text-gray-700 dark:text-slate-300">
                                                             <p>Buffers são áreas de influência ao redor de geometrias. São úteis para análises de proximidade, como "quais praias estão a menos de 500 metros de uma escola?" ou "qual a área de impacto de um empreendimento?".</p>
                                                             <div class="code-container">
@@ -672,7 +882,7 @@ except Exception as e:
                                                     </section>
 
                                                     <section id="geopandas-topologia" data-toc="section" data-toc-title="Consultas espaciais">
-                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">4.8 Introdução a relações topológicas (consultas espaciais)</h3>
+                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">4.9 Introdução a relações topológicas (consultas espaciais)</h3>
                                                         <div class="space-y-4 leading-relaxed text-gray-700 dark:text-slate-300">
                                                             <p>Consultas espaciais respondem perguntas sobre interseções, contenções e vizinhança entre objetos geográficos. GeoPandas usa internamente a biblioteca Shapely para esses cálculos.</p>
                                                             <div class="code-container">
@@ -704,7 +914,7 @@ except Exception as e:
                                                     </section>
 
                                                     <section id="overlay" data-toc="section" data-toc-title="Operações de overlay">
-                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">4.9 Operações de Sobreposição (Overlay)</h3>
+                                                        <h3 class="mt-6 text-xl font-semibold text-ifsc-green/80 dark:text-emerald-300">4.10 Operações de Sobreposição (Overlay)</h3>
                                                         <div class="space-y-4 leading-relaxed text-gray-700 dark:text-slate-300">
                                                             <p>Enquanto as junções espaciais (<code>sjoin</code>) enriquecem os atributos de uma camada com base na relação espacial com outra, as operações de sobreposição (<code>overlay</code>) criam novas geometrias a partir da interação entre as camadas.</p>
                                                             <p>Imagine combinar municípios e áreas de preservação ambiental. Com <code>overlay</code>, você responde perguntas como:</p>
@@ -714,6 +924,46 @@ except Exception as e:
                                                                 <li><strong>Diferença (<code>difference</code>)</strong>: Qual parte do município fica fora das áreas de preservação? O resultado mantém a primeira camada com as regiões da segunda "subtraídas".</li>
                                                             </ul>
                                                             <p>Essas operações são a base de análises espaciais mais complexas e estão disponíveis no GeoPandas por meio da função <code>gpd.overlay()</code>. Basta indicar as duas camadas, escolher o parâmetro <code>how</code> (como <code>'intersection'</code>, <code>'union'</code> ou <code>'difference'</code>) e garantir que ambas estejam no mesmo CRS.</p>
+                                                            <details class="group rounded-2xl border border-sky-400/40 bg-sky-50/80 p-5 dark:border-sky-400/50 dark:bg-sky-900/20">
+                                                                <summary class="flex cursor-pointer items-center justify-between text-sm font-semibold text-sky-700 dark:text-sky-200">
+                                                                    <span>Exemplo opcional: sobrepondo pontos das praias a Florianópolis</span>
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                                                        <path d="M6 9l6 6 6-6"></path>
+                                                                    </svg>
+                                                                </summary>
+                                                                <div class="mt-4 space-y-4 text-sm leading-relaxed text-gray-700 dark:text-slate-300">
+                                                                    <p>Use o <code>.plot()</code> em conjunto com o Matplotlib para compor camadas. O script destaca Florianópolis e plota as praias por cima, ótimo para validar se a distribuição espacial está coerente antes de partir para o Folium no capítulo 8.</p>
+                                                                    <div class="code-container">
+                                                                    <pre><code class="language-python">import geopandas as gpd
+import pandas as pd
+from shapely.geometry import Point
+import matplotlib.pyplot as plt
+
+try:
+    gdf_municipios = gpd.read_file('arquivos/SC_Municipios_2022/SC_Municipios_2022.shp')
+
+    df_praias = pd.read_csv('arquivos/Pontos.csv')
+    geometry = [Point(xy) for xy in zip(df_praias['Longitude'], df_praias['Latitude'])]
+    gdf_praias = gpd.GeoDataFrame(df_praias, geometry=geometry, crs='EPSG:4326')
+
+    gdf_municipios = gdf_municipios.to_crs(gdf_praias.crs)
+    florianopolis = gdf_municipios[gdf_municipios['NM_MUN'] == 'Florianópolis']
+
+    fig, ax = plt.subplots(figsize=(10, 10))
+    florianopolis.plot(ax=ax, color='#f3f4f6', edgecolor='#0f172a', linewidth=0.8)
+    gdf_praias.plot(ax=ax, marker='o', color='#1d4ed8', markersize=60, label='Praias monitoradas')
+
+    ax.set_title('Distribuição das praias monitoradas em Florianópolis', fontsize=16)
+    ax.set_axis_off()
+    ax.legend()
+    plt.show()
+
+except Exception as e:
+    print(f"Ocorreu um erro: {e}")</code></pre>
+                                                                    </div>
+                                                                    <p>Quer avançar? Troque as praias por buffers (seção 4.8) ou aplique <code>gpd.overlay()</code> para descobrir qual parte dos buffers está dentro de áreas de preservação.</p>
+                                                                </div>
+                                                            </details>
                                                         </div>
                                                     </section>
                                                 </section>
