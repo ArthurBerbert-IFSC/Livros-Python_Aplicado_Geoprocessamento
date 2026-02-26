@@ -1,5 +1,7 @@
 # IFSC Digital Book — Programação Aplicada ao Geoprocessamento
 
+https://arthurberbert-ifsc.github.io/Livros-Python_Aplicado_Geoprocessamento/
+
 Livro digital responsivo que reúne os capítulos da disciplina PAG014903. O projeto agora está pronto para ser publicado como uma aplicação web progressiva (PWA) no GitHub Pages, permitindo leitura offline e instalação em dispositivos compatíveis.
 
 ## Pré-requisitos
