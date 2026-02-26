@@ -1,4 +1,12 @@
+<p align="center">
+  <img src="imagens/logotipos/logo_IFSC.png" alt="Logotipo IFSC" height="80">
+  &nbsp;&nbsp;
+  <img src="imagens/logotipos/logo_Disciplina.png" alt="Logotipo da disciplina PAG014903" height="80">
+</p>
+
 # IFSC Digital Book — Programação Aplicada ao Geoprocessamento
+
+🌐 **Acesse o livro online:** [https://arthurberbert-ifsc.github.io/Livros-Python_Aplicado_Geoprocessamento/](https://arthurberbert-ifsc.github.io/Livros-Python_Aplicado_Geoprocessamento/)
 
 Livro digital responsivo que reúne os capítulos da disciplina PAG014903. O projeto agora está pronto para ser publicado como uma aplicação web progressiva (PWA) no GitHub Pages, permitindo leitura offline e instalação em dispositivos compatíveis.
 
